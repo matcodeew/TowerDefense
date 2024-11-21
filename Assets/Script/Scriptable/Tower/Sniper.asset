@@ -20,5 +20,6 @@ MonoBehaviour:
   PreviewPrefab: {fileID: 4715947882123935858, guid: 5493d3f4f1ba0484599d9ef92f66b875, type: 3}
   Damage: 5
   FireRate: 1
+  FireRange: 10
   GoldsCost: 60
   Size: {x: 1, y: 1}

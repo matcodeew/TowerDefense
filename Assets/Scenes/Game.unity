@@ -548,6 +548,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 844286241}
     m_Modifications:
     - target: {fileID: -1508696125819578587, guid: 1b4dfd5669705004ead183bd7fa7a549, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1508696125819578587, guid: 1b4dfd5669705004ead183bd7fa7a549, type: 3}
       propertyPath: TowerToInstantiate
       value: 
       objectReference: {fileID: 11400000, guid: e35302d4966e92546998447b91522628, type: 2}
@@ -727,7 +731,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1508696125819578587, guid: 1b4dfd5669705004ead183bd7fa7a549, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3789,7 +3794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f434d81bb2eb50e498e5f9c2e703d7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGold: 100
+  currentGold: 1000
 --- !u!114 &1476794881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3825,7 +3830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d52d135b9dd034393a3ea6cc06e2e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 11400000, guid: f91f40e6fa507e0409c7381a00283fa2, type: 2}
+  tower: {fileID: 0}
   UpdatePos: 0
 --- !u!1 &1478303060 stripped
 GameObject:
@@ -4511,6 +4516,10 @@ PrefabInstance:
       value: TowerType2
       objectReference: {fileID: 0}
     - target: {fileID: 3438654028066305341, guid: 6501cf81328e95d4f978e9e3603855db, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3438654028066305341, guid: 6501cf81328e95d4f978e9e3603855db, type: 3}
       propertyPath: TowerToInstantiate
       value: 
       objectReference: {fileID: 11400000, guid: c7e4bdba5c645e1449614571d0f5834d, type: 2}
@@ -4686,7 +4695,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3438654028066305341, guid: 6501cf81328e95d4f978e9e3603855db, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -5489,6 +5499,10 @@ PrefabInstance:
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8992132525461278437, guid: e2f7a05aa18601848afb736c14e10580, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8992132525461278437, guid: e2f7a05aa18601848afb736c14e10580, type: 3}
       propertyPath: TowerToInstantiate
       value: 
       objectReference: {fileID: 11400000, guid: f91f40e6fa507e0409c7381a00283fa2, type: 2}
@@ -5500,7 +5514,8 @@ PrefabInstance:
       propertyPath: allTowerOnFamily.SecondTower
       value: 
       objectReference: {fileID: 11400000, guid: 49661e1899539f645a1fa9a109ee2be7, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8992132525461278437, guid: e2f7a05aa18601848afb736c14e10580, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

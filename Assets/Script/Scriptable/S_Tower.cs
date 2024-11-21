@@ -13,6 +13,7 @@ public class S_Tower : ScriptableObject
     [Header("Tower Stats")]
     public float Damage;
     public float FireRate;
+    public float FireRange;
     public int GoldsCost;
     public Vector2 Size;
 

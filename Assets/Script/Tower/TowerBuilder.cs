@@ -1,9 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TowerBuilder : MonoBehaviour
 {
     public static TowerBuilder Instance;
-    public S_Tower towerPrefab;
+    public S_Tower tower;
     public bool UpdatePos;
     private GameObject preview;
 
@@ -14,10 +15,11 @@ public class TowerBuilder : MonoBehaviour
             Instance = this;
         }
     }
-    private bool HaveRessource() => RessourceManager.Instance.currentGold >= towerPrefab.GoldsCost;
+    private bool HaveRessource() => RessourceManager.Instance.currentGold >= tower.GoldsCost;
     public void BuildTower(S_Tower data, Vector3 position)
     {
-        GameObject newTower = Instantiate(towerPrefab.Prefab, position, Quaternion.identity);
+        GameObject newTower = Instantiate(tower.Prefab, position, Quaternion.identity);
+        newTower.GetComponent<SphereCollider>().enabled = true;
         IBuildable buildableTower = newTower.GetComponent<IBuildable>();
 
         if (buildableTower != null)
@@ -40,7 +42,7 @@ public class TowerBuilder : MonoBehaviour
                     if (hit.collider.CompareTag("TowerTile"))
                     {
                         CancelPreview();
-                        BuildTower(towerPrefab, hit.collider.transform.position + new Vector3(0, 1, 0));
+                        BuildTower(tower, hit.collider.transform.position + new Vector3(0, 1, 0));
                     }
                     //else
                     //{
@@ -54,20 +56,21 @@ public class TowerBuilder : MonoBehaviour
     {
         if (preview == null)
         {
-            preview = Instantiate(towerPrefab.PreviewPrefab);
+            preview = Instantiate(tower.PreviewPrefab);
+            preview.GetComponent<SphereCollider>().enabled = false;
         }
     }
     public void PosTower(S_Tower tower)
     {
-        towerPrefab = tower;
+        this.tower = tower;
         if (HaveRessource())
         {
             UpdatePos = true;
             MakePreview();
-        }
+        }   
         else
         {
-            print($"{RessourceManager.Instance.currentGold} is less than {towerPrefab.GoldsCost}");
+            print($"{RessourceManager.Instance.currentGold} is less than {this.tower.GoldsCost}");
         }
     }
     public void CancelPreview()

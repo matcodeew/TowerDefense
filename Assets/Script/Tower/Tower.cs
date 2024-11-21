@@ -1,41 +1,21 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(TowerFire))]
 public class Tower : MonoBehaviour, IBuildable, IUpgradeable, IShootable
 {
-    [SerializeField] public S_Tower TowerData;
-
-    public float radius = 2f; 
-    public float maxDistance = 10f;
-
-    private void Start()
-    {
-        Fire();
-    }
+    [HideInInspector] public S_Tower TowerData;
+    [SerializeField] public List<GameObject> EnemyToKill = new();
     public void Build(S_Tower data, Vector3 position)
     {
         transform.position = position;
-        print("Tower Build succesful");
+        InitializeTower(data);
     }
     public void Fire()
     {
-
-    }
-    private void Update()
-    {
-        Vector2 direction = Vector2.right;
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radius, direction, maxDistance);
-
-        foreach (RaycastHit2D hit in hits)
-        {
-            Debug.Log("Hit: " + hit.collider.name);
-        }
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, radius); 
+        //instantiate projectile or SFX
+        print($"tower {name} shoot on {EnemyToKill[EnemyToKill.Count - 1].name}");
     }
     public void Upgrade()
     {
@@ -45,5 +25,22 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable, IShootable
     private void InitializeTower(S_Tower data)
     {
         TowerData = data;
+        GetComponent<SphereCollider>().radius = TowerData.FireRange;
     }
+    #region Detect Enemy
+    private void OnTriggerEnter(Collider other) // detect enemy
+    {
+        if(!EnemyToKill.Contains(other.gameObject))
+        {
+            EnemyToKill.Add(other.gameObject);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (EnemyToKill.Contains(other.gameObject))
+        {
+            EnemyToKill.Remove(other.gameObject);
+        }
+    }
+    #endregion
 }

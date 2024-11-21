@@ -29,6 +29,5 @@ public class RessourceManager : MonoBehaviour
         currentGold -= _tower.TowerData.GoldsCost;
         Debug.Log("Reducing resources for the tower construction.");
     }
-
 }
      

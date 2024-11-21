@@ -26,7 +26,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    private void TakeDamage(IShootable tower)
+    public void TakeDamage(IShootable tower, GameObject enemyKill)
     {
         Tower _tower = tower as Tower;
         if (_tower != null)

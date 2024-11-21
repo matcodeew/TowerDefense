@@ -6,7 +6,7 @@ public static class EventsManager
     #region Tower Event
     public static event UnityAction<IBuildable, Vector3> OnTowerBuilt;
     public static event UnityAction<IUpgradeable> OnTowerUpgraded;
-    public static event UnityAction<IShootable> OnTowerShooting;
+    public static event UnityAction<IShootable, GameObject> OnTowerShooting;
 
     public static void TowerBuilt(IBuildable tower, Vector3 position)
     {
@@ -18,9 +18,9 @@ public static class EventsManager
         OnTowerUpgraded?.Invoke(tower);
     }
 
-    public static void TowerFire(IShootable tower)
+    public static void TowerFire(IShootable tower, GameObject enemyKill)
     {
-        OnTowerShooting?.Invoke(tower);
+        OnTowerShooting?.Invoke(tower, enemyKill);
     }
     #endregion
 }

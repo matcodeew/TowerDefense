@@ -32,6 +32,7 @@ public class UiManager : MonoBehaviour
     private void OnEnable()
     {
         EventsManager.OnTowerBuilt += OnTowerBuild;
+        EventsManager.OnTowerShooting += OnEnemyDie;
     }
     private void OnDisable()
     {
@@ -41,6 +42,11 @@ public class UiManager : MonoBehaviour
     private void OnTowerBuild(IBuildable tower, Vector3 position)
     {
         UpdateGold();
+    }
+    private void OnEnemyDie(IShootable tower, GameObject enemyKill)
+    {
+        UpdateGold();
+        print("event ui manager call");
     }
     #endregion
     #region Update Info Panel
