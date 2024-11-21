@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -7,16 +8,17 @@ public class BoidSystem : MonoBehaviour
     public Transform BoidPrefab;
     public Transform Attractor;
     public int NumberOf;
-
+    Dictionary<Vector3, List<Boids>> regions = new();
     [SerializeField] private BoidsSetting Setting;
     Boids[] boids;
+
 
     private void Start()
     {
         boids = new Boids[NumberOf];
         for (int i = 0; i < NumberOf; i++)
         {
-            boids[i] = new Boids { transform = Instantiate(BoidPrefab, transform), Velocity = Random.onUnitSphere, Attractor = boids[i].Attractor };
+            boids[i] = new Boids { transform = Instantiate(BoidPrefab, transform), Velocity = Random.onUnitSphere, Attractor = boids[i].Attractor};
         }
     }
 
@@ -46,6 +48,7 @@ public class BoidSystem : MonoBehaviour
         public Vector3 Velocity;
         public Vector3 NextVelocity;
 
+        Vector3Int region;
 
         public void ComputeNextVelocity(Boids[] boids, BoidsSetting setting)
         {
@@ -59,11 +62,13 @@ public class BoidSystem : MonoBehaviour
                 if (boids[i].transform == transform) { continue; }
 
                 //Alignement
-                Alignement += boids[i].Velocity;
+                Vector3 direction = boids[i].Velocity;
+                float distance = Vector3.Distance(transform.position, boids[i].transform.position);
+                Alignement += Vector3.ClampMagnitude(direction / Mathf.Max(distance / 0.01f), 1);
 
                 //Avoidance
-                Vector3 direction = (transform.position - boids[i].transform.position);
-                float distance = direction.magnitude / setting.FarThreshold;
+                direction = (transform.position - boids[i].transform.position);
+                distance = direction.magnitude / setting.FarThreshold;
                 Avoidance += direction.normalized * (1 - distance);
 
                 //Cohesion
@@ -88,7 +93,7 @@ public class BoidSystem : MonoBehaviour
         }
     }
 
-    [System.Serializable]
+    [System.Serializable]   
     public class BoidsSetting
     {
         public float Avoidance;

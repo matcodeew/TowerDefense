@@ -4,28 +4,34 @@ using UnityEngine;
 [RequireComponent(typeof(ObjectPool))]
 public class EnemySpawner : MonoBehaviour
 {
+    [System.Serializable]
+    public struct EnemySpawnData
+    {
+        public S_Enemy Enemy;
+        public int MaxToInstantiate;
+        public float SpawnRate;
+    }
+
+    [Header("Waypoints")]
     public List<GameObject> AllWaypoints = new();
-    private ObjectPool _enemyPool;
 
     [Header("Enemie Settings")]
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private int maxEnemiesToInstantiate;
-    [SerializeField, Min(0.0f)] private float spawnRate;
+    [SerializeField] private EnemySpawnData SpawnData; //mettre a jours en fonction de la wave 
 
     private int _currentNumberOfEnemies;
     private float _timer;
-
+    private ObjectPool _enemyPool;
     private void Awake()
     {
         _enemyPool = gameObject.GetComponent<ObjectPool>();
-        _enemyPool.prefab = enemyPrefab;
-        _enemyPool.initialPoolSize = maxEnemiesToInstantiate;
+        _enemyPool.prefab = SpawnData.Enemy.Prefab;
+        _enemyPool.initialPoolSize = SpawnData.MaxToInstantiate;
     }
 
     private void Update()
     {
         _timer += Time.deltaTime;
-        if (_timer >= spawnRate && _currentNumberOfEnemies < maxEnemiesToInstantiate)
+        if (_timer >= SpawnData.SpawnRate && _currentNumberOfEnemies < SpawnData.MaxToInstantiate)
         {
             _timer = 0.0f;
             SpawnEnemy();
@@ -39,7 +45,7 @@ public class EnemySpawner : MonoBehaviour
 
         EnemyBehaviour enemyBehaviour = enemy.GetComponent<EnemyBehaviour>();
         enemyBehaviour.Spawner = this;
-
+        enemyBehaviour.EnemyData = SpawnData.Enemy;
         enemyBehaviour.ResetEnemy();
         enemyBehaviour.IsCreate = true;
         _currentNumberOfEnemies++;

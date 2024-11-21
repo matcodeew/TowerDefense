@@ -16,6 +16,7 @@ public class MapManager : MonoBehaviour
         AlocateTileTag();
     }
 
+
     #region Give Tile Tag
     private void AlocateTileTag()
     {
