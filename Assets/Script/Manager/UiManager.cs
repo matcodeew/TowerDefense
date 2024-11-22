@@ -21,7 +21,6 @@ public class UiManager : MonoBehaviour
 
     [Header("current stats")]
     [HideInInspector] public int CurrentWave;
-    [HideInInspector] public int CurrentLife;
 
     private void Start()
     {
@@ -33,10 +32,13 @@ public class UiManager : MonoBehaviour
     {
         EventsManager.OnTowerBuilt += OnTowerBuild;
         EventsManager.OnTowerShooting += OnEnemyDie;
+        EventsManager.OnModifieBaseLife += OnBaseLifeChanged;
     }
     private void OnDisable()
     {
         EventsManager.OnTowerBuilt -= OnTowerBuild;
+        EventsManager.OnTowerShooting -= OnEnemyDie;
+        EventsManager.OnModifieBaseLife -= OnBaseLifeChanged;
     }
     #region Event Update UI
     private void OnTowerBuild(IBuildable tower, Vector3 position)
@@ -46,7 +48,10 @@ public class UiManager : MonoBehaviour
     private void OnEnemyDie(IShootable tower, GameObject enemyKill)
     {
         UpdateGold();
-        print("event ui manager call");
+    }
+    private void OnBaseLifeChanged(int value)
+    {
+        UpdateLife();
     }
     #endregion
     #region Update Info Panel
@@ -60,7 +65,7 @@ public class UiManager : MonoBehaviour
     }
     private void UpdateLife()
     {
-        life.text.text = CurrentLife.ToString();
+        life.text.text = RessourceManager.Instance.BaseLife.ToString();
     }
     #endregion
 }

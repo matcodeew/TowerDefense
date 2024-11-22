@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class TowerBuilder : MonoBehaviour
     public bool UpdatePos;
     private GameObject preview;
 
+    public List<Tower> AllTowerPosedOnMap = new();
     private void Awake()
     {
         if (Instance == null)
@@ -19,13 +21,13 @@ public class TowerBuilder : MonoBehaviour
     public void BuildTower(S_Tower data, Vector3 position)
     {
         GameObject newTower = Instantiate(tower.Prefab, position, Quaternion.identity);
-        newTower.GetComponent<SphereCollider>().enabled = true;
         IBuildable buildableTower = newTower.GetComponent<IBuildable>();
+
+        AllTowerPosedOnMap.Add(buildableTower as Tower); // remove if destroy tower
 
         if (buildableTower != null)
         {
             buildableTower.Build(data, position);
-            EventsManager.TowerBuilt(buildableTower, position);
         }
     }
     #region Try To Pose Tower

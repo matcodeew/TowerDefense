@@ -3,8 +3,18 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    [System.Serializable]
+    public struct EnemyStat
+    {
+        public float MoveSpeed;
+        public float CurrentLife;
+        public float MaxLife;
+        public int Damage;
+    }
+
     [Header("Enemy Stats")]
     [HideInInspector] public S_Enemy EnemyData;
+    public EnemyStat stat;
 
     [Header("Enemy Path")]
     [HideInInspector] public Vector3 _currentTarget;
@@ -12,39 +22,56 @@ public class EnemyBehaviour : MonoBehaviour
     [HideInInspector] public bool IsCreate = false;
     [HideInInspector] public EnemySpawner Spawner;
     [HideInInspector] private int WaypointIndex = 0;
-
-    private void Awake()
-    {
-        EventsManager.OnTowerShooting += TakeDamage;
-
-    }
     private void Update()
     {
-        if(IsCreate)
+        if (IsCreate)
         {
             MoveEnemy();
         }
     }
 
+    private void Awake()
+    {
+        EventsManager.OnWaveStart += UpdateStats;
+    }
+    private void Start()
+    {
+        stat.MaxLife = EnemyData.MaxLife;
+        stat.CurrentLife = stat.MaxLife;
+        stat.MoveSpeed = EnemyData.MoveSpeed;
+        stat.Damage = EnemyData.Damage;
+    }
+
+    private void UpdateStats(S_Enemy enemy, float quantity)
+    {
+        WaveManager.Instance.UpdateEnemyStat(this, WaveManager.Instance.enemyAugment);
+    }
     public void TakeDamage(IShootable tower, GameObject enemyKill)
     {
         Tower _tower = tower as Tower;
+        EnemyBehaviour enemyBehaviour = enemyKill.GetComponent<EnemyBehaviour>();
+
         if (_tower != null)
         {
-            if (EnemyData.CurrentLife <= EnemyData.MaxLife)
+            if (stat.CurrentLife <= EnemyData.MaxLife)
             {
-                EnemyData.CurrentLife -= Mathf.Clamp(_tower.TowerData.Damage, 0, EnemyData.MaxLife);
+                if (enemyBehaviour.stat.CurrentLife > 0)
+                {
+                    enemyBehaviour.stat.CurrentLife -= Mathf.Clamp(_tower.TowerData.Damage, 0, EnemyData.MaxLife);
+                }
             }
-            else
+            if(enemyBehaviour.stat.CurrentLife <= 0)
             {
-                Die();
+                Die(_tower, enemyKill);
             }
         }
     }
-    private void Die()
+    private void Die(Tower tower, GameObject enemyKill)
     {
-        Destroy(gameObject);
+        Spawner.ReturnEnemyToPool(enemyKill, enemyKill.GetComponent<EnemyBehaviour>().EnemyData.type);
         RessourceManager.Instance.currentGold += EnemyData.goldValue;
+        tower.RemoveEnemyForAllTower(enemyKill);
+        WaveManager.Instance.EnemyKillByTower++;
     }
     #region Enemy Movement
     public void ResetEnemy()
@@ -66,7 +93,8 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else
             {
-                Spawner.ReturnEnemyToPool(gameObject);
+                EventsManager.ChangeBaseValue(-stat.Damage);
+                Spawner.ReturnEnemyToPool(gameObject, gameObject.GetComponent<EnemyBehaviour>().EnemyData.type);
             }
         }
     }

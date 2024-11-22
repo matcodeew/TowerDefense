@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(TowerFire))]
@@ -11,12 +12,16 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable, IShootable
     {
         transform.position = position;
         InitializeTower(data);
+        GetComponent<SphereCollider>().enabled = true;
+        EventsManager.TowerBuilt(this, position);
+
+        // mettre ici des effets visuel sur la construction de la tour comme sfx ou audio
     }
     public void Fire()
     {
-        //instantiate projectile or SFX
-        print($"tower {name} shoot on {EnemyToKill[EnemyToKill.Count - 1].name}");
+        // mettre ici le projectile, l'audio ou le sfx
     }
+
     public void Upgrade()
     {
         //Upgrate Tower 
@@ -26,6 +31,16 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable, IShootable
     {
         TowerData = data;
         GetComponent<SphereCollider>().radius = TowerData.FireRange;
+    }
+    public void RemoveEnemyForAllTower(GameObject enemy)
+    {
+        foreach (var tower in TowerBuilder.Instance.AllTowerPosedOnMap)
+        {
+            if(tower.EnemyToKill.Contains(enemy))
+            {
+                tower.EnemyToKill.Remove(enemy);
+            }
+        }
     }
     #region Detect Enemy
     private void OnTriggerEnter(Collider other) // detect enemy

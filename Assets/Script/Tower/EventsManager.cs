@@ -23,4 +23,17 @@ public static class EventsManager
         OnTowerShooting?.Invoke(tower, enemyKill);
     }
     #endregion
+    #region WaveEvent
+    public static event UnityAction<S_Enemy, float> OnWaveStart;
+
+    public static void StartNewWave(S_Enemy enemy, float quantity)
+    {
+        OnWaveStart?.Invoke(enemy, quantity);
+    }
+    #endregion
+    public static event UnityAction<int> OnModifieBaseLife;
+    public static void ChangeBaseValue(int value)
+    {
+        OnModifieBaseLife?.Invoke(value);
+    }
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2104852313247131346}
   - component: {fileID: 4690731753253786381}
   - component: {fileID: 5750606233841079006}
-  - component: {fileID: 3438654028066305341}
   m_Layer: 5
   m_Name: TowerType2
   m_TagString: Untagged
@@ -117,7 +116,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 4690731753253786381}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -145,15 +144,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3438654028066305341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2704833590657787709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87db81b8a79a1f8428b3df268c364a4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -25,7 +25,7 @@ public class TowerFire : MonoBehaviour
     }
     private void TowerShooting()
     {
-        targetedEnemy = tower.EnemyToKill[tower.EnemyToKill.Count - 1];
+        targetedEnemy = tower.EnemyToKill[0];
         if(targetedEnemy != null)
         {
             targetedEnemy.GetComponent<EnemyBehaviour>().TakeDamage(tower, targetedEnemy);

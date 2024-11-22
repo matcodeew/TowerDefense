@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Boss
   m_EditorClassIdentifier: 
   type: 2
-  EnemyPrefab: {fileID: 0}
+  Prefab: {fileID: 5772011052111380640, guid: d2d035abd255368419dd7d7994f15e44, type: 3}
   goldValue: 100
   MoveSpeed: 1
-  CurrentLife: 0
-  MaxLife: 0
-  Damage: 0
+  MaxLife: 50
+  Damage: 100

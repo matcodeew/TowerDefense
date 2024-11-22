@@ -12,9 +12,8 @@ public class S_Enemy : ScriptableObject
     [Header("Enemy stats")]
     public int goldValue;
     public float MoveSpeed;
-    public float CurrentLife;
     public float MaxLife;
-    public float Damage;
+    public int Damage;
 }
 public enum EnemyType
 {

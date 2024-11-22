@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7711042665030382780}
   - component: {fileID: 1605345411174765588}
-  - component: {fileID: 6121748809450422319}
-  - component: {fileID: 2164744667453748886}
+  - component: {fileID: 8752411967585924597}
+  - component: {fileID: 505656539422325557}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -89,23 +89,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6121748809450422319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7090308943482032115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5741e2238fe55a458a1e444f37a85dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AllWaypoints: []
-  enemyPrefab: {fileID: 7439641288297534362, guid: c6b1cae2aa2497d44bbe882176468510, type: 3}
-  maxEnemiesToInstantiate: 30
-  spawnRate: 0.3
---- !u!114 &2164744667453748886
+--- !u!114 &8752411967585924597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,5 +101,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c00993d16b6ffe46b5261c66a6e2636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  initialPoolSize: 0
+  EnemyParent:
+    normal:
+      Parent: {fileID: 0}
+      InitialPoolSize: 25
+      Prefab: {fileID: 7439641288297534362, guid: c6b1cae2aa2497d44bbe882176468510, type: 3}
+      Type: 0
+    Elite:
+      Parent: {fileID: 0}
+      InitialPoolSize: 5
+      Prefab: {fileID: 4602702149364206613, guid: ccc998bbfdb1f7642b1655e8361d0908, type: 3}
+      Type: 1
+    Boss:
+      Parent: {fileID: 0}
+      InitialPoolSize: 3
+      Prefab: {fileID: 5772011052111380640, guid: d2d035abd255368419dd7d7994f15e44, type: 3}
+      Type: 2
+--- !u!114 &505656539422325557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7090308943482032115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5741e2238fe55a458a1e444f37a85dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllWaypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  SpawnData:
+    Enemy: {fileID: 0}
+    MaxToInstantiate: 0
+    SpawnRate: 0.3
