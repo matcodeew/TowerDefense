@@ -58,4 +58,16 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable, IShootable
         }
     }
     #endregion
+
+    private void DestroyTower(Tower tower)
+    {
+        EventsManager.TowerDestroy(tower);
+        TowerBuilder.Instance.AllTowerPosedOnMap.Remove(tower);
+        Destroy(tower.gameObject);
+    }
+
+    private void OnMouseDown()
+    {
+        print("destroy :" + gameObject.name);
+    }
 }

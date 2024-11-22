@@ -17,12 +17,14 @@ public class RessourceManager : MonoBehaviour
     {
         EventsManager.OnTowerBuilt += HandleTowerBuilt;
         EventsManager.OnModifieBaseLife += ChangeBaseLife;
+        EventsManager.OnTowerDestroy += DestroyTower;
     }
 
     private void OnDisable()
     {
         EventsManager.OnTowerBuilt -= HandleTowerBuilt;
         EventsManager.OnModifieBaseLife -= ChangeBaseLife;
+        EventsManager.OnTowerDestroy -= DestroyTower;
     }
 
     private void HandleTowerBuilt(IBuildable tower, Vector3 position)
@@ -30,7 +32,10 @@ public class RessourceManager : MonoBehaviour
         Tower _tower  = tower as Tower;
 
         currentGold -= _tower.TowerData.GoldsCost;
-        Debug.Log("Reducing resources for the tower construction.");
+    }
+    private void DestroyTower(Tower tower)
+    {
+        currentGold += Mathf.FloorToInt(tower.TowerData.GoldsCost * 0.75f);
     }
 
     private void ChangeBaseLife(int value)

@@ -43,8 +43,17 @@ public class TowerBuilder : MonoBehaviour
                 {
                     if (hit.collider.CompareTag("TowerTile"))
                     {
-                        CancelPreview();
-                        BuildTower(tower, hit.collider.transform.position + new Vector3(0, 1, 0));
+                        Tile tile = hit.collider.gameObject.GetComponent<Tile>();
+                        if(tile != null && !tile.IsOccupied)
+                        {
+                            CancelPreview();
+                            BuildTower(tower, hit.collider.transform.position + new Vector3(0, 1, 0));
+                            tile.IsOccupied = true;
+                        }
+                        else
+                        {
+                            print("bat on this tile ");
+                        }
                     }
                     //else
                     //{

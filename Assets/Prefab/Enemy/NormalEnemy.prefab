@@ -70,6 +70,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyData: {fileID: 0}
+  stat:
+    MoveSpeed: 0
+    CurrentLife: 0
+    MaxLife: 0
+    Damage: 0
   _currentTarget: {x: 0, y: 0, z: 0}
   IsCreate: 0
   Spawner: {fileID: 0}

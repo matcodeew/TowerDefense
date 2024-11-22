@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1816975244911269170}
   - component: {fileID: 1765903076425035330}
   - component: {fileID: 8187677525092727826}
+  - component: {fileID: 351440976818767206}
+  - component: {fileID: 3491237706722214998}
   m_Layer: 2
   m_Name: TestSniper
   m_TagString: Untagged
@@ -101,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TowerData: {fileID: 11400000, guid: e35302d4966e92546998447b91522628, type: 2}
+  EnemyToKill: []
 --- !u!135 &8187677525092727826
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -121,4 +124,38 @@ SphereCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Radius: 3
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &351440976818767206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715947882123935858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 321ec8db29a7b064f8c86b3d1ed52592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tower: {fileID: 0}
+--- !u!65 &3491237706722214998
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715947882123935858}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}

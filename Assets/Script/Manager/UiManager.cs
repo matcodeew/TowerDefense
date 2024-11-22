@@ -33,12 +33,14 @@ public class UiManager : MonoBehaviour
         EventsManager.OnTowerBuilt += OnTowerBuild;
         EventsManager.OnTowerShooting += OnEnemyDie;
         EventsManager.OnModifieBaseLife += OnBaseLifeChanged;
+        EventsManager.OnTowerDestroy += OnTowerDestroy;
     }
     private void OnDisable()
     {
         EventsManager.OnTowerBuilt -= OnTowerBuild;
         EventsManager.OnTowerShooting -= OnEnemyDie;
         EventsManager.OnModifieBaseLife -= OnBaseLifeChanged;
+        EventsManager.OnTowerDestroy -= OnTowerDestroy;
     }
     #region Event Update UI
     private void OnTowerBuild(IBuildable tower, Vector3 position)
@@ -52,6 +54,10 @@ public class UiManager : MonoBehaviour
     private void OnBaseLifeChanged(int value)
     {
         UpdateLife();
+    }
+    private void OnTowerDestroy(Tower tower)
+    {
+        UpdateGold();
     }
     #endregion
     #region Update Info Panel

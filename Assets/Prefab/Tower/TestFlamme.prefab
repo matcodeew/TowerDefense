@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4587958528118037115}
   - component: {fileID: -6459526285255268354}
   - component: {fileID: -5802211100801283256}
+  - component: {fileID: 853094377260378763}
+  - component: {fileID: 1216769109385306512}
   m_Layer: 2
   m_Name: TestFlamme
   m_TagString: Untagged
@@ -101,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TowerData: {fileID: 11400000, guid: c7e4bdba5c645e1449614571d0f5834d, type: 2}
+  EnemyToKill: []
 --- !u!135 &-5802211100801283256
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -121,4 +124,38 @@ SphereCollider:
   m_Enabled: 0
   serializedVersion: 3
   m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &853094377260378763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3723666213160026594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 321ec8db29a7b064f8c86b3d1ed52592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tower: {fileID: 0}
+--- !u!65 &1216769109385306512
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3723666213160026594}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
