@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8679027054964791083}
   - component: {fileID: 7520243567678803087}
   - component: {fileID: -786881081168214087}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BossEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 3979829480210156190}
   - component: {fileID: 8743180730502268313}
   - component: {fileID: 9114120127272335260}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

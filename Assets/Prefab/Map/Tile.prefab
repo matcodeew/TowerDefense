@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8d7368c0740194b8fcb477829fa262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsOccupied: 0
+  TowerOnTop: {fileID: 0}

@@ -5,10 +5,15 @@ using UnityEngine;
 public class TowerBuilder : MonoBehaviour
 {
     public static TowerBuilder Instance;
+
     public S_Tower tower;
     public bool UpdatePos;
     private GameObject preview;
+    [SerializeField] private LayerMask TowerLayer;
 
+    public bool CanDestroyTower = false;
+
+    public List<Tile> TilesOccupied = new();
     public List<Tower> AllTowerPosedOnMap = new();
     private void Awake()
     {
@@ -23,11 +28,13 @@ public class TowerBuilder : MonoBehaviour
         GameObject newTower = Instantiate(tower.Prefab, position, Quaternion.identity);
         IBuildable buildableTower = newTower.GetComponent<IBuildable>();
 
-        AllTowerPosedOnMap.Add(buildableTower as Tower); // remove if destroy tower
+        AllTowerPosedOnMap.Add(buildableTower as Tower);
 
         if (buildableTower != null)
         {
+            newTower.GetComponent<Tower>().isPosed = true;
             buildableTower.Build(data, position);
+            newTower.layer = TowerLayer;
         }
     }
     #region Try To Pose Tower
@@ -48,6 +55,7 @@ public class TowerBuilder : MonoBehaviour
                         {
                             CancelPreview();
                             BuildTower(tower, hit.collider.transform.position + new Vector3(0, 1, 0));
+                            TilesOccupied.Add(tile);
                             tile.IsOccupied = true;
                         }
                         else
@@ -68,7 +76,6 @@ public class TowerBuilder : MonoBehaviour
         if (preview == null)
         {
             preview = Instantiate(tower.PreviewPrefab);
-            preview.GetComponent<SphereCollider>().enabled = false;
         }
     }
     public void PosTower(S_Tower tower)
@@ -91,4 +98,6 @@ public class TowerBuilder : MonoBehaviour
         UpdatePos = false;
     }
     #endregion
+
+    public void CanDestroy() => CanDestroyTower = !CanDestroyTower; 
 }

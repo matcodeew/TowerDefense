@@ -14,6 +14,11 @@ public class S_Enemy : ScriptableObject
     public float MoveSpeed;
     public float MaxLife;
     public int Damage;
+
+    [Header("Stat Multiplicator")]
+    public float MoveSpeedMultiplicator;
+    public float MaxLifeMultiplicator;
+    public int DamageMultiplicator;
 }
 public enum EnemyType
 {

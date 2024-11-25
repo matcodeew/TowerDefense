@@ -11,7 +11,6 @@ public class EnemySpawner : MonoBehaviour
         public int MaxToInstantiate = 0;
         public float SpawnRate;
     }
-
     public static EnemySpawner Instance;
 
     [Header("Waypoints")]
@@ -32,7 +31,6 @@ public class EnemySpawner : MonoBehaviour
         {
             Instance = this;
         }
-
     }
     private void Start()
     {
@@ -61,7 +59,6 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy(S_Enemy enemyToSpawn)
     {
         GameObject enemy = null;
-
         switch (enemyToSpawn.type)
         {
             case EnemyType.Normal:
@@ -82,13 +79,14 @@ public class EnemySpawner : MonoBehaviour
         enemyBehaviour.EnemyData = enemyToSpawn;
         enemyBehaviour.ResetEnemy();
         enemyBehaviour.IsCreate = true;
+        _enemyPool.UpdateCurrentLife(enemyBehaviour);
 
         _waveManager.CurrentEnemyOnMap++;
     }
-
     public void ReturnEnemyToPool(GameObject enemy, EnemyType type)
     {
         _enemyPool.ReturnObject(enemy, type);
+        WaveManager.Instance.EnemyKill++;
     }
     public GameObject GetNextWaypoint(int index)
     {

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8363648211281147852}
   - component: {fileID: 443543928845686238}
   - component: {fileID: 7665483936093292256}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EliteEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

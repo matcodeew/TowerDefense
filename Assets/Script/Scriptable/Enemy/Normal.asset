@@ -16,6 +16,8 @@ MonoBehaviour:
   Prefab: {fileID: 7439641288297534362, guid: c6b1cae2aa2497d44bbe882176468510, type: 3}
   goldValue: 2
   MoveSpeed: 5
-  CurrentLife: 0.5
   MaxLife: 0.5
   Damage: 1
+  MoveSpeedMultiplicator: 1.3
+  MaxLifeMultiplicator: 1.5
+  DamageMultiplicator: 2

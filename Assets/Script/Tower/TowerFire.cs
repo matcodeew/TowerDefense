@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class TowerFire : MonoBehaviour
@@ -16,11 +17,14 @@ public class TowerFire : MonoBehaviour
     }
     private void Update()
     {
-        _timer += Time.deltaTime;
-        if (_timer >= tower.TowerData.FireRate && tower.EnemyToKill.Count > 0)
+        if ((tower.isPosed))
         {
-            _timer = 0.0f;
-            TowerShooting();
+            _timer += Time.deltaTime;
+            if (_timer >= tower.TowerData.FireRate && tower.EnemyToKill.Count > 0) // metre timer a zero quand pose tour
+            {
+                _timer = 0.0f;
+                TowerShooting();
+            }
         }
     }
     private void TowerShooting()

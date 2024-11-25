@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,13 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(TowerFire))]
 public class Tower : MonoBehaviour, IBuildable, IUpgradeable, IShootable
 {
-    [HideInInspector] public S_Tower TowerData;
+    [SerializeField] public S_Tower TowerData;
     [SerializeField] public List<GameObject> EnemyToKill = new();
+    [SerializeField] private LayerMask layerAccept;
+
+    public bool isPosed = false;
     public void Build(S_Tower data, Vector3 position)
     {
         transform.position = position;
         InitializeTower(data);
-        GetComponent<SphereCollider>().enabled = true;
         EventsManager.TowerBuilt(this, position);
 
         // mettre ici des effets visuel sur la construction de la tour comme sfx ou audio
@@ -30,37 +31,56 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable, IShootable
     private void InitializeTower(S_Tower data)
     {
         TowerData = data;
-        GetComponent<SphereCollider>().radius = TowerData.FireRange;
     }
     public void RemoveEnemyForAllTower(GameObject enemy)
     {
         foreach (var tower in TowerBuilder.Instance.AllTowerPosedOnMap)
         {
-            if(tower.EnemyToKill.Contains(enemy))
+            if (tower.EnemyToKill.Contains(enemy))
             {
                 tower.EnemyToKill.Remove(enemy);
             }
         }
     }
     #region Detect Enemy
-    private void OnTriggerEnter(Collider other) // detect enemy
+
+    private void Update()
     {
-        if(!EnemyToKill.Contains(other.gameObject))
+        if (isPosed)
         {
-            EnemyToKill.Add(other.gameObject);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (EnemyToKill.Contains(other.gameObject))
-        {
-            EnemyToKill.Remove(other.gameObject);
+            Collider[] hittedObject = Physics.OverlapSphere(transform.position, TowerData.FireRange, layerAccept);
+
+            foreach (var hit in hittedObject)
+            {
+                if (Vector3.Distance(transform.position, hit.transform.position) >= TowerData.FireRange)
+                {
+                    if (EnemyToKill.Contains(hit.gameObject))
+                    {
+                        EnemyToKill.Remove(hit.gameObject);
+                    }
+                    break;
+                }
+                if (!EnemyToKill.Contains(hit.gameObject))
+                {
+                    EnemyToKill.Add(hit.gameObject);
+                }
+            }
+            EnemyToKill = EnemyToKill.OrderBy((enemyToFocus) => enemyToFocus.GetComponent<EnemyBehaviour>().totalDistanceToGoal).ToList();
         }
     }
     #endregion
 
     private void DestroyTower(Tower tower)
     {
+        foreach (Tile tile in TowerBuilder.Instance.TilesOccupied)
+        {
+            if (tile.transform.position + new Vector3(0, 1, 0) == tower.transform.position)
+            {
+                tile.IsOccupied = false;
+                break;
+            }
+        }
+
         EventsManager.TowerDestroy(tower);
         TowerBuilder.Instance.AllTowerPosedOnMap.Remove(tower);
         Destroy(tower.gameObject);
@@ -68,6 +88,9 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable, IShootable
 
     private void OnMouseDown()
     {
-        print("destroy :" + gameObject.name);
+        if(TowerBuilder.Instance.CanDestroyTower)
+        {
+            DestroyTower(this);
+        }
     }
 }
