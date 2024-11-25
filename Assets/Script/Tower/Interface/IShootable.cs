@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IShootable
 {
-    public void Fire();
+    public void Fire(GameObject enemyTarget);
 }

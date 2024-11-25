@@ -856,7 +856,7 @@ MonoBehaviour:
         m_MethodName: PosTower
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: e35302d4966e92546998447b91522628, type: 2}
+          m_ObjectArgument: {fileID: 11400000, guid: 70163ff3d446bf048949a2c94c4cfff5, type: 2}
           m_ObjectArgumentAssemblyTypeName: S_Tower, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1031,6 +1031,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 505656539422325557, guid: 945201989a061ab4183e7a2c8c9f1243, type: 3}
+      propertyPath: SpawnData.SpawnRate
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 505656539422325557, guid: 945201989a061ab4183e7a2c8c9f1243, type: 3}
       propertyPath: 'AllWaypoints.Array.data[0]'
       value: 
@@ -1457,7 +1461,7 @@ PrefabInstance:
       objectReference: {fileID: 443156852}
     - target: {fileID: 8752411967585924597, guid: 945201989a061ab4183e7a2c8c9f1243, type: 3}
       propertyPath: EnemyParent.Normal.InitialPoolSize
-      value: 25
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2832,7 +2836,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sniper
+  m_text: Test (All)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2859,7 +2863,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.8
+  m_fontSize: 66.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5549,6 +5553,7 @@ MonoBehaviour:
   TowerLayer:
     serializedVersion: 2
     m_Bits: 0
+  previewRotation: {x: 0, y: 0, z: 0, w: 0}
   CanDestroyTower: 0
   TilesOccupied: []
   AllTowerPosedOnMap: []

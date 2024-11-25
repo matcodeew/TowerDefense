@@ -32,23 +32,22 @@ public class EnemyBehaviour : MonoBehaviour
             UpdateDistanceToGoal();
         }
     }
-    public void TakeDamage(IShootable tower, GameObject enemyKill)
+    public void TakeDamage(Tower tower, GameObject enemyKill, float Damage)
     {
-        Tower _tower = tower as Tower;
         EnemyBehaviour enemyBehaviour = enemyKill.GetComponent<EnemyBehaviour>();
 
-        if (_tower != null)
+        if (tower != null)
         {
             if (stat.CurrentLife <= stat.MaxLife)
             {
                 if (enemyBehaviour.stat.CurrentLife > 0)
                 {
-                    enemyBehaviour.stat.CurrentLife -= Mathf.Clamp(_tower.TowerData.Damage, 0, stat.MaxLife);
+                    enemyBehaviour.stat.CurrentLife -= Mathf.Clamp(Damage, 0, stat.MaxLife);
                 }
             }
             if (enemyBehaviour.stat.CurrentLife <= 0)
             {
-                Die(_tower, enemyKill);
+                Die(tower, enemyKill);
             }
         }
     }

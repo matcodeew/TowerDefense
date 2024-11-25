@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   ZoneEffect:
-    EffectRadius: 1
+    EffectRadius: 1.5
     MaxEnemyChain: 0
   Prefab: {fileID: 8411346849687821661, guid: a0024668e0132bf4e9e8f89a3f0cf313, type: 3}
   PreviewPrefab: {fileID: 8411346849687821661, guid: a0024668e0132bf4e9e8f89a3f0cf313, type: 3}
-  Damage: 1
-  FireRate: 0.5
+  Damage: 1.5
+  FireRate: 1
   FireRange: 3
   GoldsCost: 75
   Size: {x: 1, y: 1}

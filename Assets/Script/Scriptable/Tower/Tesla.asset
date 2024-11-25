@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be96dafda065c544cbc67373c0df549a, type: 3}
-  m_Name: flame thrower
+  m_Name: Tesla
   m_EditorClassIdentifier: 
-  Type: 5
+  Type: 4
   ZoneEffect:
-    EffectRadius: 2.5
-    MaxEnemyChain: 0
-  Prefab: {fileID: 3723666213160026594, guid: 4fb197682e9d0ef4e8c7878cc3b5c874, type: 3}
-  PreviewPrefab: {fileID: 3723666213160026594, guid: 4fb197682e9d0ef4e8c7878cc3b5c874, type: 3}
-  Damage: 0.5
-  FireRate: 0.25
-  FireRange: 0
-  GoldsCost: 150
+    EffectRadius: 0
+    MaxEnemyChain: 5
+  Prefab: {fileID: 1565788423250265106, guid: 80789139e5469b048b0a6428a3de832d, type: 3}
+  PreviewPrefab: {fileID: 1565788423250265106, guid: 80789139e5469b048b0a6428a3de832d, type: 3}
+  Damage: 1.5
+  FireRate: 1.25
+  FireRange: 3.75
+  GoldsCost: 175
   Size: {x: 1, y: 1}

@@ -10,6 +10,7 @@ public class TowerBuilder : MonoBehaviour
     public bool UpdatePos;
     private GameObject preview;
     [SerializeField] private LayerMask TowerLayer;
+    public Quaternion previewRotation;
 
     public bool CanDestroyTower = false;
 
@@ -25,7 +26,7 @@ public class TowerBuilder : MonoBehaviour
     private bool HaveRessource() => RessourceManager.Instance.currentGold >= tower.GoldsCost;
     public void BuildTower(S_Tower data, Vector3 position)
     {
-        GameObject newTower = Instantiate(tower.Prefab, position, Quaternion.identity);
+        GameObject newTower = Instantiate(tower.Prefab, position, previewRotation);
         IBuildable buildableTower = newTower.GetComponent<IBuildable>();
 
         AllTowerPosedOnMap.Add(buildableTower as Tower);
@@ -93,6 +94,7 @@ public class TowerBuilder : MonoBehaviour
     }
     public void CancelPreview()
     {
+        previewRotation = preview.transform.rotation;
         Destroy(preview);
         preview = null;
         UpdatePos = false;
