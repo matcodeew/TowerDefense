@@ -21,5 +21,5 @@ MonoBehaviour:
   Damage: 5
   FireRate: 2
   FireRange: 10
-  GoldsCost: 60
+  GoldsCost: 130
   Size: {x: 1, y: 1}

@@ -18,6 +18,6 @@ MonoBehaviour:
   MoveSpeed: 5
   MaxLife: 0.5
   Damage: 1
-  MoveSpeedMultiplicator: 1.3
+  MoveSpeedMultiplicator: 1
   MaxLifeMultiplicator: 1.5
-  DamageMultiplicator: 2
+  DamageMultiplicator: 1

@@ -5565,6 +5565,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentEnemyOnMap: 0
+  EnemyToInstantiate:
+    Normal: {fileID: 11400000, guid: b1cdb6f402c60114cb8782816d76d165, type: 2}
+    Elite: {fileID: 11400000, guid: 829d5f939bb0b78428daa0746d40df15, type: 2}
+    Boss: {fileID: 11400000, guid: 87c5b7d45623dfd46b51b9e452e02c4a, type: 2}
   _waveIndex: 0
   _totalWave: 5
   TimeToWait: 2
