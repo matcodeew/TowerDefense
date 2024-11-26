@@ -10,6 +10,9 @@ public class S_Tower : ScriptableObject
     public GameObject Prefab;
     public GameObject PreviewPrefab;
 
+    [Header("VFX")]
+    public GameObject Vfx;
+
     [Header("Tower Stats")]
     public float Damage;
     public float FireRate;

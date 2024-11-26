@@ -4,6 +4,8 @@ public class RessourceManager : MonoBehaviour
 {
     public int currentGold = 0;
     public int BaseLife = 30;
+    public int MaxWave = 30;
+    public int CurrentWave;
     public static RessourceManager Instance;
 
     private void Awake()

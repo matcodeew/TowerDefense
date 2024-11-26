@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class BoidSystem : MonoBehaviour
@@ -18,7 +16,7 @@ public class BoidSystem : MonoBehaviour
         boids = new Boids[NumberOf];
         for (int i = 0; i < NumberOf; i++)
         {
-            boids[i] = new Boids { transform = Instantiate(BoidPrefab, transform), Velocity = Random.onUnitSphere, Attractor = boids[i].Attractor};
+            boids[i] = new Boids { transform = Instantiate(BoidPrefab, transform), Velocity = Random.onUnitSphere, Attractor = boids[i].Attractor };
         }
     }
 
@@ -93,7 +91,7 @@ public class BoidSystem : MonoBehaviour
         }
     }
 
-    [System.Serializable]   
+    [System.Serializable]
     public class BoidsSetting
     {
         public float Avoidance;

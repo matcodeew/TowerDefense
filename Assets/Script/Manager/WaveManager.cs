@@ -1,5 +1,3 @@
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -18,20 +16,21 @@ public class WaveManager : MonoBehaviour
     private float NumbsOfNormalTemp;
     private float NumbsOfEliteTemp;
     private float NumbsOfBossTemp;
-    private float NumbsOfEnemyToSpawn;
-    public int CurrentEnemyOnMap;
-    [SerializeField] private EnemyTypeToInstantiate EnemyToInstantiate;
+    [SerializeField] public EnemyTypeToInstantiate EnemyToInstantiate;
     private S_Enemy EnemyData;
 
     public int _waveIndex = -1;
-    [SerializeField] private int _totalWave;
 
     [Header("Wave Complete Condition")]
     [SerializeField] private float TimeToWait;
     private float _timer;
-    public int EnemyKill;
     public bool CanStartFirstWave = false;
     private bool IsFirstWave = true;
+
+    [Header("Debug Enemy")]
+    [SerializeField] private float NumbsOfEnemyToSpawn;
+    public int CurrentEnemyOnMap;
+    public int EnemyKill;
 
     private void Awake()
     {
@@ -49,7 +48,6 @@ public class WaveManager : MonoBehaviour
     private void Update()
     {
         if (!WaveIsFinish() || LevelFinished()) return;
-
         _timer += Time.deltaTime;
         if (_timer >= TimeToWait)
         {
@@ -58,36 +56,33 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    public bool WaveIsFinish() => EnemyKill == (int)NumbsOfEnemyToSpawn;
-    public bool LevelFinished() => _waveIndex == _totalWave;
+    public bool WaveIsFinish() => EnemyKill >= (int)NumbsOfEnemyToSpawn;
+    public bool LevelFinished() => _waveIndex >= RessourceManager.Instance.MaxWave;
     public void StartNextWave()
     {
         CurrentEnemyOnMap = 0;
         EnemyKill = 0;
-        if(!IsFirstWave)
+        if (!IsFirstWave)
         {
+            _waveIndex++;
             if (_waveIndex % 3 == 0) // spawn elite
             {
-                _waveIndex++;
                 EnemyData = EnemyToInstantiate.Elite;
                 NumbsOfEliteTemp = (int)_waveIndex / 3;
                 NumbsOfEnemyToSpawn = NumbsOfEliteTemp;
             }
             else if (_waveIndex % 10 == 0) // spawn boss
             {
-                _waveIndex++;
                 EnemyData = EnemyToInstantiate.Boss;
                 NumbsOfBossTemp = (int)_waveIndex / 10;
                 NumbsOfEnemyToSpawn = NumbsOfBossTemp;
             }
             else // spawn Normal
             {
-                _waveIndex++;
                 EnemyData = EnemyToInstantiate.Normal;
                 NumbsOfNormalTemp *= 1.5f;
                 NumbsOfEnemyToSpawn = NumbsOfNormalTemp;
             }
-
         }
         EventsManager.StartNewWave(EnemyData, NumbsOfEnemyToSpawn);
     }

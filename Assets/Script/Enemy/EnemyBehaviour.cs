@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
@@ -14,7 +12,8 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     [Header("Enemy Stats")]
-    [HideInInspector] public S_Enemy EnemyData;
+    /*[HideInInspector]*/
+    public S_Enemy EnemyData;
     public float totalDistanceToGoal;
     public Stat stat;
 
@@ -32,30 +31,29 @@ public class EnemyBehaviour : MonoBehaviour
             UpdateDistanceToGoal();
         }
     }
-    public void TakeDamage(Tower tower, GameObject enemyKill, float Damage)
+    public void TakeDamage(Tower tower, float Damage)
     {
-        EnemyBehaviour enemyBehaviour = enemyKill.GetComponent<EnemyBehaviour>();
+        EnemyBehaviour enemyBehaviour = GetComponent<EnemyBehaviour>();
 
         if (tower != null)
         {
-            if (stat.CurrentLife <= stat.MaxLife)
+            if (enemyBehaviour.stat.CurrentLife <= enemyBehaviour.stat.MaxLife && enemyBehaviour.stat.CurrentLife > 0)
             {
-                if (enemyBehaviour.stat.CurrentLife > 0)
-                {
-                    enemyBehaviour.stat.CurrentLife -= Mathf.Clamp(Damage, 0, stat.MaxLife);
-                }
+                enemyBehaviour.stat.CurrentLife -= Damage;
             }
-            if (enemyBehaviour.stat.CurrentLife <= 0)
+            else
             {
-                Die(tower, enemyKill);
+                Die(tower, gameObject);
             }
         }
     }
     private void Die(Tower tower, GameObject enemyKill)
     {
-        Spawner.ReturnEnemyToPool(enemyKill, enemyKill.GetComponent<EnemyBehaviour>().EnemyData.type);
         RessourceManager.Instance.currentGold += EnemyData.goldValue;
         tower.RemoveEnemyForAllTower(enemyKill);
+        Spawner.ReturnEnemyToPool(enemyKill, enemyKill.GetComponent<EnemyBehaviour>().EnemyData.type);
+        WaveManager.Instance.EnemyKill++;
+        EventsManager.EnemieDie();
     }
     #region Enemy Movement
     public void ResetEnemy()
@@ -78,7 +76,8 @@ public class EnemyBehaviour : MonoBehaviour
             else
             {
                 EventsManager.ChangeBaseValue(-stat.Damage);
-                Spawner.ReturnEnemyToPool(gameObject, gameObject.GetComponent<EnemyBehaviour>().EnemyData.type);
+                Spawner.ReturnEnemyToPool(gameObject, GetComponent<EnemyBehaviour>().EnemyData.type);
+                WaveManager.Instance.EnemyKill++;
             }
         }
     }

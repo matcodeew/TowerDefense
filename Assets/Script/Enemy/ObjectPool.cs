@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,37 +27,65 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] private List<S_Enemy> AllType;
 
     public Dictionary<EnemyType, List<GameObject>> pools = new Dictionary<EnemyType, List<GameObject>>();
+
+    private S_Enemy enemyToUpgrade;
+
+    private void Awake()
+    {
+        EventsManager.OnWaveStart += UpdateStat;
+    }
     private void Start()
     {
         InitializePool(EnemyParent.Normal);
         InitializePool(EnemyParent.Elite);
         InitializePool(EnemyParent.Boss);
-
-        EventsManager.OnWaveStart += UpdateStat;
     }
+
+
     private void UpdateStat(S_Enemy _enemy, float _quantity)
     {
-        foreach (S_Enemy enemy in AllType)
+        int wave = 0;
+        foreach (var enemyType in pools[_enemy.type])
         {
-            for (int i = 0; i < pools[enemy.type].Count; i++)
-            {
-                EnemyBehaviour current = pools[enemy.type][i].GetComponent<EnemyBehaviour>();
+            EnemyBehaviour current = enemyType.GetComponent<EnemyBehaviour>();
 
-                int wave = WaveManager.Instance._waveIndex;
-                if(wave != 0)
-                {
-                    current.stat.MaxLife = enemy.MaxLife * (enemy.MaxLifeMultiplicator == 1 ? 1 : (wave * enemy.MaxLifeMultiplicator));
-                    current.stat.MoveSpeed = enemy.MoveSpeed * (enemy.MoveSpeedMultiplicator == 1 ? 1 : (wave * enemy.MoveSpeedMultiplicator));
-                    current.stat.Damage = enemy.Damage * (enemy.DamageMultiplicator == 1 ? 1 : (wave * enemy.DamageMultiplicator));
-                    UpdateCurrentLife(current);
-                }
-                else
-                {
-                    current.stat.MaxLife = enemy.MaxLife;
-                    current.stat.MoveSpeed = enemy.MoveSpeed;
-                    current.stat.Damage = enemy.Damage;
-                    UpdateCurrentLife(current);
-                }
+            switch (_enemy.type)
+            {
+                case EnemyType.Normal:
+                    enemyToUpgrade = WaveManager.Instance.EnemyToInstantiate.Normal;
+                    wave = WaveManager.Instance._waveIndex;
+                    break;
+
+                case EnemyType.Elite:
+                    enemyToUpgrade = WaveManager.Instance.EnemyToInstantiate.Elite;
+                    wave = (int)WaveManager.Instance._waveIndex / 3;
+                    break;
+
+                case EnemyType.Boss:
+                    enemyToUpgrade = WaveManager.Instance.EnemyToInstantiate.Boss;
+                    wave = (int)WaveManager.Instance._waveIndex / 10;
+                    break;
+
+                default:
+                    enemyToUpgrade = null;
+                    wave = -1;
+                    break;
+            }
+
+
+            if (wave != 0)
+            {
+                current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.MaxLifeMultiplicator));
+                current.stat.MoveSpeed = enemyToUpgrade.MoveSpeed * (enemyToUpgrade.MoveSpeedMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.MoveSpeedMultiplicator));
+                current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.DamageMultiplicator));
+                UpdateCurrentLife(current);
+            }
+            else
+            {
+                current.stat.MaxLife = enemyToUpgrade.MaxLife;
+                current.stat.MoveSpeed = enemyToUpgrade.MoveSpeed;
+                current.stat.Damage = enemyToUpgrade.Damage;
+                UpdateCurrentLife(current);
             }
         }
     }
@@ -98,7 +127,7 @@ public class ObjectPool : MonoBehaviour
         {
             if (!enemy.activeInHierarchy)
             {
-                enemy.SetActive(true);
+                StartCoroutine(ActivateEnemyWithDelay(enemy, 0.2f));
                 return enemy;
             }
         }
@@ -108,12 +137,21 @@ public class ObjectPool : MonoBehaviour
         {
             GameObject newEnemy = Instantiate(poolData.Prefab);
             newEnemy.transform.parent = poolData.Parent.transform;
-            newEnemy.SetActive(true);
             pools[type].Add(newEnemy);
+
+            StartCoroutine(ActivateEnemyWithDelay(newEnemy, 0.2f));
             return newEnemy;
         }
         return null;
     }
+
+    private IEnumerator ActivateEnemyWithDelay(GameObject enemy, float delay)
+    {
+        enemy.SetActive(false);
+        yield return new WaitForSeconds(delay);
+        enemy.SetActive(true);
+    }
+
 
     public void ReturnObject(GameObject enemy, EnemyType type)
     {

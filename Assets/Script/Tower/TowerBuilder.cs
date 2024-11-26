@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TowerBuilder : MonoBehaviour
@@ -52,7 +51,7 @@ public class TowerBuilder : MonoBehaviour
                     if (hit.collider.CompareTag("TowerTile"))
                     {
                         Tile tile = hit.collider.gameObject.GetComponent<Tile>();
-                        if(tile != null && !tile.IsOccupied)
+                        if (tile != null && !tile.IsOccupied)
                         {
                             CancelPreview();
                             BuildTower(tower, hit.collider.transform.position + new Vector3(0, 1, 0));
@@ -86,7 +85,7 @@ public class TowerBuilder : MonoBehaviour
         {
             UpdatePos = true;
             MakePreview();
-        }   
+        }
         else
         {
             print($"{RessourceManager.Instance.currentGold} is less than {this.tower.GoldsCost}");
@@ -94,12 +93,16 @@ public class TowerBuilder : MonoBehaviour
     }
     public void CancelPreview()
     {
-        previewRotation = preview.transform.rotation;
-        Destroy(preview);
+        if(preview != null)
+        {
+            previewRotation = preview.transform.rotation;
+            Destroy(preview);
+        }
+
         preview = null;
         UpdatePos = false;
     }
     #endregion
 
-    public void CanDestroy() => CanDestroyTower = !CanDestroyTower; 
+    public void CanDestroy() => CanDestroyTower = !CanDestroyTower;
 }

@@ -86,7 +86,6 @@ public class EnemySpawner : MonoBehaviour
     public void ReturnEnemyToPool(GameObject enemy, EnemyType type)
     {
         _enemyPool.ReturnObject(enemy, type);
-        WaveManager.Instance.EnemyKill++;
     }
     public GameObject GetNextWaypoint(int index)
     {

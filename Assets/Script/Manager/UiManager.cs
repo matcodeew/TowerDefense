@@ -13,17 +13,17 @@ public class UiManager : MonoBehaviour
         public TextMeshProUGUI text;
     }
     #endregion
+    RessourceManager instance;
 
-    [Header("Info Text To Update")]
+   [Header("Info Text To Update")]
     [SerializeField] private InfoPanel gold;
     [SerializeField] private InfoPanel wave;
     [SerializeField] private InfoPanel life;
 
-    [Header("current stats")]
-    [HideInInspector] public int CurrentWave;
-
     private void Start()
     {
+        instance = RessourceManager.Instance;
+
         UpdateGold();
         UpdateWave();
         UpdateLife();
@@ -31,14 +31,14 @@ public class UiManager : MonoBehaviour
     private void OnEnable()
     {
         EventsManager.OnTowerBuilt += OnTowerBuild;
-        EventsManager.OnTowerShooting += OnEnemyDie;
         EventsManager.OnModifieBaseLife += OnBaseLifeChanged;
         EventsManager.OnTowerDestroy += OnTowerDestroy;
+        EventsManager.OnEnemieDie += OnEnemyDie;
     }
     private void OnDisable()
     {
         EventsManager.OnTowerBuilt -= OnTowerBuild;
-        EventsManager.OnTowerShooting -= OnEnemyDie;
+        EventsManager.OnEnemieDie -= OnEnemyDie;
         EventsManager.OnModifieBaseLife -= OnBaseLifeChanged;
         EventsManager.OnTowerDestroy -= OnTowerDestroy;
     }
@@ -47,7 +47,7 @@ public class UiManager : MonoBehaviour
     {
         UpdateGold();
     }
-    private void OnEnemyDie(IShootable tower, GameObject enemyKill)
+    private void OnEnemyDie()
     {
         UpdateGold();
     }
@@ -63,15 +63,15 @@ public class UiManager : MonoBehaviour
     #region Update Info Panel
     private void UpdateGold()
     {
-        gold.text.text = RessourceManager.Instance.currentGold.ToString();
+        gold.text.text = instance.currentGold.ToString();
     }
     private void UpdateWave()
     {
-        wave.text.text = CurrentWave.ToString();
+        wave.text.text = $" {instance.CurrentWave}/{instance.MaxWave}";
     }
     private void UpdateLife()
     {
-        life.text.text = RessourceManager.Instance.BaseLife.ToString();
+        life.text.text = instance.BaseLife.ToString();
     }
     #endregion
 }

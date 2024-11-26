@@ -10,24 +10,56 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     private float _fireTimer;
     private int YRotate = 0;
     public bool isPosed = false;
+    public ParticleSystem towerParticleSystem;
 
-    private Vector3 halfExtent = new Vector3(0, 0, 2);
+
+    private void OnEnable()
+    {
+        EventsManager.OnWaveStart += ClearEnemyList;
+    }
+
+    private void OnDisable()
+    {
+        EventsManager.OnWaveStart -= ClearEnemyList;
+    }
+
+    private void ClearEnemyList(S_Enemy enemy, float quantity)
+    {
+        EnemyToKill.Clear();
+    }
     public void Build(S_Tower data, Vector3 position)
     {
+        GameObject vfxObject = Instantiate(data.Vfx, transform);
+        towerParticleSystem = vfxObject.GetComponent<ParticleSystem>();
+        towerParticleSystem.transform.localPosition = new Vector3(0,1,0);
+        towerParticleSystem.Stop();
+
+
         transform.position = position;
         InitializeTower(data);
         EventsManager.TowerBuilt(this, position);
 
-        // mettre ici des effets visuel sur la construction de la tour comme vfx ou audio
+        // mettre ici des effets visuel sur la construction de la tour comme vfx ou audio si commun a chaque tower
     }
     public void Fire(GameObject enemyTarget)
     {
         IShootable shootable = GetComponent<IShootable>();
         if (shootable != null)
         {
-            shootable.Fire(enemyTarget);
+            EnemyToKill.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
+
+            if (EnemyToKill.Count > 0)
+            {
+                shootable.Fire(enemyTarget);
+                shootable.StartVfx(towerParticleSystem);
+            }
+            else
+            {
+                Debug.Log($"{name}: No valid enemies to attack!");
+            }
         }
     }
+
 
     public void Upgrade()
     {
@@ -66,15 +98,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 
     private void UpdateEnemyList()
     {
-        Collider[] hittedObject = null;
-        if (GetComponent<T_FlameThrower>() == null)
-        {
-            hittedObject = Physics.OverlapSphere(transform.position, TowerData.FireRange, layerAccept);
-        }
-        else
-        {
-            hittedObject = Physics.OverlapBox(transform.position + (transform.forward * 2), halfExtent, TowerBuilder.Instance.previewRotation, layerAccept);
-        }
+        Collider[] hittedObject = Physics.OverlapSphere(transform.position, TowerData.FireRange, layerAccept);
         EnemyToKill.Clear();
 
         foreach (var hit in hittedObject)
@@ -85,20 +109,15 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
             }
         }
 
+        //GameObject ok = GameObject.CreatePrimitive(PrimitiveType.Sphere); // faire sa pour mettre preview zone
+        EnemyToKill.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
+
         EnemyToKill = EnemyToKill.OrderBy((enemyToFocus) => enemyToFocus.GetComponent<EnemyBehaviour>().totalDistanceToGoal).ToList();
     }
     private void OnDrawGizmos()
     {
-        if (GetComponent<T_FlameThrower>() == null)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, TowerData.FireRange);
-        }
-        else
-        {
-            Gizmos.matrix = Matrix4x4.TRS(transform.position + (transform.forward * 2), transform.rotation, Vector3.one);
-            Gizmos.DrawWireCube(Vector3.zero, halfExtent);
-        }
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, TowerData.FireRange);
     }
 
     private void HandleFiring()

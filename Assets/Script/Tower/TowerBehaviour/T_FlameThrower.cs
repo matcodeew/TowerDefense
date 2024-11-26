@@ -1,7 +1,5 @@
-using UnityEngine;
 using System.Collections;
-using NUnit.Framework;
-using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(Tower))]
 public class T_FlameThrower : MonoBehaviour, IShootable
@@ -12,20 +10,29 @@ public class T_FlameThrower : MonoBehaviour, IShootable
     private bool isFiring;
     private bool onCooldown;
 
-    List<GameObject> Enemy;
+    private float maxDistance;
 
-    private void Awake()
+  private void Awake()
     {
         tower = GetComponent<Tower>();
+        maxDistance = tower.TowerData.ZoneEffect.EffectRadius;
     }
 
     public void Fire(GameObject enemyTarget)
     {
-        Enemy = tower.EnemyToKill;
-        if (!isFiring && !onCooldown)
+        if ( (!isFiring && !onCooldown) && tower.EnemyToKill.Count > 0)
         {
             StartCoroutine(BoxCastRoutine());
         }
+    }
+    public void StartVfx(ParticleSystem VfxToUse)
+    {
+
+    }
+
+    public void StartSfx(GameObject SoundToUse)
+    {
+
     }
 
     private IEnumerator BoxCastRoutine()
@@ -37,16 +44,17 @@ public class T_FlameThrower : MonoBehaviour, IShootable
         {
             elapsedTime += Time.deltaTime;
 
-        foreach (var enemy in Enemy)
+            RaycastHit[] AllTarget = Physics.RaycastAll(transform.position, transform.forward, maxDistance, tower.layerAccept);
+
+            foreach (var enemy in AllTarget)
             {
-                if (enemy.TryGetComponent<EnemyBehaviour>(out var enemyBehaviour))
+                if (enemy.collider.TryGetComponent<EnemyBehaviour>(out var enemyBehaviour))
                 {
-                    enemyBehaviour.TakeDamage(tower, enemy, tower.TowerData.Damage);
+                    enemyBehaviour.TakeDamage(tower, tower.TowerData.Damage);
                 }
             }
             yield return null;
         }
-
         isFiring = false;
         StartCoroutine(CooldownRoutine());
     }

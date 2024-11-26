@@ -18,6 +18,8 @@ MonoBehaviour:
     MaxEnemyChain: 0
   Prefab: {fileID: 4715947882123935858, guid: 5493d3f4f1ba0484599d9ef92f66b875, type: 3}
   PreviewPrefab: {fileID: 4715947882123935858, guid: 5493d3f4f1ba0484599d9ef92f66b875, type: 3}
+  Vfx: {fileID: 7856939199014537196, guid: 212ef1a41838ce044a9ac54994866708, type: 3}
+  VFX: {fileID: 0}
   Damage: 5
   FireRate: 2
   FireRange: 10

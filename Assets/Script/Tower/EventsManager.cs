@@ -31,7 +31,6 @@ public static class EventsManager
 
     #region WaveEvent
     public static event UnityAction<S_Enemy, float> OnWaveStart;
-
     public static void StartNewWave(S_Enemy enemy, float quantity)
     {
         OnWaveStart?.Invoke(enemy, quantity);
@@ -39,8 +38,13 @@ public static class EventsManager
     #endregion
 
     public static event UnityAction<int> OnModifieBaseLife;
+    public static event UnityAction OnEnemieDie;
     public static void ChangeBaseValue(int value)
     {
         OnModifieBaseLife?.Invoke(value);
+    }
+    public static void EnemieDie()
+    {
+        OnEnemieDie?.Invoke();
     }
 }

@@ -11,20 +11,25 @@ public class T_Canon : MonoBehaviour, IShootable
     }
     public void Fire(GameObject enemyTarget)
     {
-        targetedEnemy = enemyTarget;
-        Collider[] AllHit = Physics.OverlapSphere(targetedEnemy.transform.position, tower.TowerData.ZoneEffect.EffectRadius, tower.layerAccept);
-        foreach (var enemy in AllHit)
-        {
-            enemy.GetComponent<EnemyBehaviour>().TakeDamage(tower, enemy.gameObject, tower.TowerData.Damage);
+        if (tower.EnemyToKill.Count > 0){
+            targetedEnemy = enemyTarget;
+            Collider[] AllHit = Physics.OverlapSphere(targetedEnemy.transform.position, tower.TowerData.ZoneEffect.EffectRadius, tower.layerAccept);
+            foreach (var enemy in AllHit)
+            {
+                enemy.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.TowerData.Damage);
+            }
         }
+    }
+    public void StartVfx(ParticleSystem VfxToUse)
+    {
+        VfxToUse.gameObject.transform.position = targetedEnemy.transform.position;
+        VfxToUse.Play();
+
         targetedEnemy = null;
     }
-    private void OnDrawGizmos()
+
+    public void StartSfx(GameObject SoundToUse)
     {
-        if (targetedEnemy != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(targetedEnemy.transform.position, tower.TowerData.ZoneEffect.EffectRadius);
-        }
+
     }
 }
