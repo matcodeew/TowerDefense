@@ -12,6 +12,7 @@ public class TowerBuilder : MonoBehaviour
     public Quaternion previewRotation;
 
     public bool CanDestroyTower = false;
+    public bool CanUpgradeTower = false;
 
     public List<Tile> TilesOccupied = new();
     public List<Tower> AllTowerPosedOnMap = new();
@@ -105,4 +106,5 @@ public class TowerBuilder : MonoBehaviour
     #endregion
 
     public void CanDestroy() => CanDestroyTower = !CanDestroyTower;
+    public void CanUpgrade() => CanUpgradeTower = !CanUpgradeTower;
 }

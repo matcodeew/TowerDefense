@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 {
@@ -12,6 +13,11 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     public bool isPosed = false;
     public ParticleSystem towerParticleSystem;
 
+    private Vector3 newWorldObjectPosition;
+
+    [Header("Tower Upgrade Panel")]
+    public RectTransform image; // L'image dans le canvas
+    public Canvas canvas;
 
     private void OnEnable()
     {
@@ -63,7 +69,14 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 
     public void Upgrade()
     {
-        //Upgrate Tower 
+         transform.GetChild(0).gameObject.SetActive(true);
+
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), screenPosition, canvas.worldCamera, out Vector2 localPosition);
+
+        image.localPosition = localPosition;
     }
 
     private void InitializeTower(S_Tower data)
@@ -152,6 +165,10 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
         if (TowerBuilder.Instance.CanDestroyTower)
         {
             DestroyTower(this);
+        }
+        if(TowerBuilder.Instance.CanUpgradeTower)
+        {
+            Upgrade();
         }
     }
 }
