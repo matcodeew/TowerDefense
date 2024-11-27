@@ -47,7 +47,7 @@ public class TowerBuilder : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                preview.transform.position = hit.point;
+                preview.transform.position = hit.point + tower.PosOnMap;
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (hit.collider.CompareTag("TowerTile"))
@@ -56,7 +56,7 @@ public class TowerBuilder : MonoBehaviour
                         if (tile != null && !tile.IsOccupied)
                         {
                             CancelPreview();
-                            BuildTower(tower, hit.collider.transform.position + new Vector3(0, 1, 0));
+                            BuildTower(tower, hit.collider.transform.position + tower.PosOnMap);
                             TilesOccupied.Add(tile);
                             tile.IsOccupied = true;
                         }
@@ -92,17 +92,6 @@ public class TowerBuilder : MonoBehaviour
         else
         {
             print($"{RessourceManager.Instance.currentGold} is less than {this.tower.GoldsCost}");
-        }
-        UpdateUI();
-    }
-    public void UpdateUI()
-    {
-        foreach (var slot in ButtonForBuildingTower)
-        {
-            foreach (var _tower in TowerOnBuilderPanel)
-            {
-                EventsManager.OpenPanel(_tower, slot);
-            }
         }
     }
     public void CancelPreview()

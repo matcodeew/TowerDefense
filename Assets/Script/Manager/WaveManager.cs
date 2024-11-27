@@ -43,7 +43,7 @@ public class WaveManager : MonoBehaviour
         NumbsOfNormalTemp = 25;
         NumbsOfEnemyToSpawn = NumbsOfNormalTemp;
         EnemyData = EnemyToInstantiate.Normal;
-        EventsManager.StartNewWave(EnemyData, NumbsOfEnemyToSpawn);
+        EventsManager.WaveStarted(EnemyData, NumbsOfEnemyToSpawn);
     }
     private void Update()
     {
@@ -84,6 +84,6 @@ public class WaveManager : MonoBehaviour
                 NumbsOfEnemyToSpawn = NumbsOfNormalTemp;
             }
         }
-        EventsManager.StartNewWave(EnemyData, NumbsOfEnemyToSpawn);
+        EventsManager.WaveStarted(EnemyData, NumbsOfEnemyToSpawn);
     }
 }

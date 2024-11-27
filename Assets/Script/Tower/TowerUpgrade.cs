@@ -37,7 +37,6 @@ public class TowerUpgrade : MonoBehaviour
             UpdateGoldValue();
             towerToUpgrade.stat.Damage += towerToUpgrade.TowerData.UpgradeDamage;
             towerToUpgrade.DmgUpgradecount++;
-            UpdateUi();
         }
     }
     public void UpgradeFireSpeed()
@@ -47,7 +46,6 @@ public class TowerUpgrade : MonoBehaviour
             UpdateGoldValue();
             towerToUpgrade.stat.FireRate -= towerToUpgrade.TowerData.UpgradeFireRate;
             towerToUpgrade.FireRateUpgradecount++;
-            UpdateUi();
         }
     }
     public void UpgradeRange()
@@ -57,21 +55,13 @@ public class TowerUpgrade : MonoBehaviour
             UpdateGoldValue();
             towerToUpgrade.stat.FireRange += towerToUpgrade.TowerData.UpgradeFireRange;
             towerToUpgrade.RangeUpgradecount++;
-            UpdateUi();
         }
     }
 
     private bool CanUpgrade(int UpgradeCount) => UpgradeCount < towerToUpgrade.TowerData.MaxUpgrade && RessourceManager.Instance.HaveRessource(towerToUpgrade);
     private void UpdateGoldValue()
     {
-        EventsManager.TowerBuilt(towerToUpgrade, Vector3.zero);
-        towerToUpgrade.stat.GoldsCost += 30;
-    }
-    private void UpdateUi()
-    {
-        foreach(var slot in ButtonForBuildingTower)
-        {
-            EventsManager.OpenPanel(towerToUpgrade, slot);
-        }
+        EventsManager.TowerBuild(towerToUpgrade);
+        towerToUpgrade.stat.GoldsCost += (towerToUpgrade.TowerData.GoldsCost / 2) + 30;
     }
 }

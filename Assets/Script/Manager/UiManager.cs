@@ -11,13 +11,6 @@ public class UiManager : MonoBehaviour
         public Image Image;
         public TextMeshProUGUI text;
     }
-
-    [System.Serializable]
-    public struct TowerStatInfo
-    {
-        public Image Image;
-        public TextMeshProUGUI text;
-    }
     #endregion
     RessourceManager instance;
     public static UiManager Instance;
@@ -30,10 +23,10 @@ public class UiManager : MonoBehaviour
     [Header("InfoPanel")]
     [SerializeField] private GameObject towerInfoPanel;
     [SerializeField] private TextMeshProUGUI towerName;
-    [SerializeField] private TowerStatInfo Damage;
-    [SerializeField] private TowerStatInfo FireRate;
-    [SerializeField] private TowerStatInfo Range;
-    [SerializeField] private TowerStatInfo UpgradeCount;
+    [SerializeField] private TextMeshProUGUI Damage;
+    [SerializeField] private TextMeshProUGUI FireRate;
+    [SerializeField] private TextMeshProUGUI Range;
+    [SerializeField] private TextMeshProUGUI UpgradeCount;
 
     public bool IsActive;
     private void Awake()
@@ -50,41 +43,27 @@ public class UiManager : MonoBehaviour
 
         UpdateGold();
         UpdateWave();
-        UpdateLife();
+        UpdateLife(0);
     }
     private void OnEnable()
     {
-        EventsManager.OnTowerBuilt += OnTowerBuild;
-        EventsManager.OnModifieBaseLife += OnBaseLifeChanged;
-        EventsManager.OnTowerDestroy += OnTowerDestroy;
-        EventsManager.OnEnemieDie += OnEnemyDie;
-        EventsManager.OnPanelOpen += BlockSlot;
+        EventsManager.OnEnemyDie += UpdateGold;
+        EventsManager.OnEnemyReachEnd += UpdateLife;
+        EventsManager.OnTowerBuild += UpdateOneTower;
+        EventsManager.OnTowerDestroy += UpdateOneTower;
+        EventsManager.OnWaveStart += Event_UpdateWave;
     }
-    private void OnDisable()
-    {
-        EventsManager.OnTowerBuilt -= OnTowerBuild;
-        EventsManager.OnEnemieDie -= OnEnemyDie;
-        EventsManager.OnModifieBaseLife -= OnBaseLifeChanged;
-        EventsManager.OnTowerDestroy -= OnTowerDestroy;
 
-        EventsManager.OnPanelOpen -= BlockSlot;
-    }
-    private void OnTowerBuild(IBuildable tower, Vector3 position)
+    private void UpdateOneTower(Tower tower)
     {
         UpdateGold();
     }
-    private void OnEnemyDie()
+    private void Event_UpdateWave(S_Enemy enemy, float quantity)
     {
-        UpdateGold();
+        UpdateWave();
     }
-    private void OnBaseLifeChanged(int value)
-    {
-        UpdateLife();
-    }
-    private void OnTowerDestroy(Tower tower)
-    {
-        UpdateGold();
-    }
+
+
     private void UpdateGold()
     {
         gold.text.text = instance.currentGold.ToString();
@@ -93,37 +72,18 @@ public class UiManager : MonoBehaviour
     {
         wave.text.text = $" {instance.CurrentWave}/{instance.MaxWave}";
     }
-    private void UpdateLife()
+    private void UpdateLife(int value)
     {
         life.text.text = instance.BaseLife.ToString();
     }
-
-    private void BlockSlot(Tower tower, GameObject slot)
-    {
-        if (tower.stat.GoldsCost > RessourceManager.Instance.currentGold)
-        {
-            slot.GetComponent<Image>().color = Color.cyan;
-            slot.GetComponent<Button>().enabled = false;
-        }
-        else
-        {
-            slot.GetComponent<Image>().color = Color.white;
-            slot.GetComponent<Button>().enabled = true;
-        }
-    }
-
     public void ActivateTowerInfoPanel(Tower tower)
     {
         towerInfoPanel.SetActive(IsActive);
         towerName.text = tower.TowerData.Type.ToString();
 
-        Damage.text.text = $"{tower.stat.Damage.ToString()} damage";
-        //Damage.Image.sprite = ;
-        FireRate.text.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
-        //FireRate.Image.sprite = ;
-        Range.text.text = $"{tower.stat.FireRange.ToString()}";
-        //Range.Image.sprite = ;
-        UpgradeCount.text.text = $"{tower.stat.GoldsCost.ToString()} (golds)";
-        //UpgradeCount.Image.sprite = ;
+        Damage.text = $"{tower.stat.Damage.ToString()} dmg";
+        FireRate.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
+        Range.text = $"{tower.stat.FireRange.ToString()}";
+        UpgradeCount.text = $"{tower.stat.GoldsCost.ToString()} (golds)";
     }
 }   

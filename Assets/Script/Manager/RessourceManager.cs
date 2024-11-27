@@ -17,34 +17,28 @@ public class RessourceManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        EventsManager.OnTowerBuilt += HandleTowerBuilt;
-        EventsManager.OnModifieBaseLife += ChangeBaseLife;
         EventsManager.OnTowerDestroy += DestroyTower;
+        EventsManager.OnEnemyReachEnd += EnemyMakeDamageOnBase;
+        EventsManager.OnTowerBuild += HandleTowerBuilt;
+        EventsManager.OnWaveStart += IncrementeWaveIndex;
+
     }
-
-    private void OnDisable()
+    private void HandleTowerBuilt(Tower tower)
     {
-        EventsManager.OnTowerBuilt -= HandleTowerBuilt;
-        EventsManager.OnModifieBaseLife -= ChangeBaseLife;
-        EventsManager.OnTowerDestroy -= DestroyTower;
-    }
-
-    private void HandleTowerBuilt(IBuildable tower, Vector3 position)
-    {
-        Tower _tower  = tower as Tower;
-
-        currentGold -= _tower.stat.GoldsCost;
+        currentGold -= tower.stat.GoldsCost;
     }
     private void DestroyTower(Tower tower)
     {
         currentGold += Mathf.FloorToInt(tower.stat.GoldsCost * 0.75f);
     }
-
-    private void ChangeBaseLife(int value)
+    private void EnemyMakeDamageOnBase(int value)
     {
         BaseLife += value;
     }
-
+    private void IncrementeWaveIndex(S_Enemy enemy, float quantiry)
+    {
+        CurrentWave++;
+    }
     public bool HaveRessource(Tower tower) => currentGold >= tower.stat.GoldsCost;
 }
      

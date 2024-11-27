@@ -12,12 +12,10 @@ public class T_OneByOne : MonoBehaviour, IShootable
     }
     public void Fire(GameObject enemyTarget)
     {
-
         if (enemyTarget != null && tower.EnemyToKill.Count > 0)
         {
             targetedEnemy = enemyTarget;
             enemyTarget.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.stat.Damage);
-            EventsManager.TowerFire(tower as IShootable, enemyTarget);
         }
     }
     public void StartVfx(ParticleSystem VfxToUse)

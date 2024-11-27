@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 {
@@ -29,6 +28,12 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     public int FireRateUpgradecount;
     public int RangeUpgradecount;
 
+
+    [Header("Show Range")]
+    private GameObject newRange;
+    private bool rangeCreated = false;
+    [SerializeField] private Material RangeMaterial;
+
     //[Header("Tower Upgrade Panel")]
     //public RectTransform image; // L'image dans le canvas
     //public Canvas canvas;
@@ -51,13 +56,11 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     {
         GameObject vfxObject = Instantiate(data.Vfx, transform);
         towerParticleSystem = vfxObject.GetComponent<ParticleSystem>();
-        towerParticleSystem.transform.localPosition = new Vector3(0,1,0);
+        towerParticleSystem.transform.localPosition = new Vector3(0, 1, 0);
         towerParticleSystem.Stop();
-
-
         transform.position = position;
         InitializeTower(data);
-        EventsManager.TowerBuilt(this, position);
+        EventsManager.TowerBuild(this);
 
         // mettre ici des effets visuel sur la construction de la tour comme vfx ou audio si commun a chaque tower
     }
@@ -71,12 +74,19 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
             if (EnemyToKill.Count > 0)
             {
                 shootable.Fire(enemyTarget);
-                shootable.StartVfx(towerParticleSystem);
             }
             else
             {
                 Debug.Log($"{name}: No valid enemies to attack!");
             }
+        }
+    }
+    public void EnemyTouched()
+    {
+        IShootable shootable = GetComponent<IShootable>();
+        if (shootable != null)
+        {
+            shootable.StartVfx(towerParticleSystem);
         }
     }
 
@@ -139,10 +149,18 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
             }
         }
 
+
         //GameObject ok = GameObject.CreatePrimitive(PrimitiveType.Sphere); // faire sa pour mettre preview zone
         EnemyToKill.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
-
         EnemyToKill = EnemyToKill.OrderBy((enemyToFocus) => enemyToFocus.GetComponent<EnemyBehaviour>().totalDistanceToGoal).ToList();
+
+        if (EnemyToKill.Count > 0)
+        {
+            Vector3 direction = EnemyToKill[0].transform.position - transform.position;
+            direction.y = 0;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = targetRotation;
+        }
     }
     private void OnDrawGizmos()
     {
@@ -188,15 +206,33 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
             Upgrade();
         }
     }
-
+    private void ShowRange()
+    {
+        if (rangeCreated)
+        {
+            rangeCreated = false;
+            newRange = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            newRange.GetComponent<BoxCollider>().enabled = false;
+            newRange.GetComponent<MeshRenderer>().material = RangeMaterial;
+            newRange.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
+        }
+    }
+    private void DestroyRange()
+    {
+        Destroy(newRange);
+        rangeCreated = true;
+    }
     private void OnMouseOver()
     {
         UiManager.Instance.IsActive = true;
         UiManager.Instance.ActivateTowerInfoPanel(this);
+        ShowRange();
     }
     private void OnMouseExit()
     {
         UiManager.Instance.IsActive = false;
         UiManager.Instance.ActivateTowerInfoPanel(this);
+        DestroyRange();
     }
 }

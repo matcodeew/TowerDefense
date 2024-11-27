@@ -31,7 +31,7 @@ public class EnemyBehaviour : MonoBehaviour
             UpdateDistanceToGoal();
         }
     }
-    public void TakeDamage(Tower tower, float Damage)
+    public void TakeDamage(Tower tower, float damage)
     {
         EnemyBehaviour enemyBehaviour = GetComponent<EnemyBehaviour>();
 
@@ -39,7 +39,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             if (enemyBehaviour.stat.CurrentLife <= enemyBehaviour.stat.MaxLife && enemyBehaviour.stat.CurrentLife > 0)
             {
-                enemyBehaviour.stat.CurrentLife -= Damage;
+                enemyBehaviour.stat.CurrentLife -= damage;
                 if (enemyBehaviour.stat.CurrentLife < 0)
                 {
                     Die(tower, gameObject);
@@ -57,7 +57,7 @@ public class EnemyBehaviour : MonoBehaviour
         tower.RemoveEnemyForAllTower(enemyKill);
         Spawner.ReturnEnemyToPool(enemyKill, enemyKill.GetComponent<EnemyBehaviour>().EnemyData.type);
         WaveManager.Instance.EnemyKill++;
-        EventsManager.EnemieDie();
+        EventsManager.EnemyDie();
     }
     #region Enemy Movement
     public void ResetEnemy()
@@ -79,7 +79,7 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else
             {
-                EventsManager.ChangeBaseValue(-stat.Damage);
+                EventsManager.ApplyBaseDamage(-stat.Damage);
                 Spawner.ReturnEnemyToPool(gameObject, GetComponent<EnemyBehaviour>().EnemyData.type);
                 WaveManager.Instance.EnemyKill++;
             }
