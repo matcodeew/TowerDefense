@@ -50,7 +50,7 @@ public class T_FlameThrower : MonoBehaviour, IShootable
             {
                 if (enemy.collider.TryGetComponent<EnemyBehaviour>(out var enemyBehaviour))
                 {
-                    enemyBehaviour.TakeDamage(tower, tower.TowerData.Damage);
+                    enemyBehaviour.TakeDamage(tower, tower.stat.Damage);
                 }
             }
             yield return null;

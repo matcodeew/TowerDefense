@@ -16,7 +16,7 @@ public class T_OneByOne : MonoBehaviour, IShootable
         if (enemyTarget != null && tower.EnemyToKill.Count > 0)
         {
             targetedEnemy = enemyTarget;
-            enemyTarget.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.TowerData.Damage);
+            enemyTarget.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.stat.Damage);
             EventsManager.TowerFire(tower as IShootable, enemyTarget);
         }
     }

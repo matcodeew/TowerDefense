@@ -33,16 +33,18 @@ public class RessourceManager : MonoBehaviour
     {
         Tower _tower  = tower as Tower;
 
-        currentGold -= _tower.TowerData.GoldsCost;
+        currentGold -= _tower.stat.GoldsCost;
     }
     private void DestroyTower(Tower tower)
     {
-        currentGold += Mathf.FloorToInt(tower.TowerData.GoldsCost * 0.75f);
+        currentGold += Mathf.FloorToInt(tower.stat.GoldsCost * 0.75f);
     }
 
     private void ChangeBaseLife(int value)
     {
         BaseLife += value;
     }
+
+    public bool HaveRessource(Tower tower) => currentGold >= tower.stat.GoldsCost;
 }
      

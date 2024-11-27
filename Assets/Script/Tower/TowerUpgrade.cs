@@ -1,9 +1,77 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerUpgrade : MonoBehaviour
 {
-    private void OnMouseDown()
-    {
+    public static TowerUpgrade Instance;
 
+    [SerializeField] private Tower towerToUpgrade;
+    [SerializeField] private GameObject upgradePanel;
+    private bool isActive;
+
+    [SerializeField] private List<GameObject> ButtonForBuildingTower = new();
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+    public void SelectTowerToUpgrade(Tower tower)
+    {
+        ShowPanel();
+        towerToUpgrade = tower;
+    }
+    public void ShowPanel()
+    {
+        isActive = !isActive;
+        upgradePanel.SetActive(isActive);
+        towerToUpgrade = null;
+    }
+
+    public void UpgradeDamage()
+    {
+        if (CanUpgrade(towerToUpgrade.DmgUpgradecount))
+        {
+            UpdateGoldValue();
+            towerToUpgrade.stat.Damage += towerToUpgrade.TowerData.UpgradeDamage;
+            towerToUpgrade.DmgUpgradecount++;
+            UpdateUi();
+        }
+    }
+    public void UpgradeFireSpeed()
+    {
+        if (CanUpgrade(towerToUpgrade.FireRateUpgradecount))
+        {
+            UpdateGoldValue();
+            towerToUpgrade.stat.FireRate -= towerToUpgrade.TowerData.UpgradeFireRate;
+            towerToUpgrade.FireRateUpgradecount++;
+            UpdateUi();
+        }
+    }
+    public void UpgradeRange()
+    {
+        if (CanUpgrade(towerToUpgrade.RangeUpgradecount))
+        {
+            UpdateGoldValue();
+            towerToUpgrade.stat.FireRange += towerToUpgrade.TowerData.UpgradeFireRange;
+            towerToUpgrade.RangeUpgradecount++;
+            UpdateUi();
+        }
+    }
+
+    private bool CanUpgrade(int UpgradeCount) => UpgradeCount < towerToUpgrade.TowerData.MaxUpgrade && RessourceManager.Instance.HaveRessource(towerToUpgrade);
+    private void UpdateGoldValue()
+    {
+        EventsManager.TowerBuilt(towerToUpgrade, Vector3.zero);
+        towerToUpgrade.stat.GoldsCost += 30;
+    }
+    private void UpdateUi()
+    {
+        foreach(var slot in ButtonForBuildingTower)
+        {
+            EventsManager.OpenPanel(towerToUpgrade, slot);
+        }
     }
 }

@@ -16,13 +16,14 @@ public class T_Canon : MonoBehaviour, IShootable
             Collider[] AllHit = Physics.OverlapSphere(targetedEnemy.transform.position, tower.TowerData.ZoneEffect.EffectRadius, tower.layerAccept);
             foreach (var enemy in AllHit)
             {
-                enemy.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.TowerData.Damage);
+                enemy.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.stat.Damage);
             }
         }
     }
     public void StartVfx(ParticleSystem VfxToUse)
     {
         VfxToUse.gameObject.transform.position = targetedEnemy.transform.position;
+        VfxToUse.transform.localScale = new Vector3(2,2,2);
         VfxToUse.Play();
 
         targetedEnemy = null;

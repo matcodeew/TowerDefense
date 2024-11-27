@@ -40,6 +40,10 @@ public class EnemyBehaviour : MonoBehaviour
             if (enemyBehaviour.stat.CurrentLife <= enemyBehaviour.stat.MaxLife && enemyBehaviour.stat.CurrentLife > 0)
             {
                 enemyBehaviour.stat.CurrentLife -= Damage;
+                if (enemyBehaviour.stat.CurrentLife < 0)
+                {
+                    Die(tower, gameObject);
+                }
             }
             else
             {

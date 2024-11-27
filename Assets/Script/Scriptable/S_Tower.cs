@@ -20,6 +20,12 @@ public class S_Tower : ScriptableObject
     public int GoldsCost;
     public Vector2 Size;
 
+    [Header("UpgradeValue")]
+    public float UpgradeDamage;
+    public float UpgradeFireRate;
+    public float UpgradeFireRange;
+    public int MaxUpgrade;
+
     public enum TowerType
     {
         Canon,

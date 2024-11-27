@@ -54,7 +54,7 @@ public class T_Tesla : MonoBehaviour, IShootable
             EnemyDivider++;
             currentTarget = enemy;
             StartVfx(tower.towerParticleSystem);
-            enemy.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.TowerData.Damage / EnemyDivider);
+            enemy.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.stat.Damage / EnemyDivider);
 
             yield return new WaitForSeconds(0.2f);
             EndVfx(tower.towerParticleSystem);

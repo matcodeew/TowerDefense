@@ -16,6 +16,8 @@ public class TowerBuilder : MonoBehaviour
 
     public List<Tile> TilesOccupied = new();
     public List<Tower> AllTowerPosedOnMap = new();
+    [SerializeField] private List<GameObject> ButtonForBuildingTower = new();
+    [SerializeField] private List<Tower> TowerOnBuilderPanel = new();
     private void Awake()
     {
         if (Instance == null)
@@ -23,7 +25,6 @@ public class TowerBuilder : MonoBehaviour
             Instance = this;
         }
     }
-    private bool HaveRessource() => RessourceManager.Instance.currentGold >= tower.GoldsCost;
     public void BuildTower(S_Tower data, Vector3 position)
     {
         GameObject newTower = Instantiate(tower.Prefab, position, previewRotation);
@@ -82,8 +83,9 @@ public class TowerBuilder : MonoBehaviour
     public void PosTower(S_Tower tower)
     {
         this.tower = tower;
-        if (HaveRessource())
+        if (RessourceManager.Instance.HaveRessource(this.tower.Prefab.GetComponent<Tower>()))
         {
+            this.tower.Prefab.GetComponent<Tower>().InitializeTower(tower);
             UpdatePos = true;
             MakePreview();
         }
@@ -91,10 +93,21 @@ public class TowerBuilder : MonoBehaviour
         {
             print($"{RessourceManager.Instance.currentGold} is less than {this.tower.GoldsCost}");
         }
+        UpdateUI();
+    }
+    public void UpdateUI()
+    {
+        foreach (var slot in ButtonForBuildingTower)
+        {
+            foreach (var _tower in TowerOnBuilderPanel)
+            {
+                EventsManager.OpenPanel(_tower, slot);
+            }
+        }
     }
     public void CancelPreview()
     {
-        if(preview != null)
+        if (preview != null)
         {
             previewRotation = preview.transform.rotation;
             Destroy(preview);

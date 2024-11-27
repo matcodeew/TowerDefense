@@ -5,7 +5,17 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 {
+    [System.Serializable]
+    public class TowerStat
+    {
+        public float Damage;
+        public float FireRate;
+        public float FireRange;
+        public int GoldsCost;
+    }
+
     [SerializeField] public S_Tower TowerData;
+    public TowerStat stat;
     [SerializeField] public List<GameObject> EnemyToKill = new();
     [SerializeField] public LayerMask layerAccept;
     private float _fireTimer;
@@ -13,11 +23,15 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     public bool isPosed = false;
     public ParticleSystem towerParticleSystem;
 
-    private Vector3 newWorldObjectPosition;
 
-    [Header("Tower Upgrade Panel")]
-    public RectTransform image; // L'image dans le canvas
-    public Canvas canvas;
+    [Header("Upgrade Count")]
+    public int DmgUpgradecount;
+    public int FireRateUpgradecount;
+    public int RangeUpgradecount;
+
+    //[Header("Tower Upgrade Panel")]
+    //public RectTransform image; // L'image dans le canvas
+    //public Canvas canvas;
 
     private void OnEnable()
     {
@@ -69,19 +83,22 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 
     public void Upgrade()
     {
-         transform.GetChild(0).gameObject.SetActive(true);
+        //transform.GetChild(0).gameObject.SetActive(true);
+        //Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        //RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), screenPosition, canvas.worldCamera, out Vector2 localPosition);
+        //image.localPosition = localPosition;
 
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
 
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), screenPosition, canvas.worldCamera, out Vector2 localPosition);
-
-        image.localPosition = localPosition;
+        TowerUpgrade.Instance.SelectTowerToUpgrade(this);
     }
 
-    private void InitializeTower(S_Tower data)
+    public void InitializeTower(S_Tower data)
     {
         TowerData = data;
+        stat.FireRate = data.FireRate;
+        stat.FireRange = data.FireRange;
+        stat.GoldsCost = data.GoldsCost;
+        stat.Damage = data.Damage;
     }
     public void RemoveEnemyForAllTower(GameObject enemy)
     {
@@ -111,7 +128,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 
     private void UpdateEnemyList()
     {
-        Collider[] hittedObject = Physics.OverlapSphere(transform.position, TowerData.FireRange, layerAccept);
+        Collider[] hittedObject = Physics.OverlapSphere(transform.position, stat.FireRange, layerAccept);
         EnemyToKill.Clear();
 
         foreach (var hit in hittedObject)
@@ -130,13 +147,13 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, TowerData.FireRange);
+        Gizmos.DrawWireSphere(transform.position, stat.FireRange);
     }
 
     private void HandleFiring()
     {
         _fireTimer += Time.deltaTime;
-        if (_fireTimer >= TowerData.FireRate && EnemyToKill.Count > 0)
+        if (_fireTimer >= stat.FireRate && EnemyToKill.Count > 0)
         {
             _fireTimer = 0.0f;
             Fire(EnemyToKill[0]);
@@ -166,9 +183,20 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
         {
             DestroyTower(this);
         }
-        if(TowerBuilder.Instance.CanUpgradeTower)
+        if (TowerBuilder.Instance.CanUpgradeTower)
         {
             Upgrade();
         }
+    }
+
+    private void OnMouseOver()
+    {
+        UiManager.Instance.IsActive = true;
+        UiManager.Instance.ActivateTowerInfoPanel(this);
+    }
+    private void OnMouseExit()
+    {
+        UiManager.Instance.IsActive = false;
+        UiManager.Instance.ActivateTowerInfoPanel(this);
     }
 }

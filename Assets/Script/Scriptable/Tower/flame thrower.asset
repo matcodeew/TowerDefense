@@ -18,8 +18,13 @@ MonoBehaviour:
     MaxEnemyChain: 0
   Prefab: {fileID: 3723666213160026594, guid: 4fb197682e9d0ef4e8c7878cc3b5c874, type: 3}
   PreviewPrefab: {fileID: 3723666213160026594, guid: 4fb197682e9d0ef4e8c7878cc3b5c874, type: 3}
+  Vfx: {fileID: 0}
   Damage: 0.5
   FireRate: 0.25
   FireRange: 1.5
   GoldsCost: 150
   Size: {x: 1, y: 1}
+  UpgradeDamage: 0
+  UpgradeFireRate: 0
+  UpgradeFireRange: 0
+  MaxUpgrade: 0
