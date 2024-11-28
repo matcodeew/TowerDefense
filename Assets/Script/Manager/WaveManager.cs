@@ -26,6 +26,7 @@ public class WaveManager : MonoBehaviour
     private float _timer;
     public bool CanStartFirstWave = false;
     private bool IsFirstWave = true;
+    private float progressValue;
 
     [Header("Debug Enemy")]
     [SerializeField] private float NumbsOfEnemyToSpawn;
@@ -47,16 +48,31 @@ public class WaveManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!WaveIsFinish() || LevelFinished()) return;
+        if (!StartingWaveTimer() || LevelFinished()) return;
         _timer += Time.deltaTime;
+
+        progressValue = _timer / TimeToWait;
+        UiManager.Instance.ProgressBar.fillAmount = progressValue;
+
         if (_timer >= TimeToWait)
         {
+            progressValue = 0;
+            UiManager.Instance.ProgressBar.fillAmount = progressValue;
             _timer = 0.0f;
             StartNextWave();
         }
     }
 
-    public bool WaveIsFinish() => EnemyKill >= (int)NumbsOfEnemyToSpawn;
+    public void LunchGame()
+    {
+        CanStartFirstWave = true;
+        progressValue = 0;
+        UiManager.Instance.ProgressBar.fillAmount = progressValue;
+       // WaveButtonAnimation.Pause();
+    }
+
+    public bool StartingWaveTimer() => EnemyKill >= (int)NumbsOfEnemyToSpawn / 2;
+
     public bool LevelFinished() => _waveIndex >= RessourceManager.Instance.MaxWave;
     public void StartNextWave()
     {
@@ -85,5 +101,7 @@ public class WaveManager : MonoBehaviour
             }
         }
         EventsManager.WaveStarted(EnemyData, NumbsOfEnemyToSpawn);
+        int AugmentTime = (int)(TimeToWait * 1.1);
+        TimeToWait = AugmentTime; 
     }
 }
