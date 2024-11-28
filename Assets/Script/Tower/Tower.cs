@@ -31,6 +31,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 
     [Header("Show Range")]
     private GameObject newRange;
+    [SerializeField] private GameObject towerRangePrefab;
     private bool rangeCreated = false;
     [SerializeField] private Material RangeMaterial;
 
@@ -211,9 +212,13 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
         if (rangeCreated)
         {
             rangeCreated = false;
-            newRange = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            newRange.GetComponent<BoxCollider>().enabled = false;
-            newRange.GetComponent<MeshRenderer>().material = RangeMaterial;
+            //newRange = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            //newRange.GetComponent<BoxCollider>().enabled = false;
+            //newRange.GetComponent<MeshRenderer>().material = RangeMaterial;
+            //newRange.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+            //newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
+
+            newRange = Instantiate(towerRangePrefab);
             newRange.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
             newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
         }
