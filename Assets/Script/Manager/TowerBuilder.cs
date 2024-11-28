@@ -1,32 +1,53 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerBuilder : MonoBehaviour
 {
+    [System.Serializable]
+    private struct ButtonTower
+    {
+       public TextMeshProUGUI text;
+       public S_Tower towerType;
+    }
     public static TowerBuilder Instance;
-
     public S_Tower tower;
-    public bool UpdatePos;
+    [HideInInspector] public bool CanDestroyTower = false;
+    [HideInInspector] public bool CanUpgradeTower = false;
+    [HideInInspector] public List<Tile> TilesOccupied = new();
+    [HideInInspector] public List<Tower> AllTowerPosedOnMap = new();
+
+
+    private bool UpdatePos;
     private GameObject preview;
-    [SerializeField] private LayerMask TowerLayer;
-    public Quaternion previewRotation;
+    private Quaternion previewRotation;
+    [SerializeField] private LayerMask DefaultLayer;
 
-    public bool CanDestroyTower = false;
-    public bool CanUpgradeTower = false;
+    [Space]
+    [Header("UI")]
+    [SerializeField] private List<ButtonTower> allButtonTower = new();
+    [SerializeField] private Color LockColor;
+    [SerializeField] private GameObject CancelBuildingButton;
+    [SerializeField] private GameObject DestroyTowerButton;
+    [SerializeField] private GameObject UpgradeTowerButton;
 
-    public List<Tile> TilesOccupied = new();
-    public List<Tower> AllTowerPosedOnMap = new();
-    [SerializeField] private List<GameObject> ButtonForBuildingTower = new();
-    [SerializeField] private List<Tower> TowerOnBuilderPanel = new();
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
         }
+        foreach(var towerUI in allButtonTower)
+        {
+            towerUI.text.text = towerUI.towerType.Type.ToString();
+        }
     }
     public void BuildTower(S_Tower data, Vector3 position)
     {
+        CancelBuildingButton.SetActive(false);
+
         GameObject newTower = Instantiate(tower.Prefab, position, previewRotation);
         IBuildable buildableTower = newTower.GetComponent<IBuildable>();
 
@@ -36,7 +57,7 @@ public class TowerBuilder : MonoBehaviour
         {
             newTower.GetComponent<Tower>().isPosed = true;
             buildableTower.Build(data, position);
-            newTower.layer = TowerLayer;
+            newTower.layer = DefaultLayer;
         }
     }
     #region Try To Pose Tower
@@ -107,6 +128,27 @@ public class TowerBuilder : MonoBehaviour
     }
     #endregion
 
-    public void CanDestroy() => CanDestroyTower = !CanDestroyTower;
-    public void CanUpgrade() => CanUpgradeTower = !CanUpgradeTower;
+    public void ResetAction()
+    {
+        CanUpgradeTower = false;
+        UpgradeTowerButton.GetComponent<Image>().color = Color.white;
+        CanDestroyTower = false;
+        DestroyTowerButton.GetComponent<Image>().color = Color.white;
+    }
+    public void CanDestroy()
+    {
+        CanUpgradeTower = false;
+        UpgradeTowerButton.GetComponent<Image>().color = Color.white;
+
+        CanDestroyTower = !CanDestroyTower;
+        DestroyTowerButton.GetComponent<Image>().color = (CanDestroyTower ^ CanUpgradeTower) ? LockColor : Color.white;
+    }
+    public void CanUpgrade()
+    {
+        CanDestroyTower = false;
+        DestroyTowerButton.GetComponent<Image>().color = Color.white;
+
+        CanUpgradeTower = !CanUpgradeTower;
+        UpgradeTowerButton.GetComponent<Image>().color = (CanUpgradeTower ^ CanDestroyTower) ? LockColor : Color.white;
+    }
 }

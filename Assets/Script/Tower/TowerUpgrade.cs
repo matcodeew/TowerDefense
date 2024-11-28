@@ -9,8 +9,6 @@ public class TowerUpgrade : MonoBehaviour
     [SerializeField] private GameObject upgradePanel;
     private bool isActive;
 
-    [SerializeField] private List<GameObject> ButtonForBuildingTower = new();
-
     private void Awake()
     {
         if (Instance == null)

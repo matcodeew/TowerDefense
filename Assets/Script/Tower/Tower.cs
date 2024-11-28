@@ -184,16 +184,20 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     {
         foreach (Tile tile in TowerBuilder.Instance.TilesOccupied)
         {
-            if (tile.transform.position + new Vector3(0, 1, 0) == tower.transform.position)
+            if (tile.transform.position + tower.TowerData.PosOnMap == tower.transform.position)
             {
                 tile.IsOccupied = false;
                 break;
             }
         }
-
         EventsManager.TowerDestroy(tower);
         TowerBuilder.Instance.AllTowerPosedOnMap.Remove(tower);
+        TowerBuilder.Instance.CanDestroy();
         Destroy(tower.gameObject);
+
+        //UiManager.Instance.IsActive = false;
+        //UiManager.Instance.ActivateTowerInfoPanel(this);
+        //DestroyRange();
     }
 
     private void OnMouseDown()
@@ -235,6 +239,12 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
         ShowRange();
     }
     private void OnMouseExit()
+    {
+        UiManager.Instance.IsActive = false;
+        UiManager.Instance.ActivateTowerInfoPanel(this);
+        DestroyRange();
+    }
+    private void OnDestroy()
     {
         UiManager.Instance.IsActive = false;
         UiManager.Instance.ActivateTowerInfoPanel(this);
