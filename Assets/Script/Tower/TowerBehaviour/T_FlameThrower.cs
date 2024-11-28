@@ -25,11 +25,14 @@ public class T_FlameThrower : MonoBehaviour, IShootable
             StartCoroutine(BoxCastRoutine());
         }
     }
-    public void StartVfx(ParticleSystem VfxToUse)
+    public void HitVfx(ParticleSystem VfxToUse)
     {
 
     }
+    public void FireVfx(ParticleSystem VfxToUse)
+    {
 
+    }
     public void StartSfx(GameObject SoundToUse)
     {
 

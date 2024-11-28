@@ -18,7 +18,7 @@ public class T_OneByOne : MonoBehaviour, IShootable
             enemyTarget.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.stat.Damage);
         }
     }
-    public void StartVfx(ParticleSystem VfxToUse)
+    public void HitVfx(ParticleSystem VfxToUse)
     {
         VfxToUse.gameObject.transform.position = targetedEnemy.transform.position;
         VfxToUse.Play();
@@ -26,6 +26,9 @@ public class T_OneByOne : MonoBehaviour, IShootable
         targetedEnemy = null;
     }
 
+    public void FireVfx(ParticleSystem VfxToUse)
+    {
+    }
     public void StartSfx(GameObject SoundToUse)
     {
 

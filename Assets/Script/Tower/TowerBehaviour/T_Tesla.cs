@@ -17,15 +17,18 @@ public class T_Tesla : MonoBehaviour, IShootable
     {
         AllTarget.Clear();
         EnemyDivider = 0;
-        if(tower.EnemyToKill.Count > 0)
+        if (tower.EnemyToKill.Count > 0)
         {
             MakeChainEffect();
         }
     }
-    public void StartVfx(ParticleSystem VfxToUse)
+    public void HitVfx(ParticleSystem VfxToUse)
     {
         VfxToUse.gameObject.transform.position = currentTarget.transform.position;
         VfxToUse.Play();
+    }
+    public void FireVfx(ParticleSystem VfxToUse)
+    {
     }
     public void EndVfx(ParticleSystem VfxToUse)
     {
@@ -53,11 +56,11 @@ public class T_Tesla : MonoBehaviour, IShootable
         {
             EnemyDivider++;
             currentTarget = enemy;
-            StartVfx(tower.towerParticleSystem);
+            HitVfx(tower.TowerHitVfx);
             enemy.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.stat.Damage / EnemyDivider);
 
             yield return new WaitForSeconds(0.2f);
-            EndVfx(tower.towerParticleSystem);
+            EndVfx(tower.TowerHitVfx);
         }
         currentTarget = null;
     }

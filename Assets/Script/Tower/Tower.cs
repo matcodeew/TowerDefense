@@ -20,7 +20,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     private float _fireTimer;
     private int YRotate = 0;
     public bool isPosed = false;
-    public ParticleSystem towerParticleSystem;
+    public ParticleSystem TowerHitVfx;
 
 
     [Header("Upgrade Count")]
@@ -56,9 +56,8 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     public void Build(S_Tower data, Vector3 position)
     {
         GameObject vfxObject = Instantiate(data.Vfx, transform);
-        towerParticleSystem = vfxObject.GetComponent<ParticleSystem>();
-        towerParticleSystem.transform.localPosition = new Vector3(0, 1, 0);
-        towerParticleSystem.Stop();
+        TowerHitVfx = vfxObject.GetComponent<ParticleSystem>();
+        TowerHitVfx.Stop();
         transform.position = position;
 
         InitializeTower(data);
@@ -77,6 +76,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
             if (EnemyToKill.Count > 0)
             {
                 shootable.Fire(enemyTarget);
+                shootable.FireVfx(TowerHitVfx);
             }
             else
             {
@@ -89,7 +89,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
         IShootable shootable = GetComponent<IShootable>();
         if (shootable != null)
         {
-            shootable.StartVfx(towerParticleSystem);
+            shootable.HitVfx(TowerHitVfx);
         }
     }
 
