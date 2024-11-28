@@ -30,9 +30,9 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 
 
     [Header("Show Range")]
-    private GameObject newRange;
+    public GameObject newRange;
     [SerializeField] private GameObject towerRangePrefab;
-    private bool rangeCreated = false;
+    public bool rangeCreated = false;
     [SerializeField] private Material RangeMaterial;
 
     //[Header("Tower Upgrade Panel")]
@@ -60,7 +60,9 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
         towerParticleSystem.transform.localPosition = new Vector3(0, 1, 0);
         towerParticleSystem.Stop();
         transform.position = position;
+
         InitializeTower(data);
+
         EventsManager.TowerBuild(this);
 
         // mettre ici des effets visuel sur la construction de la tour comme vfx ou audio si commun a chaque tower
@@ -106,6 +108,8 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     public void InitializeTower(S_Tower data)
     {
         TowerData = data;
+
+
         stat.FireRate = data.FireRate;
         stat.FireRange = data.FireRange;
         stat.GoldsCost = data.GoldsCost;
@@ -149,9 +153,6 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
                 EnemyToKill.Add(hit.gameObject);
             }
         }
-
-
-        //GameObject ok = GameObject.CreatePrimitive(PrimitiveType.Sphere); // faire sa pour mettre preview zone
         EnemyToKill.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
         EnemyToKill = EnemyToKill.OrderBy((enemyToFocus) => enemyToFocus.GetComponent<EnemyBehaviour>().totalDistanceToGoal).ToList();
 
@@ -211,43 +212,48 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
             Upgrade();
         }
     }
-    private void ShowRange()
+    public void ShowRange()
     {
         if (rangeCreated)
         {
             rangeCreated = false;
-            //newRange = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            //newRange.GetComponent<BoxCollider>().enabled = false;
-            //newRange.GetComponent<MeshRenderer>().material = RangeMaterial;
-            //newRange.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
-            //newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
-
             newRange = Instantiate(towerRangePrefab);
             newRange.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
             newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
         }
     }
-    private void DestroyRange()
+    public void DestroyRange()
     {
         Destroy(newRange);
         rangeCreated = true;
     }
     private void OnMouseOver()
     {
-        UiManager.Instance.IsActive = true;
-        UiManager.Instance.ActivateTowerInfoPanel(this);
-        ShowRange();
+        if (!TowerBuilder.Instance.CanUpgradeTower)
+        {
+            UiManager.Instance.TowerInfoPanelIsActive = true;
+            UiManager.Instance.ShowTowerInfoPanel();
+            UiManager.Instance.UpdateTowerInfoPanel(this);
+            ShowRange();
+        }
     }
     private void OnMouseExit()
     {
-        UiManager.Instance.IsActive = false;
-        UiManager.Instance.ActivateTowerInfoPanel(this);
+        if (!TowerBuilder.Instance.CanUpgradeTower)
+        {
+            UiManager.Instance.TowerInfoPanelIsActive = false;
+            UiManager.Instance.ShowTowerInfoPanel();
+        }
+        DestroyRange();
+    }
+    public void HideInfoPanel()
+    {
+        UiManager.Instance.TowerInfoPanelIsActive = false;
+        UiManager.Instance.ShowTowerInfoPanel();
         DestroyRange();
     }
     private void OnDestroy()
     {
-        UiManager.Instance.IsActive = false;
-        UiManager.Instance.ActivateTowerInfoPanel(this);
-        DestroyRange();
+        HideInfoPanel();
     }
 }

@@ -8,11 +8,12 @@ public class TowerBuilder : MonoBehaviour
     [System.Serializable]
     private struct ButtonTower
     {
-       public TextMeshProUGUI text;
-       public S_Tower towerType;
+        public TextMeshProUGUI text;
+        public S_Tower towerType;
     }
     public static TowerBuilder Instance;
-    public S_Tower tower;
+    public S_Tower TowerData;
+    private Tower tower;
     [HideInInspector] public bool CanDestroyTower = false;
     [HideInInspector] public bool CanUpgradeTower = false;
     [HideInInspector] public List<Tile> TilesOccupied = new();
@@ -26,8 +27,11 @@ public class TowerBuilder : MonoBehaviour
 
     [Space]
     [Header("UI")]
+    [SerializeField] public Color LockColor;
+    [SerializeField] public Color SelectedColor;
     [SerializeField] private List<ButtonTower> allButtonTower = new();
-    [SerializeField] private Color LockColor;
+    [SerializeField] private List<GameObject> builderButtonTower = new();
+    [SerializeField] private List<S_Tower> towerToInstantiate = new();
     [SerializeField] private GameObject CancelBuildingButton;
     [SerializeField] private GameObject DestroyTowerButton;
     [SerializeField] private GameObject UpgradeTowerButton;
@@ -39,7 +43,7 @@ public class TowerBuilder : MonoBehaviour
         {
             Instance = this;
         }
-        foreach(var towerUI in allButtonTower)
+        foreach (var towerUI in allButtonTower)
         {
             towerUI.text.text = towerUI.towerType.Type.ToString();
         }
@@ -47,8 +51,7 @@ public class TowerBuilder : MonoBehaviour
     public void BuildTower(S_Tower data, Vector3 position)
     {
         CancelBuildingButton.SetActive(false);
-
-        GameObject newTower = Instantiate(tower.Prefab, position, previewRotation);
+        GameObject newTower = Instantiate(TowerData.Prefab, position, previewRotation);
         IBuildable buildableTower = newTower.GetComponent<IBuildable>();
 
         AllTowerPosedOnMap.Add(buildableTower as Tower);
@@ -59,6 +62,7 @@ public class TowerBuilder : MonoBehaviour
             buildableTower.Build(data, position);
             newTower.layer = DefaultLayer;
         }
+        ChangeBuilderButtonColor();
     }
     #region Try To Pose Tower
     private void Update()
@@ -68,7 +72,8 @@ public class TowerBuilder : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                preview.transform.position = hit.point + tower.PosOnMap;
+                preview.transform.position = hit.point + TowerData.PosOnMap;
+                tower.newRange.transform.position = hit.point;
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (hit.collider.CompareTag("TowerTile"))
@@ -77,7 +82,7 @@ public class TowerBuilder : MonoBehaviour
                         if (tile != null && !tile.IsOccupied)
                         {
                             CancelPreview();
-                            BuildTower(tower, hit.collider.transform.position + tower.PosOnMap);
+                            BuildTower(TowerData, hit.collider.transform.position + TowerData.PosOnMap);
                             TilesOccupied.Add(tile);
                             tile.IsOccupied = true;
                         }
@@ -98,27 +103,32 @@ public class TowerBuilder : MonoBehaviour
     {
         if (preview == null)
         {
-            preview = Instantiate(tower.PreviewPrefab);
+            preview = Instantiate(TowerData.PreviewPrefab);
+            tower.rangeCreated = true;
+            tower.ShowRange();
+            UpdatePos = true;
         }
     }
-    public void PosTower(S_Tower tower)
+    public void PosTower(S_Tower _tower)
     {
-        this.tower = tower;
-        if (RessourceManager.Instance.HaveRessource(this.tower.Prefab.GetComponent<Tower>()))
+        TowerData = _tower;
+        this.tower = TowerData.Prefab.GetComponent<Tower>();
+        if (RessourceManager.Instance.HaveRessource(this.tower))
         {
-            this.tower.Prefab.GetComponent<Tower>().InitializeTower(tower);
-            UpdatePos = true;
+            tower.InitializeTower(_tower);
             MakePreview();
         }
         else
         {
-            print($"{RessourceManager.Instance.currentGold} is less than {this.tower.GoldsCost}");
+            print($"{RessourceManager.Instance.currentGold} is less than {this.TowerData.GoldsCost}");
         }
+        ChangeBuilderButtonColor();
     }
     public void CancelPreview()
     {
         if (preview != null)
         {
+            tower.DestroyRange();
             previewRotation = preview.transform.rotation;
             Destroy(preview);
         }
@@ -130,18 +140,24 @@ public class TowerBuilder : MonoBehaviour
 
     public void ResetAction()
     {
+        UiManager.Instance.TowerInfoPanelIsActive = false;
         CanUpgradeTower = false;
         UpgradeTowerButton.GetComponent<Image>().color = Color.white;
         CanDestroyTower = false;
         DestroyTowerButton.GetComponent<Image>().color = Color.white;
+
+        ChangeBuilderButtonColor();
     }
     public void CanDestroy()
     {
+
         CanUpgradeTower = false;
         UpgradeTowerButton.GetComponent<Image>().color = Color.white;
 
         CanDestroyTower = !CanDestroyTower;
-        DestroyTowerButton.GetComponent<Image>().color = (CanDestroyTower ^ CanUpgradeTower) ? LockColor : Color.white;
+        DestroyTowerButton.GetComponent<Image>().color = (CanDestroyTower ^ CanUpgradeTower) ? SelectedColor : Color.white;
+
+        ChangeBuilderButtonColor();
     }
     public void CanUpgrade()
     {
@@ -149,6 +165,25 @@ public class TowerBuilder : MonoBehaviour
         DestroyTowerButton.GetComponent<Image>().color = Color.white;
 
         CanUpgradeTower = !CanUpgradeTower;
-        UpgradeTowerButton.GetComponent<Image>().color = (CanUpgradeTower ^ CanDestroyTower) ? LockColor : Color.white;
+        UpgradeTowerButton.GetComponent<Image>().color = (CanUpgradeTower ^ CanDestroyTower) ? SelectedColor : Color.white;
+
+        ChangeBuilderButtonColor();
+        UiManager.Instance.TowerInfoPanelIsActive = true;
     }
+
+    public void ChangeBuilderButtonColor()
+    {
+        for (int i = 0; i < towerToInstantiate.Count; i++)
+        {
+            if (RessourceManager.Instance.currentGold < towerToInstantiate[i].GoldsCost)
+            {
+                builderButtonTower[i].GetComponent<Image>().color = LockColor;
+            }
+            else
+            {
+                builderButtonTower[i].GetComponent<Image>().color = Color.white;
+            }
+        }
+    }
+
 }

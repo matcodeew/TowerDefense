@@ -26,7 +26,6 @@ public class S_Tower : ScriptableObject
     public float UpgradeDamage;
     public float UpgradeFireRate;
     public float UpgradeFireRange;
-    public int MaxUpgrade;
 
     public enum TowerType
     {

@@ -29,6 +29,6 @@ public static class EventsManager
     }
     public static void TowerDestroy(Tower tower)
     {
-        OnTowerBuild?.Invoke(tower);
+        OnTowerDestroy?.Invoke(tower);
     }
 }

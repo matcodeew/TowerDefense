@@ -26,9 +26,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Damage;
     [SerializeField] private TextMeshProUGUI FireRate;
     [SerializeField] private TextMeshProUGUI Range;
-    [SerializeField] private TextMeshProUGUI UpgradeCount;
 
-    public bool IsActive;
+    public bool TowerInfoPanelIsActive;
     private void Awake()
     {
         if (Instance == null)
@@ -70,20 +69,27 @@ public class UiManager : MonoBehaviour
     }
     private void UpdateWave()
     {
-        wave.text.text = $" {instance.CurrentWave}/{instance.MaxWave}";
+        wave.text.text = $"Waves {instance.CurrentWave}/{instance.MaxWave}";
     }
     private void UpdateLife(int value)
     {
         life.text.text = instance.BaseLife.ToString();
     }
-    public void ActivateTowerInfoPanel(Tower tower)
+    public void UpdateTowerInfoPanel(Tower tower)
     {
-        towerInfoPanel.SetActive(IsActive);
-        towerName.text = tower.TowerData.Type.ToString();
-
-        Damage.text = $"{tower.stat.Damage.ToString()} dmg";
-        FireRate.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
-        Range.text = $"{tower.stat.FireRange.ToString()}";
-        UpgradeCount.text = $"{tower.stat.GoldsCost.ToString()} (golds)";
+        if (tower.isPosed && tower != null)
+        {
+            towerName.text = tower.TowerData.Type.ToString();
+            Damage.text = $"{tower.stat.Damage.ToString()} dmg";
+            FireRate.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
+            Range.text = $"{tower.stat.FireRange.ToString()}";
+        }
     }
-}   
+    public void ShowTowerInfoPanel()
+    {
+        if (towerInfoPanel != null)
+        {
+            towerInfoPanel.SetActive(TowerInfoPanelIsActive);
+        }
+    }
+}
