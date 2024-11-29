@@ -84,9 +84,9 @@ public class UiManager : MonoBehaviour
         if (tower.isPosed && tower != null)
         {
             towerName.text = tower.TowerData.Type.ToString();
-            Damage.text = $"{tower.stat.Damage.ToString()} dmg";
+            Damage.text = $"{tower.stat.Damage.ToString("0.00")} dmg";
             FireRate.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
-            Range.text = $"{tower.stat.FireRange.ToString()}";
+            Range.text = $"{tower.stat.FireRange.ToString("0.0")}";
         }
     }
     public void ShowTowerInfoPanel()

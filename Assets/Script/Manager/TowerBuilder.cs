@@ -20,7 +20,7 @@ public class TowerBuilder : MonoBehaviour
     [HideInInspector] public List<Tower> AllTowerPosedOnMap = new();
 
 
-    private bool UpdatePos;
+    public bool DragTower;
     private GameObject preview;
     private Quaternion previewRotation;
     [SerializeField] private LayerMask DefaultLayer;
@@ -67,12 +67,12 @@ public class TowerBuilder : MonoBehaviour
     #region Try To Pose Tower
     private void Update()
     {
-        if (UpdatePos)
+        if (DragTower)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                preview.transform.position = hit.point + TowerData.PosOnMap;
+                preview.transform.position = hit.point /*+ TowerData.PosOnMap*/;
                 tower.newRange.transform.position = hit.point;
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -106,7 +106,7 @@ public class TowerBuilder : MonoBehaviour
             preview = Instantiate(TowerData.PreviewPrefab);
             tower.rangeCreated = true;
             tower.ShowRange();
-            UpdatePos = true;
+            DragTower = true;
         }
     }
     public void PosTower(S_Tower _tower)
@@ -132,9 +132,9 @@ public class TowerBuilder : MonoBehaviour
             previewRotation = preview.transform.rotation;
             Destroy(preview);
         }
-
         preview = null;
-        UpdatePos = false;
+        DragTower = false;
+        MapManager.Instance.ResetHeightTile();
     }
     #endregion
 
@@ -150,7 +150,6 @@ public class TowerBuilder : MonoBehaviour
     }
     public void CanDestroy()
     {
-
         CanUpgradeTower = false;
         UpgradeTowerButton.GetComponent<Image>().color = Color.white;
 

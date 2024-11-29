@@ -5,6 +5,7 @@ public class T_Canon : MonoBehaviour, IShootable
 {
     public Tower tower;
     private GameObject targetedEnemy;
+    private Vector3 EnemyPos = Vector3.zero;
     [SerializeField] private GameObject Bullet;
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class T_Canon : MonoBehaviour, IShootable
         if (tower.EnemyToKill.Count > 0)
         {
             targetedEnemy = enemyTarget;
+            EnemyPos = targetedEnemy.transform.position;
             Collider[] AllHit = Physics.OverlapSphere(targetedEnemy.transform.position, tower.TowerData.ZoneEffect.EffectRadius, tower.layerAccept);
             foreach (var enemy in AllHit)
             {
@@ -27,7 +29,7 @@ public class T_Canon : MonoBehaviour, IShootable
     {
         if (targetedEnemy != null)
         {
-            VfxToUse.gameObject.transform.position = targetedEnemy.transform.position;
+            VfxToUse.gameObject.transform.position = EnemyPos;
             VfxToUse.transform.localScale = new Vector3(25, 25, 25);
             VfxToUse.Play();
             targetedEnemy = null;

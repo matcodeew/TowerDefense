@@ -96,12 +96,10 @@ public class WaveManager : MonoBehaviour
             else // spawn Normal
             {
                 EnemyData = EnemyToInstantiate.Normal;
-                NumbsOfNormalTemp *= 1.5f;
+                NumbsOfNormalTemp += 15;
                 NumbsOfEnemyToSpawn = NumbsOfNormalTemp;
             }
         }
         EventsManager.WaveStarted(EnemyData, NumbsOfEnemyToSpawn);
-        int AugmentTime = (int)(TimeToWait * 1.1);
-        TimeToWait = AugmentTime; 
     }
 }

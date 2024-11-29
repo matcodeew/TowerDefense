@@ -19,13 +19,14 @@ MonoBehaviour:
   Prefab: {fileID: 2087881151203568505, guid: db87de0525e430549ad520318100c61f, type: 3}
   PreviewPrefab: {fileID: 2087881151203568505, guid: db87de0525e430549ad520318100c61f, type: 3}
   PosOnMap: {x: 0, y: 2.5, z: 0}
-  Vfx: {fileID: 8762405910555896786, guid: fcb74f28d107e284e80af037bfec14ca, type: 3}
+  RotateCore: {fileID: 0}
+  HitVfx: {fileID: 8762405910555896786, guid: fcb74f28d107e284e80af037bfec14ca, type: 3}
+  TowerFireVfx: {fileID: 0}
   Damage: 1.5
   FireRate: 1.25
   FireRange: 3.75
   GoldsCost: 175
   Size: {x: 1, y: 1}
-  UpgradeDamage: 0
-  UpgradeFireRate: 0
-  UpgradeFireRange: 0
-  MaxUpgrade: 0
+  UpgradeDamage: 0.5
+  UpgradeFireRate: 0.083
+  UpgradeFireRange: 0.15

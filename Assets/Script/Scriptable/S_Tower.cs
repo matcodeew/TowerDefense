@@ -13,7 +13,8 @@ public class S_Tower : ScriptableObject
     public GameObject RotateCore;
 
     [Header("VFX")]
-    public GameObject Vfx;
+    public GameObject HitVfx;
+    public GameObject TowerFireVfx;
 
     [Header("Tower Stats")]
     public float Damage;
@@ -32,7 +33,7 @@ public class S_Tower : ScriptableObject
         Canon,
         ChemicalWeapon,
         sniper,
-        MachineGun,
+        Gatling,
         Tesla,
         FlameThrower,
 

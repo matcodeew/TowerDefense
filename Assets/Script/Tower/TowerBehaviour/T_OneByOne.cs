@@ -16,12 +16,17 @@ public class T_OneByOne : MonoBehaviour, IShootable
         {
             targetedEnemy = enemyTarget;
             enemyTarget.GetComponent<EnemyBehaviour>().TakeDamage(tower, tower.stat.Damage);
+            tower.EnemyTouched();
         }
     }
     public void HitVfx(ParticleSystem VfxToUse)
     {
         VfxToUse.gameObject.transform.position = targetedEnemy.transform.position;
         VfxToUse.Play();
+        if (tower.TowerData.Type == S_Tower.TowerType.Gatling)
+        {
+            VfxToUse.transform.localScale = new Vector3(25, 25, 25);    
+        }
 
         targetedEnemy = null;
     }

@@ -33,15 +33,10 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         EventsManager.OnWaveStart += UpdateStat;
-    }
-    private void Start()
-    {
         InitializePool(EnemyParent.Normal);
         InitializePool(EnemyParent.Elite);
         InitializePool(EnemyParent.Boss);
     }
-
-
     private void UpdateStat(S_Enemy _enemy, float _quantity)
     {
         int wave = 0;
@@ -76,7 +71,7 @@ public class ObjectPool : MonoBehaviour
             if (wave != 0)
             {
                 current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.MaxLifeMultiplicator));
-                current.stat.MoveSpeed = enemyToUpgrade.MoveSpeed * (enemyToUpgrade.MoveSpeedMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.MoveSpeedMultiplicator));
+                current.stat.MoveSpeed += enemyToUpgrade.MoveSpeedMultiplicator;
                 current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.DamageMultiplicator));
                 UpdateCurrentLife(current);
             }
@@ -127,7 +122,8 @@ public class ObjectPool : MonoBehaviour
         {
             if (!enemy.activeInHierarchy)
             {
-                StartCoroutine(ActivateEnemyWithDelay(enemy, 0.2f));
+                //StartCoroutine(ActivateEnemyWithDelay(enemy, 0.2f));
+                enemy.SetActive(true);
                 return enemy;
             }
         }
@@ -139,7 +135,8 @@ public class ObjectPool : MonoBehaviour
             newEnemy.transform.parent = poolData.Parent.transform;
             pools[type].Add(newEnemy);
 
-            StartCoroutine(ActivateEnemyWithDelay(newEnemy, 0.2f));
+            //StartCoroutine(ActivateEnemyWithDelay(newEnemy, 0.2f));
+            newEnemy.SetActive(true);
             return newEnemy;
         }
         return null;
@@ -159,8 +156,8 @@ public class ObjectPool : MonoBehaviour
         {
             return;
         }
-
         enemy.SetActive(false);
+        enemy.transform.position = Vector3.zero;
     }
 
     private PoolEnemy GetPoolData(EnemyType type)

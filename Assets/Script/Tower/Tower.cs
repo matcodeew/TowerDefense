@@ -55,7 +55,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     }
     public void Build(S_Tower data, Vector3 position)
     {
-        GameObject vfxObject = Instantiate(data.Vfx, transform);
+        GameObject vfxObject = Instantiate(data.HitVfx, transform);
         TowerHitVfx = vfxObject.GetComponent<ParticleSystem>();
         TowerHitVfx.Stop();
         transform.position = position;
