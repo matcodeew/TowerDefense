@@ -10,7 +10,6 @@ public class S_Tower : ScriptableObject
     public GameObject Prefab;
     public GameObject PreviewPrefab;
     public Vector3 PosOnMap;
-    public GameObject RotateCore;
 
     [Header("VFX")]
     public GameObject HitVfx;

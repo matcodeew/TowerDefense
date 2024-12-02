@@ -6,7 +6,7 @@ public class T_Canon : MonoBehaviour, IShootable
     public Tower tower;
     private GameObject targetedEnemy;
     private Vector3 EnemyPos = Vector3.zero;
-    [SerializeField] private GameObject Bullet;
+    [SerializeField] private GameObject FireFlash;
     private void Awake()
     {
         tower = GetComponent<Tower>();

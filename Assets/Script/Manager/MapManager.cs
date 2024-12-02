@@ -44,14 +44,14 @@ public class MapManager : MonoBehaviour
                 if (lastHoveredTile != null)
                 {
                     lastHoveredTile.position = originalPosition;
-                    //lastHoveredTile.GetComponent<MeshRenderer>().material = currentMat;
+                    lastHoveredTile.GetComponent<MeshRenderer>().material = currentMat;
                 }
 
                 lastHoveredTile = currentTile;
                 originalPosition = currentTile.position;
                 targetPosition = originalPosition + new Vector3(0, hoverHeight, 0);
                 currentTile.position = targetPosition;
-                currentTile.GetComponent<MeshRenderer>().material = null /*SelectedMat*/;
+                currentTile.GetComponent<MeshRenderer>().material = SelectedMat;
             }
 
         }

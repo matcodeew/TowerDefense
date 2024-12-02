@@ -53,7 +53,10 @@ public class WaveManager : MonoBehaviour
 
         progressValue = _timer / TimeToWait;
         UiManager.Instance.ProgressBar.fillAmount = progressValue;
-
+        if (_timer >= TimeToWait * 0.50f && _timer < TimeToWait)
+        {
+            UiAnimation.Instance.StartWaveButtonAnim();
+        }
         if (_timer >= TimeToWait)
         {
             progressValue = 0;
@@ -68,7 +71,7 @@ public class WaveManager : MonoBehaviour
         CanStartFirstWave = true;
         progressValue = 0;
         UiManager.Instance.ProgressBar.fillAmount = progressValue;
-       // WaveButtonAnimation.Pause();
+        UiAnimation.Instance.StopWaveButtonAnim();
     }
 
     public bool StartingWaveTimer() => EnemyKill >= (int)NumbsOfEnemyToSpawn / 2;
@@ -76,6 +79,7 @@ public class WaveManager : MonoBehaviour
     public bool LevelFinished() => _waveIndex >= RessourceManager.Instance.MaxWave;
     public void StartNextWave()
     {
+        UiAnimation.Instance.StopWaveButtonAnim();
         CurrentEnemyOnMap = 0;
         EnemyKill = 0;
         if (!IsFirstWave)

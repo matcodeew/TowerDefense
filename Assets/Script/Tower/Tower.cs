@@ -21,6 +21,8 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     private int YRotate = 0;
     public bool isPosed = false;
     public ParticleSystem TowerHitVfx;
+    private int LayerTileGround;
+    private Vector3 direction;
 
 
     [Header("Upgrade Count")]
@@ -42,6 +44,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     private void OnEnable()
     {
         EventsManager.OnWaveStart += ClearEnemyList;
+        LayerTileGround = LayerMask.NameToLayer("TileGround");
     }
 
     private void OnDisable()
@@ -158,17 +161,19 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
 
         if (EnemyToKill.Count > 0)
         {
-            Vector3 direction = EnemyToKill[0].transform.position - transform.position;
-            direction.y = 0;
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = targetRotation;
+            direction = EnemyToKill[0].transform.position - transform.position;
         }
+        direction.y = 0;
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        float rotationSpeed = 5f;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, stat.FireRange);
-    }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawWireSphere(transform.position, stat.FireRange);
+    //}
 
     private void HandleFiring()
     {
@@ -188,14 +193,16 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
             if (tile.transform.position + tower.TowerData.PosOnMap == tower.transform.position)
             {
                 tile.IsOccupied = false;
+
+                tile.gameObject.layer = LayerTileGround;
                 break;
             }
         }
         EventsManager.TowerDestroy(tower);
         TowerBuilder.Instance.AllTowerPosedOnMap.Remove(tower);
-        TowerBuilder.Instance.CanDestroy();
         Destroy(tower.gameObject);
 
+        //TowerBuilder.Instance.CanDestroy();
         //UiManager.Instance.IsActive = false;
         //UiManager.Instance.ActivateTowerInfoPanel(this);
         //DestroyRange();
@@ -229,7 +236,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     }
     private void OnMouseOver()
     {
-        if (!TowerBuilder.Instance.CanUpgradeTower)
+        if (!TowerBuilder.Instance.CanUpgradeTower && !TowerBuilder.Instance.DragTower)
         {
             UiManager.Instance.TowerInfoPanelIsActive = true;
             UiManager.Instance.ShowTowerInfoPanel();

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class TowerBuilder : MonoBehaviour
@@ -24,6 +25,7 @@ public class TowerBuilder : MonoBehaviour
     private GameObject preview;
     private Quaternion previewRotation;
     [SerializeField] private LayerMask DefaultLayer;
+    [SerializeField] public LayerMask TileGround;
 
     [Space]
     [Header("UI")]
@@ -70,12 +72,21 @@ public class TowerBuilder : MonoBehaviour
         if (DragTower)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, TileGround))
             {
-                preview.transform.position = hit.point /*+ TowerData.PosOnMap*/;
+                preview.transform.position = hit.point;
                 tower.newRange.transform.position = hit.point;
+
+                // Vérifie si un clic est effectué
                 if (Input.GetMouseButtonDown(0))
                 {
+                    // Ignore le clic si la souris est au-dessus d'un élément UI
+                    if (IsPointerOverUI())
+                    {
+                        return;
+                    }
+
+                    // Vérifie si le clic est sur une case de type "TowerTile"
                     if (hit.collider.CompareTag("TowerTile"))
                     {
                         Tile tile = hit.collider.gameObject.GetComponent<Tile>();
@@ -85,25 +96,29 @@ public class TowerBuilder : MonoBehaviour
                             BuildTower(TowerData, hit.collider.transform.position + TowerData.PosOnMap);
                             TilesOccupied.Add(tile);
                             tile.IsOccupied = true;
+                            tile.gameObject.layer = DefaultLayer;
+                            UiAnimation.Instance.ShowPanel();
                         }
                         else
                         {
-                            print("bat on this tile ");
+                            print("Case déjà occupée !");
                         }
                     }
-                    //else
-                    //{
-                    //    CancelPreview();
-                    //}
                 }
             }
         }
+    }
+
+    private bool IsPointerOverUI()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
     }
     private void MakePreview()
     {
         if (preview == null)
         {
             preview = Instantiate(TowerData.PreviewPrefab);
+            preview.GetComponent<BoxCollider>().enabled = false;
             tower.rangeCreated = true;
             tower.ShowRange();
             DragTower = true;
@@ -131,10 +146,10 @@ public class TowerBuilder : MonoBehaviour
             tower.DestroyRange();
             previewRotation = preview.transform.rotation;
             Destroy(preview);
+            preview = null;
+            DragTower = false;
+            MapManager.Instance.ResetHeightTile();
         }
-        preview = null;
-        DragTower = false;
-        MapManager.Instance.ResetHeightTile();
     }
     #endregion
 

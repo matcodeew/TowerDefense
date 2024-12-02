@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2087881151203568505}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 89.567375, y: 274.33844, z: 109.66044}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -59,7 +59,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   isPosed: 0
-  towerParticleSystem: {fileID: 0}
+  TowerHitVfx: {fileID: 0}
   DmgUpgradecount: 0
   FireRateUpgradecount: 0
   RangeUpgradecount: 0
@@ -101,8 +101,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.4395752, z: 1}
-  m_Center: {x: 0, y: -0.9425354, z: 0}
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1001 &3647263278256414142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c87a6a5bb35e1b4d838663fe6441d9a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c87a6a5bb35e1b4d838663fe6441d9a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -207,7 +207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 616971070fefe624994af960edf7c44c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 616971070fefe624994af960edf7c44c, type: 3}
       propertyPath: m_LocalPosition.z

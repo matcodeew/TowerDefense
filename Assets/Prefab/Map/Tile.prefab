@@ -123,3 +123,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsOccupied: 0
   TowerOnTop: {fileID: 0}
+  TileLayers:
+    serializedVersion: 2
+    m_Bits: 64
