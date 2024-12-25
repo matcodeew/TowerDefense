@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float panSpeed = 6f;
-    [SerializeField] private float edgeThreshold = 10f;
+    //[SerializeField] private float edgeThreshold = 10f;
     [SerializeField] private Vector2 movementBounds = new Vector2(-10f, 10f);
     [SerializeField] private float smoothTime = 0.2f;
 
@@ -33,11 +33,11 @@ public class CameraController : MonoBehaviour
 
     private bool CanMoveCameraTopSide()
     {
-        return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.mousePosition.y >= Screen.height - edgeThreshold;
+        return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.mousePosition.y >= Screen.height;
     }
 
     private bool CanMoveCameraDownSide()
     {
-        return Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.mousePosition.y <= edgeThreshold;
+        return Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.mousePosition.y <= 0;
     }
 }

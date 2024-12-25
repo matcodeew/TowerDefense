@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1874686060290276582}
-  - component: {fileID: -578046642005182920}
-  - component: {fileID: 3017602485835951002}
   - component: {fileID: 4950002103902794524}
+  - component: {fileID: 1727189161934816858}
   m_Layer: 2
   m_Name: Canon
   m_TagString: Untagged
@@ -36,51 +35,6 @@ Transform:
   - {fileID: 2659929269580588029}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-578046642005182920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466046887069395057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4c4b09bab488194baf7925b1a67c40f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TowerData: {fileID: 11400000, guid: f91f40e6fa507e0409c7381a00283fa2, type: 2}
-  stat:
-    Damage: 1.5
-    FireRate: 1
-    FireRange: 3
-    GoldsCost: 75
-  EnemyToKill: []
-  layerAccept:
-    serializedVersion: 2
-    m_Bits: 128
-  isPosed: 0
-  TowerHitVfx: {fileID: 0}
-  DmgUpgradecount: 0
-  FireRateUpgradecount: 0
-  RangeUpgradecount: 0
-  newRange: {fileID: 0}
-  towerRangePrefab: {fileID: 5254177007118983633, guid: 8da13e339ef21de44ac3e4ae23829baa, type: 3}
-  rangeCreated: 0
-  RangeMaterial: {fileID: 2100000, guid: 1f358f0c3d49ef64198900d04302559c, type: 2}
---- !u!114 &3017602485835951002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466046887069395057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 227e287c470626143af8ea7507f4ef03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tower: {fileID: 0}
-  FireFlash: {fileID: 2068146541843384690}
 --- !u!65 &4950002103902794524
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -102,6 +56,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 22.68143, y: 8.371096, z: 18.221287}
   m_Center: {x: 0.41343573, y: 3.6855469, z: -2.1170797}
+--- !u!114 &1727189161934816858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466046887069395057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 395aa0c2898701048880877fca1aacf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat:
+    FireRate: 0
+    FireRange: 0
+    GoldsCost: 0
+    Damage: 0
+  towerData: {fileID: 0}
+  layerAccept:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2068146541843384690
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ public class UiManager : MonoBehaviour
         public TextMeshProUGUI text;
     }
     #endregion
-    RessourceManager instance;
     public static UiManager Instance;
 
     [Header("Info Text To Update")]
@@ -42,8 +41,6 @@ public class UiManager : MonoBehaviour
 
     private void Start()
     {
-        instance = RessourceManager.Instance;
-
         UpdateGold();
         UpdateWave();
         UpdateLife(0);
@@ -61,7 +58,7 @@ public class UiManager : MonoBehaviour
     {
         UpdateGold();
     }
-    private void Event_UpdateWave(S_Enemy enemy, float quantity)
+    private void Event_UpdateWave(S_Enemy enemy, int quantity)
     {
         UpdateWave();
     }
@@ -69,21 +66,21 @@ public class UiManager : MonoBehaviour
 
     private void UpdateGold()
     {
-        gold.text.text = instance.currentGold.ToString();
+        gold.text.text = RessourceManager.CurrentGold.ToString();
     }
     private void UpdateWave()
     {
-        wave.text.text = $"Waves {instance.CurrentWave}/{instance.MaxWave}";
+        wave.text.text = $"Waves {RessourceManager.CurrentWave}/{RessourceManager.MaxWave}";
     }
     private void UpdateLife(int value)
     {
-        life.text.text = instance.BaseLife.ToString();
+        life.text.text = RessourceManager.BaseLife.ToString();
     }
     public void UpdateTowerInfoPanel(Tower tower)
     {
-        if (tower.isPosed && tower != null)
+        if (tower != null)
         {
-            towerName.text = tower.TowerData.Type.ToString();
+            towerName.text = tower.towerData.Type.ToString();
             Damage.text = $"{tower.stat.Damage.ToString("0.00")} dmg";
             FireRate.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
             Range.text = $"{tower.stat.FireRange.ToString("0.0")}";

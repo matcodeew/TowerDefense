@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 1260213132914588253}
   - component: {fileID: 3660108579380876327}
   - component: {fileID: 1816975244911269170}
-  - component: {fileID: 1765903076425035330}
-  - component: {fileID: 351440976818767206}
   - component: {fileID: 3491237706722214998}
   m_Layer: 2
   m_Name: TestSniper
@@ -89,48 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1765903076425035330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4715947882123935858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4c4b09bab488194baf7925b1a67c40f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TowerData: {fileID: 11400000, guid: e35302d4966e92546998447b91522628, type: 2}
-  stat:
-    Damage: 5
-    FireRate: 2
-    FireRange: 10
-    GoldsCost: 130
-  EnemyToKill: []
-  layerAccept:
-    serializedVersion: 2
-    m_Bits: 128
-  isPosed: 0
-  towerParticleSystem: {fileID: 0}
-  DmgUpgradecount: 0
-  FireRateUpgradecount: 0
-  RangeUpgradecount: 0
-  towerRangePrefab: {fileID: 5254177007118983633, guid: 8da13e339ef21de44ac3e4ae23829baa, type: 3}
-  RangeMaterial: {fileID: 2100000, guid: 1f358f0c3d49ef64198900d04302559c, type: 2}
---- !u!114 &351440976818767206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4715947882123935858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 321ec8db29a7b064f8c86b3d1ed52592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tower: {fileID: 0}
 --- !u!65 &3491237706722214998
 BoxCollider:
   m_ObjectHideFlags: 0

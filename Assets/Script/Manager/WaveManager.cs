@@ -1,109 +1,74 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
     public static WaveManager Instance;
-
-    [System.Serializable]
-    public struct EnemyTypeToInstantiate
+    #region Struct
+    [Serializable]
+    public struct EnemyData
     {
         public S_Enemy Normal;
+        [Space(1)]
         public S_Enemy Elite;
+        [Space(1)]
         public S_Enemy Boss;
     }
 
-    [Header("Wave Data")]
-    private float NumbsOfNormalTemp;
-    private float NumbsOfEliteTemp;
-    private float NumbsOfBossTemp;
-    [SerializeField] public EnemyTypeToInstantiate EnemyToInstantiate;
-    private S_Enemy EnemyData;
+    #endregion
 
-    public int _waveIndex = -1;
+    [Header("Enemy Data")]
+    [SerializeField] public EnemyData typeEnemyToSpawn;
+    private S_Enemy _currentEnemytoSpawn;
 
-    [Header("Wave Complete Condition")]
-    [SerializeField] private float TimeToWait;
-    private float _timer;
-    public bool CanStartFirstWave = false;
-    private bool IsFirstWave = true;
-    private float progressValue;
+    [Header("Nums Enemy To Spawn")]
+    private Dictionary<S_Enemy, int> _tempEnemyNumbs = new Dictionary<S_Enemy, int>();
 
-    [Header("Debug Enemy")]
-    [SerializeField] private float NumbsOfEnemyToSpawn;
-    public int CurrentEnemyOnMap;
-    public int EnemyKill;
+    [Header("Wave state")]
+    private int _wave;
+    public int EnemyKill { get; set; }
+    public int CurrentEnemyOnMap { get; set; }
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
+        if(Instance == null) { Instance = this; }
     }
     private void Start()
     {
-        IsFirstWave = false;
-        NumbsOfNormalTemp = 25;
-        NumbsOfEnemyToSpawn = NumbsOfNormalTemp;
-        EnemyData = EnemyToInstantiate.Normal;
-        EventsManager.WaveStarted(EnemyData, NumbsOfEnemyToSpawn);
+        InitializeDictionary();
     }
-    private void Update()
+    private void InitializeDictionary()
     {
-        if (!StartingWaveTimer() || LevelFinished()) return;
-        _timer += Time.deltaTime;
-
-        progressValue = _timer / TimeToWait;
-        UiManager.Instance.ProgressBar.fillAmount = progressValue;
-        if (_timer >= TimeToWait * 0.50f && _timer < TimeToWait)
+        foreach (var field in typeof(EnemyData).GetFields())
         {
-            UiAnimation.Instance.StartWaveButtonAnim();
-        }
-        if (_timer >= TimeToWait)
-        {
-            progressValue = 0;
-            UiManager.Instance.ProgressBar.fillAmount = progressValue;
-            _timer = 0.0f;
-            StartNextWave();
+            S_Enemy enemy = (S_Enemy)field.GetValue(typeEnemyToSpawn);
+            _tempEnemyNumbs.Add(enemy, 0);
         }
     }
-
-    public void LunchGame()
+    [ContextMenu("StartNewWave")]
+    public void StartNewWave()
     {
-        CanStartFirstWave = true;
-        progressValue = 0;
-        UiManager.Instance.ProgressBar.fillAmount = progressValue;
-        UiAnimation.Instance.StopWaveButtonAnim();
-    }
-
-    public bool StartingWaveTimer() => EnemyKill >= (int)NumbsOfEnemyToSpawn / 2;
-
-    public bool LevelFinished() => _waveIndex >= RessourceManager.Instance.MaxWave;
-    public void StartNextWave()
-    {
-        UiAnimation.Instance.StopWaveButtonAnim();
-        CurrentEnemyOnMap = 0;
-        EnemyKill = 0;
-        if (!IsFirstWave)
+        if (RessourceManager.StartNewWave())
         {
-            _waveIndex++;
-            if (_waveIndex % 3 == 0) // spawn elite
+            _wave = RessourceManager.CurrentWave;
+            if (_wave % 10 == 0) //Boss
             {
-                EnemyData = EnemyToInstantiate.Elite;
-                NumbsOfEliteTemp = (int)_waveIndex / 3;
-                NumbsOfEnemyToSpawn = NumbsOfEliteTemp;
+                _currentEnemytoSpawn = typeEnemyToSpawn.Boss;
+                _tempEnemyNumbs[_currentEnemytoSpawn] += 1;
             }
-            else if (_waveIndex % 10 == 0) // spawn boss
+            else if (_wave % 3 == 0) //Elite
             {
-                EnemyData = EnemyToInstantiate.Boss;
-                NumbsOfBossTemp = (int)_waveIndex / 10;
-                NumbsOfEnemyToSpawn = NumbsOfBossTemp;
+                _currentEnemytoSpawn = typeEnemyToSpawn.Elite;
+                _tempEnemyNumbs[_currentEnemytoSpawn] += 1;
             }
-            else // spawn Normal
+            else // Normal
             {
-                EnemyData = EnemyToInstantiate.Normal;
-                NumbsOfNormalTemp += 15;
-                NumbsOfEnemyToSpawn = NumbsOfNormalTemp;
+                _currentEnemytoSpawn = typeEnemyToSpawn.Normal;
+                _tempEnemyNumbs[_currentEnemytoSpawn] += 10;
             }
+            print($"enemy to instantiate {_currentEnemytoSpawn.name} on this quantity {_tempEnemyNumbs[_currentEnemytoSpawn]}");
+           EventsManager.StartNewWave(_currentEnemytoSpawn, _tempEnemyNumbs[_currentEnemytoSpawn]);
         }
-        EventsManager.WaveStarted(EnemyData, NumbsOfEnemyToSpawn);
     }
 }

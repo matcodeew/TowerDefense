@@ -35,27 +35,24 @@ public class EnemyBehaviour : MonoBehaviour
     {
         EnemyBehaviour enemyBehaviour = GetComponent<EnemyBehaviour>();
 
-        if (tower != null)
+        if (enemyBehaviour.stat.CurrentLife <= enemyBehaviour.stat.MaxLife && enemyBehaviour.stat.CurrentLife > 0)
         {
-            if (enemyBehaviour.stat.CurrentLife <= enemyBehaviour.stat.MaxLife && enemyBehaviour.stat.CurrentLife > 0)
+            enemyBehaviour.stat.CurrentLife -= damage;
+            if (enemyBehaviour.stat.CurrentLife < 0)
             {
-                enemyBehaviour.stat.CurrentLife -= damage;
-                if (enemyBehaviour.stat.CurrentLife < 0)
-                {
-                    Die(tower, gameObject);
-                }
-            }
-            else
-            {
-                Die(tower, gameObject);
+                Die(tower);
             }
         }
+        else
+        {
+            Die(tower);
+        }
     }
-    private void Die(Tower tower, GameObject enemyKill)
+    private void Die(Tower tower)
     {
-        RessourceManager.Instance.currentGold += EnemyData.goldValue;
-        tower.RemoveEnemyForAllTower(enemyKill);
-        Spawner.ReturnEnemyToPool(enemyKill, enemyKill.GetComponent<EnemyBehaviour>().EnemyData.type);
+        RessourceManager.AddGold(EnemyData.goldValue);
+        tower.RemoveEnemyForAllTower(gameObject);
+        Spawner.ReturnEnemyToPool(gameObject, EnemyData.type);
         WaveManager.Instance.EnemyKill++;
         EventsManager.EnemyDie();
     }

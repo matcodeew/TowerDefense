@@ -17,10 +17,9 @@ MonoBehaviour:
     EffectRadius: 0
     MaxEnemyChain: 0
   Prefab: {fileID: 5515990581628715943, guid: 2f1a0b8248a12c8489719aab695a97b1, type: 3}
-  PreviewPrefab: {fileID: 5515990581628715943, guid: 2f1a0b8248a12c8489719aab695a97b1, type: 3}
+  PreviewPrefab: {fileID: 0}
   PosOnMap: {x: 0, y: 0, z: 0}
-  RotateCore: {fileID: 0}
-  HitVfx: {fileID: 5238538877814813142, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
+  HitVfx: {fileID: 0}
   TowerFireVfx: {fileID: 0}
   Damage: 0.25
   FireRate: 0.15
