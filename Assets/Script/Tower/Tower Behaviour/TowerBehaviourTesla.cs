@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Script.Tower.Tower_Behaviour
 {
-    public class Tower_Tesla : global::Tower
+    public class TowerBehaviourTesla : global::Tower
     {
         [SerializeField] private List<GameObject> AllTarget = new();
         private int EnemyDivider = 0;

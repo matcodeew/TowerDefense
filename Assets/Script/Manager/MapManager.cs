@@ -16,18 +16,21 @@ public class MapManager : MonoBehaviour
     private Vector3 originalPosition;
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance is null)
             Instance = this;
-
     }
     void Update()
     {
-        if (TowerBuilderManager.Instance is null || TowerBuilderManager.Instance.DragTower == false) return;
+        if (TowerBuilderManager.Instance is null || TowerBuilderManager.Instance.DragTower == false)
+        {
+            ResetHeightTile(); 
+            return;
+        }
 
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, gridLayer))
+        if(Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, gridLayer))
         {
             currentTile = hit.transform;
             if (currentTile != lastHoveredTile)

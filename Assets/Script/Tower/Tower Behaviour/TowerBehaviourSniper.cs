@@ -1,5 +1,5 @@
 using UnityEngine;
-public class Tower_Sniper : global::Tower
+public class TowerBehaviourSniper : global::Tower
 {
     protected override void Fire(GameObject enemyToKill)
     {

@@ -31,46 +31,24 @@ public class UiManager : MonoBehaviour
             Instance = this;
         }
     }
-
     private void Start()
     {
         UpdateGold();
         UpdateWave();
-        UpdateLife(0);
+        UpdateLife();
     }
-    private void OnEnable()
-    {
-        EventsManager.OnEnemyDie += UpdateGold;
-        EventsManager.OnEnemyReachEnd += UpdateLife;
-        EventsManager.OnTowerBuild += UpdateGoldByTower;
-        EventsManager.OnTowerDestroy += UpdateGoldByTower;
-        EventsManager.OnWaveStart += UpdateWaveIndication;
-    }
-
-    private void UpdateGoldByTower(Tower tower)
-    {
-        UpdateGold();
-    }
-    private void UpdateWaveIndication(S_Enemy enemy, int quantity)
-    {
-        UpdateWave();
-    }
-
-
-    private void UpdateGold()
+    public void UpdateGold()
     {
         gold.text = RessourceManager.CurrentGold.ToString();
     }
-    private void UpdateWave()
+    public void UpdateWave()
     {
         wave.text = $"Waves {RessourceManager.CurrentWave}/{RessourceManager.MaxWave}";
     }
-    private void UpdateLife(int value)
+    public void UpdateLife()
     {
         life.text = RessourceManager.BaseLife.ToString();
     }
-    
-    
     public void UpdateTowerInfoPanel(Tower tower)
     {
         if (tower != null)

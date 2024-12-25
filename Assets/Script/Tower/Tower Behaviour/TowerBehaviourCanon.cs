@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Script.Tower.Tower_Behaviour
 {
-    public class Tower_Canon : global::Tower
+    public class TowerBehaviourCanon : global::Tower
     {
         protected override void Fire(GameObject enemyToKill)
         {
-            if (towerData != null)
+            if (towerData is not null)
             {
                 Collider[] allHit = Physics.OverlapSphere(enemyToKill.transform.position, towerData.ZoneEffect.EffectRadius, layerAccept);
                 foreach (var enemy in allHit)

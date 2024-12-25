@@ -5,6 +5,7 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     public static WaveManager Instance;
+    
     #region Struct
     [Serializable]
     public struct EnemyData
@@ -25,14 +26,14 @@ public class WaveManager : MonoBehaviour
     [Header("Nums Enemy To Spawn")]
     private Dictionary<S_Enemy, int> _tempEnemyNumbs = new Dictionary<S_Enemy, int>();
 
-    [Header("Wave state")]
+    [Header("Wave Management")]
     private int _wave;
-    public int EnemyKill { get; set; }
-    public int CurrentEnemyOnMap { get; set; }
+    public int EnemyKill;
+    public int CurrentEnemyOnMap;
 
     private void Awake()
     {
-        if(Instance == null) { Instance = this; }
+        if(Instance is null) { Instance = this; }
     }
     private void Start()
     {

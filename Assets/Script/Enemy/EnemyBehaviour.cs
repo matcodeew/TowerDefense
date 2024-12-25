@@ -48,9 +48,10 @@ public class EnemyBehaviour : MonoBehaviour
     private void Die(Tower tower)
     {
         RessourceManager.AddGold(EnemyData.goldValue);
+        WaveManager.Instance.EnemyKill++;
+        
         tower.RemoveEnemyForAllTower(gameObject);
         Spawner.ReturnEnemyToPool(gameObject, EnemyData.type);
-        WaveManager.Instance.EnemyKill++;
         EventsManager.EnemyDie();
     }
     #region Enemy Movement

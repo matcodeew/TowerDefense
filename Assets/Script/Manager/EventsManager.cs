@@ -11,6 +11,12 @@ public static class EventsManager
     
     public static event UnityAction<Tower> OnTowerBuild;
     public static event UnityAction<Tower> OnTowerDestroy;
+    public static event UnityAction OnLevelFinished;
+
+    public static void LevelFinished()
+    {
+        OnLevelFinished?.Invoke();  
+    }
     public static void EnemyDie()
     {
         OnEnemyDie?.Invoke();

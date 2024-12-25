@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class RessourceManager
@@ -7,7 +8,6 @@ public static class RessourceManager
     public static int BaseLife { get; private set; } = 30;
     public static int MaxWave { get; private set; } = 30;
     public static int CurrentWave { get; private set; } = 0;
-
     /// <summary>
     /// Inflicts damage to the base. Reduces base life by the specified amount.
     /// </summary>
@@ -18,6 +18,7 @@ public static class RessourceManager
         {
             BaseLife -= damageTaken;
             BaseLife = Mathf.Max(0, BaseLife); // Ensures life does not go below zero.
+            UiManager.Instance.UpdateLife();
             Debug.Log($"Base took {damageTaken} damage. Remaining life: {BaseLife}");
         }
     }
@@ -29,6 +30,7 @@ public static class RessourceManager
     public static void AddGold(int goldAdded)
     {
         CurrentGold += goldAdded;
+        UiManager.Instance.UpdateGold();
         Debug.Log($"Added {goldAdded} gold. Total gold: {CurrentGold}");
     }
 
@@ -40,6 +42,7 @@ public static class RessourceManager
     {
         CurrentGold -= goldLost;
         CurrentGold = Mathf.Max(0, CurrentGold); // Ensures gold does not go below zero.
+        UiManager.Instance.UpdateGold();
         Debug.Log($"Lost {goldLost} gold. Total gold: {CurrentGold}");
     }
 
@@ -52,11 +55,12 @@ public static class RessourceManager
         {
             CurrentWave++;
             Debug.Log($"Wave {CurrentWave} started!");
+            UiManager.Instance.UpdateWave();
             return true;
         }
         else
         {
-            Debug.Log("Maximum wave limit reached. Game over!");
+            EventsManager.LevelFinished();
             return false;
         }
     }

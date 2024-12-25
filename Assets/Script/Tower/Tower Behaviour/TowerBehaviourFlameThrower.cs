@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Script.Tower.Tower_Behaviour
 {
-    public class Tower_FlameThrower : global::Tower
+    public class TowerBehaviourFlameThrower : global::Tower
     {
         [SerializeField] private float activeDuration = 4.0f;
         [SerializeField] private float cooldownDurantion = 2.50f;

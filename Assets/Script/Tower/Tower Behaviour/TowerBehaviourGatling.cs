@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Script.Tower.Tower_Behaviour
 {
-    public class Tower_gatling : global::Tower
+    public class TowerBehaviourGatling : global::Tower
     {
         protected override void Fire(GameObject enemyToKill)
         {

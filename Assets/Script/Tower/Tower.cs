@@ -14,12 +14,12 @@ public abstract class Tower : Building
     }
 
     [Header("Tower Stats")]
-    [SerializeField] public TowerStat stat = new TowerStat();
-    [SerializeField] public S_Tower towerData;
+    [HideInInspector] public TowerStat stat = new TowerStat();
+    [HideInInspector] public S_Tower towerData;
 
-    [Header("Tower Data")]
-    [HideInInspector] protected List<GameObject> EnemyToKill = new();
-    [SerializeField] protected LayerMask layerAccept;
+    [Header("Tower Data")] 
+    protected List<GameObject> EnemyToKill = new(); 
+    protected LayerMask layerAccept;
 
     [Header("Internal Variables")]
     private float yRotate;
