@@ -93,7 +93,13 @@ public abstract class Tower : Building
 
     public void RemoveEnemyForAllTower(GameObject enemy)
     {
-
+        foreach (Tower tower in TowerBuilderManager.Instance.AllTowerPosedOnMap)
+        {
+            if (tower.EnemyToKill.Contains(enemy))
+            {
+                tower.EnemyToKill.Remove(enemy);
+            }
+        }
     }
 
     private void HandleFiring()

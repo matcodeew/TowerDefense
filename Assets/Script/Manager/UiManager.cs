@@ -1,30 +1,23 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    #region struct
-    [System.Serializable]
-    public struct RessourceInfoPanel
-    {
-        public Image Image;
-        public TextMeshProUGUI text;
-    }
-    #endregion
     public static UiManager Instance;
 
     [Header("Info Text To Update")]
-    [SerializeField] private RessourceInfoPanel gold;
-    [SerializeField] private RessourceInfoPanel wave;
-    [SerializeField] private RessourceInfoPanel life;
+    [SerializeField] private TextMeshProUGUI gold;
+    [SerializeField] private TextMeshProUGUI wave;
+    [SerializeField] private TextMeshProUGUI life;
 
     [Header("InfoPanel")]
     [SerializeField] private GameObject towerInfoPanel;
     [SerializeField] private TextMeshProUGUI towerName;
-    [SerializeField] private TextMeshProUGUI Damage;
-    [SerializeField] private TextMeshProUGUI FireRate;
-    [SerializeField] private TextMeshProUGUI Range;
+    [SerializeField] private TextMeshProUGUI damage;
+    [SerializeField] private TextMeshProUGUI fireRate;
+    [SerializeField] private TextMeshProUGUI range;
 
     [Header("Wave Indication")]
     [SerializeField] private GameObject waveIndication;
@@ -49,16 +42,16 @@ public class UiManager : MonoBehaviour
     {
         EventsManager.OnEnemyDie += UpdateGold;
         EventsManager.OnEnemyReachEnd += UpdateLife;
-        EventsManager.OnTowerBuild += UpdateOneTower;
-        EventsManager.OnTowerDestroy += UpdateOneTower;
-        EventsManager.OnWaveStart += Event_UpdateWave;
+        EventsManager.OnTowerBuild += UpdateGoldByTower;
+        EventsManager.OnTowerDestroy += UpdateGoldByTower;
+        EventsManager.OnWaveStart += UpdateWaveIndication;
     }
 
-    private void UpdateOneTower(Tower tower)
+    private void UpdateGoldByTower(Tower tower)
     {
         UpdateGold();
     }
-    private void Event_UpdateWave(S_Enemy enemy, int quantity)
+    private void UpdateWaveIndication(S_Enemy enemy, int quantity)
     {
         UpdateWave();
     }
@@ -66,24 +59,26 @@ public class UiManager : MonoBehaviour
 
     private void UpdateGold()
     {
-        gold.text.text = RessourceManager.CurrentGold.ToString();
+        gold.text = RessourceManager.CurrentGold.ToString();
     }
     private void UpdateWave()
     {
-        wave.text.text = $"Waves {RessourceManager.CurrentWave}/{RessourceManager.MaxWave}";
+        wave.text = $"Waves {RessourceManager.CurrentWave}/{RessourceManager.MaxWave}";
     }
     private void UpdateLife(int value)
     {
-        life.text.text = RessourceManager.BaseLife.ToString();
+        life.text = RessourceManager.BaseLife.ToString();
     }
+    
+    
     public void UpdateTowerInfoPanel(Tower tower)
     {
         if (tower != null)
         {
             towerName.text = tower.towerData.Type.ToString();
-            Damage.text = $"{tower.stat.Damage.ToString("0.00")} dmg";
-            FireRate.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
-            Range.text = $"{tower.stat.FireRange.ToString("0.0")}";
+            damage.text = $"{tower.stat.Damage.ToString("0.00")} dmg";
+            fireRate.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
+            range.text = $"{tower.stat.FireRange.ToString("0.0")}";
         }
     }
     public void ShowTowerInfoPanel()
