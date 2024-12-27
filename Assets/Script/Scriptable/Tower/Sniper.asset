@@ -17,8 +17,8 @@ MonoBehaviour:
     EffectRadius: 0
     MaxEnemyChain: 0
   Prefab: {fileID: 4715947882123935858, guid: 5493d3f4f1ba0484599d9ef92f66b875, type: 3}
-  PreviewPrefab: {fileID: 0}
-  PosOnMap: {x: 0, y: 0, z: 0}
+  PreviewPrefab: {fileID: 4715947882123935858, guid: c0a31f43ac1b0fb44b9b0d7cc4f5492a, type: 3}
+  PosOnMap: {x: 0, y: 0.5, z: 0}
   HitVfx: {fileID: 0}
   TowerFireVfx: {fileID: 0}
   Damage: 5

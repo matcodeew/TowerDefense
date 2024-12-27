@@ -1,13 +1,20 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public static class RessourceManager
+public class RessourceManager: MonoBehaviour
 {
     [Header("Ressources")]
-    public static int CurrentGold { get; private set; } = 0;
+    public static int CurrentGold { get; private set; } = 250;
     public static int BaseLife { get; private set; } = 30;
     public static int MaxWave { get; private set; } = 30;
     public static int CurrentWave { get; private set; } = 0;
+    
+    private void Start() // Mettre les bonnes valeur en fonction du level ou difficulter 
+    {
+        CurrentGold = 1000;
+        BaseLife = 30;
+        MaxWave = 30;
+    }
     /// <summary>
     /// Inflicts damage to the base. Reduces base life by the specified amount.
     /// </summary>

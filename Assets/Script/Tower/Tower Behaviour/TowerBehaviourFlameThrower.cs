@@ -45,9 +45,9 @@ namespace Script.Tower.Tower_Behaviour
             {
                 elapsedTime += Time.deltaTime;
 
-                RaycastHit[] AllTarget = Physics.RaycastAll(transform.position, transform.forward, towerData.ZoneEffect.EffectRadius, layerAccept);
+                RaycastHit[] allTarget = Physics.RaycastAll(transform.position, transform.forward, towerData.ZoneEffect.EffectRadius, layerAccept);
 
-                foreach (var enemy in AllTarget)
+                foreach (var enemy in allTarget)
                 {
                     if (enemy.collider.TryGetComponent<EnemyBehaviour>(out var enemyBehaviour))
                     {
@@ -62,7 +62,7 @@ namespace Script.Tower.Tower_Behaviour
 
         protected override void RotateTower()
         {
-            print("this tower can't move");
+            //This tower cant move.
         }
 
         private IEnumerator CooldownRoutine()

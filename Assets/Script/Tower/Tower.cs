@@ -22,7 +22,6 @@ public abstract class Tower : Building
     protected LayerMask layerAccept;
 
     [Header("Internal Variables")]
-    private float yRotate;
     private Vector3 direction;
     private float _fireTimer;
 
@@ -34,12 +33,6 @@ public abstract class Tower : Building
     {
         UpdateEnemyList();
         HandleFiring();
-
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            yRotate += 90;
-            transform.rotation = Quaternion.Euler(0, yRotate, 0);
-        }
     }
     protected virtual void InitializeTowerStats(S_Tower data)
     {
@@ -49,14 +42,17 @@ public abstract class Tower : Building
     protected abstract void Fire(GameObject enemyToKill);
 
 
-    public virtual void BuildTower(S_Tower towerToInstantiate, Vector3 position)
+    public virtual GameObject BuildTower(S_Tower towerToInstantiate, Vector3 position, Transform parent)
     {
         GameObject newTower = Build(towerToInstantiate.Prefab, position + towerToInstantiate.PosOnMap);
+        newTower.transform.parent = parent;
         Tower towerBehaviour = newTower.GetComponent<Tower>();
         if (towerBehaviour is not null)
         {
             towerBehaviour.InitializeTowerStats(towerToInstantiate);
         }
+
+        return newTower;
     }
 
     private void UpdateEnemyList()
