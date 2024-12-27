@@ -19,5 +19,16 @@ public class Building : MonoBehaviour
         newBuilding.transform.position = position;
         return newBuilding;
     }
+    public void OnMouseDown()
+    {
+        if (TowerBuilderManager.Instance.CanDestroyTower) //move this to a global script
+        {
+            Destroy();
+        }
+        else if (TowerBuilderManager.Instance.CanUpgradeTower)
+        {
+            Upgrade();
+        }
+    }
 }
 

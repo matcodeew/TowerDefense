@@ -63,8 +63,9 @@ public class TowerBuilderManager : MonoBehaviour
     {
         CancelPreview();    
         AllTowerPosedOnMap.Add(tower);
-        GameObject newtower =  tower.BuildTower(towerToBuild, position, towerParent);
-        newtower.transform.rotation = previewRotation;  
+        GameObject newtower = tower.BuildTower(towerToBuild, position, towerParent);
+        newtower.transform.rotation = previewRotation;
+        newtower.layer = 0;
     }
 
     private void Update()
