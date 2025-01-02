@@ -94,7 +94,6 @@ public class TowerBuilderManager : MonoBehaviour
                 Tile tile = hit.collider.gameObject.GetComponent<Tile>();
                 if (tile is not null && !tile.IsOccupied)
                 {
-                    //CancelPreview();
                     BuildingTower(hit.collider.transform.position);
                     TilesOccupied.Add(tile);
                     tile.IsOccupied = true;

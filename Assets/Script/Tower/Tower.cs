@@ -35,12 +35,22 @@ public abstract class Tower : Building
         UpdateEnemyList();
         HandleFiring();
     }
+
+    public override void Upgrade()
+    {
+        base.Upgrade();
+        UiManager.Instance.HideAndShowUpgradablePanel();
+    }
+    
+    protected abstract void Fire(GameObject enemyToKill);
+    
+    
     protected virtual void InitializeTowerStats(S_Tower data)
     {
         towerData = data;
         stat = data.GetTowerStats();
     }
-    protected abstract void Fire(GameObject enemyToKill);
+    
 
 
     public virtual GameObject BuildTower(S_Tower towerToInstantiate, Vector3 position, Transform parent)

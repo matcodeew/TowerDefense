@@ -22,6 +22,9 @@ public class UiManager : MonoBehaviour
     [Header("Wave Indication")]
     [SerializeField] private GameObject waveIndication;
     [SerializeField] public Image ProgressBar;
+    
+    [Header("Upgradable Panel")]
+    [SerializeField] private GameObject upgradablePanel;
 
     public bool TowerInfoPanelIsActive;
     private void Awake()
@@ -36,6 +39,11 @@ public class UiManager : MonoBehaviour
         UpdateGold();
         UpdateWave();
         UpdateLife();
+    }
+
+    public void HideAndShowUpgradablePanel()
+    {
+        upgradablePanel.SetActive(!upgradablePanel.activeSelf);
     }
     public void UpdateGold()
     {
