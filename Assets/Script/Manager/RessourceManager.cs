@@ -82,4 +82,13 @@ public class RessourceManager: MonoBehaviour
         CurrentWave = 0;
         Debug.Log("Resources reset to initial values.");
     }
+
+    /// <summary>
+    /// Looks to see if the cost of the tower is less than or equal to the currentGold.
+    /// </summary>
+    /// <param name="towerToUpdate"> tower to upgrade </param>
+    public static bool HaveRessourceToUpgrade(Tower towerToUpdate)
+    {
+        return towerToUpdate.stat.GoldsCost <= CurrentGold;
+    }
 }

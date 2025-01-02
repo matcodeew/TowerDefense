@@ -10,7 +10,7 @@ public abstract class Tower : Building
     {
         public float FireRate;
         public float FireRange;
-        public float GoldsCost;
+        public int GoldsCost;
         public float Damage;
     }
 
@@ -25,6 +25,11 @@ public abstract class Tower : Building
     [Header("Internal Variables")]
     private Vector3 direction;
     private float _fireTimer;
+    
+    [Header("Tower Upgrades Settings")]
+     public int dmgUpgradecount = 0;
+     public int fireRateUpgradecount = 0;
+     public int rangeUpgradecount = 0;
 
     private void Awake()
     {
@@ -39,7 +44,7 @@ public abstract class Tower : Building
     public override void Upgrade()
     {
         base.Upgrade();
-        UiManager.Instance.HideAndShowUpgradablePanel();
+        TowerUpgrade.Instance.SelectTowerToUpgrade(this);
     }
     
     protected abstract void Fire(GameObject enemyToKill);
@@ -49,6 +54,9 @@ public abstract class Tower : Building
     {
         towerData = data;
         stat = data.GetTowerStats();
+        dmgUpgradecount = 0;
+        fireRateUpgradecount = 0;
+        rangeUpgradecount = 0;
     }
     
 

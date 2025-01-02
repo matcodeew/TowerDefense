@@ -418,6 +418,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 6049048}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6049050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 6049048}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6551139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3458,6 +3463,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 818474866}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpgradeFireSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TowerUpgrade, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6799756496876715344, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -3494,6 +3527,11 @@ PrefabInstance:
 --- !u!224 &159632541 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2814783626100308757, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+  m_PrefabInstance: {fileID: 159632540}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &159632542 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2567119118982630305, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
   m_PrefabInstance: {fileID: 159632540}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &160004631
@@ -5440,6 +5478,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 244457848}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &244457850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 244457848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &245462241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5656,6 +5699,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 818474866}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpgradeFireSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TowerUpgrade, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6799756496876715344, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -5692,6 +5763,11 @@ PrefabInstance:
 --- !u!224 &250102932 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2814783626100308757, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+  m_PrefabInstance: {fileID: 250102931}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &250102933 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2567119118982630305, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
   m_PrefabInstance: {fileID: 250102931}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &251075716
@@ -12856,6 +12932,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 602232434}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &602232436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 602232434}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &604022120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13150,6 +13231,11 @@ PrefabInstance:
 --- !u!224 &620477513 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 620477512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &620477514 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 620477512}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &621046802
@@ -15662,6 +15748,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 745070739}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &745070741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 745070739}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &745991457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17504,6 +17595,7 @@ GameObject:
   - component: {fileID: 818474861}
   - component: {fileID: 818474860}
   - component: {fileID: 818474865}
+  - component: {fileID: 818474866}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -17589,7 +17681,6 @@ MonoBehaviour:
   range: {fileID: 0}
   waveIndication: {fileID: 0}
   ProgressBar: {fileID: 0}
-  upgradablePanel: {fileID: 181784264}
   TowerInfoPanelIsActive: 0
 --- !u!114 &818474863
 MonoBehaviour:
@@ -17636,6 +17727,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f434d81bb2eb50e498e5f9c2e703d7b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &818474866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818474859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 777f83b6f10b7224ba794ced3c92b510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradePanel: {fileID: 181784264}
+  AllUpgradeChoice:
+  - UpgradeIndicator:
+    - {fileID: 745070741}
+    - {fileID: 1997734624}
+    - {fileID: 6049050}
+  - UpgradeIndicator:
+    - {fileID: 1166267493}
+    - {fileID: 1510320060}
+    - {fileID: 602232436}
+  - UpgradeIndicator:
+    - {fileID: 244457850}
+    - {fileID: 620477514}
+    - {fileID: 1811471137}
+  towerCount: {fileID: 40740150}
+  AllUpgradeButton:
+  - {fileID: 991440560}
+  - {fileID: 159632542}
+  - {fileID: 250102933}
 --- !u!1001 &823576700
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21169,6 +21291,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 818474866}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpgradeDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TowerUpgrade, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6799756496876715344, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -21229,6 +21379,11 @@ PrefabInstance:
 --- !u!224 &991440559 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2814783626100308757, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
+  m_PrefabInstance: {fileID: 991440558}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &991440560 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2567119118982630305, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
   m_PrefabInstance: {fileID: 991440558}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &995918967
@@ -25082,6 +25237,11 @@ PrefabInstance:
 --- !u!224 &1166267492 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 1166267491}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1166267493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 1166267491}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1167259252
@@ -33417,6 +33577,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 1510320058}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1510320060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 1510320058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1513824684
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40146,6 +40311,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 1811471135}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1811471137 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 1811471135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1813685539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43772,6 +43942,11 @@ PrefabInstance:
 --- !u!224 &1997734623 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1262129967807732617, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
+  m_PrefabInstance: {fileID: 1997734622}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1997734624 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6123652887331952301, guid: e6686a3a82a66f34ebd1c7d17bb0bd19, type: 3}
   m_PrefabInstance: {fileID: 1997734622}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1998921178
