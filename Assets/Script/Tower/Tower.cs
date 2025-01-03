@@ -134,4 +134,34 @@ public abstract class Tower : Building
             }
         }
     }
+    
+    private void OnMouseOver()
+    {
+        if (!TowerBuilderManager.Instance.CanUpgradeTower && !TowerBuilderManager.Instance.DragTower)
+        {
+            UiManager.Instance.TowerInfoPanelIsActive = true;
+            UiManager.Instance.ShowTowerInfoPanel();
+            UiManager.Instance.UpdateTowerInfoPanel(this);
+           // ShowRange();
+        }
+    }
+    private void OnMouseExit()
+    {
+        if (!TowerBuilderManager.Instance.CanUpgradeTower)
+        {
+            UiManager.Instance.TowerInfoPanelIsActive = false;
+            UiManager.Instance.ShowTowerInfoPanel();
+        }
+        //DestroyRange();
+    }
+    public void HideInfoPanel()
+    {
+        UiManager.Instance.TowerInfoPanelIsActive = false;
+        UiManager.Instance.ShowTowerInfoPanel();
+        //DestroyRange();
+    }
+    private void OnDestroy()
+    {
+        HideInfoPanel();
+    }
 }
