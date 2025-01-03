@@ -37,8 +37,8 @@ public class EnemyBehaviour : MonoBehaviour
         {
             stat.CurrentLife = Mathf.Clamp(stat.CurrentLife - damage, 0, stat.MaxLife);
 
-            print($"{(damage < 0 ? $"receive health {-damage}" : $"receive damage {damage}")}," +
-                  $" health remaining {stat.CurrentLife} / { stat.MaxLife}");
+            //print($"{(damage < 0 ? $"receive health {-damage}" : $"receive damage {damage}")}," +
+            //      $" health remaining {stat.CurrentLife} / { stat.MaxLife}");
             if (stat.CurrentLife <= 0)
             {
                 Die(tower);

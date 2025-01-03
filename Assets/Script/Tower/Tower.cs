@@ -15,7 +15,7 @@ public abstract class Tower : Building
     }
 
     [Header("Tower Stats")]
-    [HideInInspector] public TowerStat stat = new TowerStat();
+    [SerializeField] public TowerStat stat = new TowerStat();
     [HideInInspector] public S_Tower towerData;
 
     [Header("Tower Data")] 
@@ -46,7 +46,14 @@ public abstract class Tower : Building
         base.Upgrade();
         TowerUpgrade.Instance.SelectTowerToUpgrade(this);
     }
-    
+
+    public override void DestroyBuilding()
+    {
+        RessourceManager.AddGold(stat.GoldsCost);
+        base.DestroyBuilding();
+        TowerUpgrade.Instance.towerToUpgrade = null;
+    }
+
     protected abstract void Fire(GameObject enemyToKill);
     
     
@@ -61,9 +68,9 @@ public abstract class Tower : Building
     
 
 
-    public virtual GameObject BuildTower(S_Tower towerToInstantiate, Vector3 position, Transform parent)
+    public virtual GameObject BuildTower(S_Tower towerToInstantiate, Vector3 position, Transform parent, Tile buildOnTile)
     {
-        GameObject newTower = Build(towerToInstantiate.Prefab, position + towerToInstantiate.PosOnMap);
+        GameObject newTower = Build(towerToInstantiate.Prefab, position + towerToInstantiate.PosOnMap, towerToInstantiate.GoldsCost, buildOnTile);
         newTower.transform.parent = parent;
         Tower towerBehaviour = newTower.GetComponent<Tower>();
         if (towerBehaviour is not null)
@@ -119,10 +126,13 @@ public abstract class Tower : Building
     private void HandleFiring()
     {
         _fireTimer += Time.deltaTime;
-        if (_fireTimer >= stat.FireRate && EnemyToKill.Count > 0)
+        if (_fireTimer >= stat.FireRate)
         {
             _fireTimer = 0.0f;
-            Fire(EnemyToKill[0]);
+            if (EnemyToKill.Count > 0)
+            {
+                Fire(EnemyToKill[0]);
+            }
         }
     }
 }

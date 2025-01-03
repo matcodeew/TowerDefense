@@ -8,7 +8,7 @@ public class TowerBuilderManager : MonoBehaviour
     [System.Serializable]
     public struct TowerButton
     {
-        public GameObject Button;
+        public Image Button;
         public S_Tower TowerOnButton;
     }
     public static TowerBuilderManager Instance;
@@ -40,8 +40,8 @@ public class TowerBuilderManager : MonoBehaviour
     [SerializeField] public Color LockColor;
     [SerializeField] public Color SelectedColor;
     [SerializeField] private GameObject CancelBuildingButton;
-    [SerializeField] private GameObject DestroyTowerButton;
-    [SerializeField] private GameObject UpgradeTowerButton;
+    [SerializeField] private Image DestroyTowerButton;
+    [SerializeField] private Image UpgradeTowerButton;
     
     private void Awake()
     {
@@ -52,6 +52,7 @@ public class TowerBuilderManager : MonoBehaviour
     }
     public void StartingDragTower(S_Tower towerData) //button clicked
     {
+        ResetUpgradeAndDestroy();
         DragTower = true;
         towerToBuild = towerData;
         if (towerToBuild.Prefab is null) { Debug.LogError($"Prefab on scriptable {towerToBuild} is null"); return; }
@@ -59,11 +60,11 @@ public class TowerBuilderManager : MonoBehaviour
         MakePreview(towerData);
     }
 
-    private void BuildingTower(Vector3 position)
+    private void BuildingTower(Vector3 position, Tile buildOnTile)
     {
-        CancelPreview();    
+        CancelPreview();
         AllTowerPosedOnMap.Add(tower);
-        GameObject newtower = tower.BuildTower(towerToBuild, position, towerParent);
+        GameObject newtower = tower.BuildTower(towerToBuild, position, towerParent, buildOnTile);
         newtower.transform.rotation = previewRotation;
         newtower.layer = 0;
     }
@@ -94,7 +95,7 @@ public class TowerBuilderManager : MonoBehaviour
                 Tile tile = hit.collider.gameObject.GetComponent<Tile>();
                 if (tile is not null && !tile.IsOccupied)
                 {
-                    BuildingTower(hit.collider.transform.position);
+                    BuildingTower(hit.collider.transform.position, tile);
                     TilesOccupied.Add(tile);
                     tile.IsOccupied = true;
                     tile.gameObject.layer = 0;
@@ -137,36 +138,45 @@ public class TowerBuilderManager : MonoBehaviour
     public void CanDestroy()
     {
         CanUpgradeTower = false;
-        UpgradeTowerButton.GetComponent<Image>().color = Color.white;
+        UpgradeTowerButton.color = Color.white;
 
         CanDestroyTower = !CanDestroyTower; 
-        DestroyTowerButton.GetComponent<Image>().color = (CanDestroyTower ^ CanUpgradeTower) ? SelectedColor : Color.white;
+        DestroyTowerButton.color = (CanDestroyTower ^ CanUpgradeTower) ? SelectedColor : Color.white;
 
         ChangeBuilderButtonColor();
     }
     public void CanUpgrade()
     {
         CanDestroyTower = false;
-        DestroyTowerButton.GetComponent<Image>().color = Color.white;
+        DestroyTowerButton.color = Color.white;
 
         CanUpgradeTower = !CanUpgradeTower;
-        UpgradeTowerButton.GetComponent<Image>().color = (CanUpgradeTower ^ CanDestroyTower) ? SelectedColor : Color.white;
+        UpgradeTowerButton.color = (CanUpgradeTower ^ CanDestroyTower) ? SelectedColor : Color.white;
 
         ChangeBuilderButtonColor();
         UiManager.Instance.TowerInfoPanelIsActive = true;
     }
 
+    public void ResetUpgradeAndDestroy()
+    {
+        CanDestroyTower = false;
+        DestroyTowerButton.color = Color.white;
+        TowerUpgrade.Instance.upgradePanel.SetActive(false);
+        
+        CanUpgradeTower = false;
+        UpgradeTowerButton.color = Color.white;
+    }
     public void ChangeBuilderButtonColor()
     {
         for (int i = 0; i < AllButtonTower.Count; i++)
         {
             if (RessourceManager.CurrentGold < AllButtonTower[i].TowerOnButton.GoldsCost)
             {
-                AllButtonTower[i].Button.GetComponent<Image>().color = LockColor;
+                AllButtonTower[i].Button.color = LockColor;
             }
             else
             {
-                AllButtonTower[i].Button.GetComponent<Image>().color = Color.white;
+                AllButtonTower[i].Button.color = Color.white;
             }
         }
     }

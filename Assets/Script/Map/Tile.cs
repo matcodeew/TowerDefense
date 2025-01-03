@@ -5,5 +5,9 @@ using UnityEngine.Timeline;
 public class Tile : MonoBehaviour
 {
     public bool IsOccupied;
-    public GameObject TowerOnTop;
+
+    public void SetTileLayer()
+    {
+        gameObject.layer = LayerMask.NameToLayer("TileGround");
+    }
 }

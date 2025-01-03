@@ -12,8 +12,8 @@ public class TowerUpgrade : MonoBehaviour
         public List<GameObject> UpgradeIndicator;
     }
     private int MaxUpgradePerType = 3; 
-    private Tower towerToUpgrade;
-    [SerializeField] private GameObject upgradePanel;
+    public Tower towerToUpgrade;
+    [SerializeField] public GameObject upgradePanel;
     [SerializeField] private List<UpgradeChoice> AllUpgradeChoice;
     [SerializeField] private TextMeshProUGUI towerCount;
     [SerializeField] private List<GameObject> AllUpgradeButton;
@@ -110,10 +110,9 @@ public class TowerUpgrade : MonoBehaviour
         }
     }
 
-    private bool CanUpgrade(int UpgradeCount) => UpgradeCount < MaxUpgradePerType && RessourceManager.HaveRessourceToUpgrade(towerToUpgrade);
+    private bool CanUpgrade(int UpgradeCount) => UpgradeCount < MaxUpgradePerType && towerToUpgrade.stat.GoldsCost <= RessourceManager.CurrentGold;
     private void UpdateGoldValue()
     {
-       // EventsManager.TowerBuild(towerToUpgrade);
         RessourceManager.LoseGold(towerToUpgrade.stat.GoldsCost);
         int totalTowerUpgrade = towerToUpgrade.rangeUpgradecount + towerToUpgrade.dmgUpgradecount + towerToUpgrade.fireRateUpgradecount;
         towerToUpgrade.stat.GoldsCost += towerToUpgrade.towerData.GoldsCost * (int)Mathf.Pow(1.1f, totalTowerUpgrade);

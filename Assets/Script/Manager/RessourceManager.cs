@@ -9,7 +9,7 @@ public class RessourceManager: MonoBehaviour
     public static int MaxWave { get; private set; } = 30;
     public static int CurrentWave { get; private set; } = 0;
     
-    private void Start() // Mettre les bonnes valeur en fonction du level ou difficulter 
+    private void Awake() // Mettre les bonnes valeur en fonction du level ou difficulter 
     {
         CurrentGold = 1000;
         BaseLife = 30;
@@ -81,14 +81,5 @@ public class RessourceManager: MonoBehaviour
         BaseLife = 30;
         CurrentWave = 0;
         Debug.Log("Resources reset to initial values.");
-    }
-
-    /// <summary>
-    /// Looks to see if the cost of the tower is less than or equal to the currentGold.
-    /// </summary>
-    /// <param name="towerToUpdate"> tower to upgrade </param>
-    public static bool HaveRessourceToUpgrade(Tower towerToUpdate)
-    {
-        return towerToUpdate.stat.GoldsCost <= CurrentGold;
     }
 }

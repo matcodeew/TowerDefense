@@ -40,6 +40,7 @@ public class UiManager : MonoBehaviour
     public void UpdateGold()
     {
         gold.text = RessourceManager.CurrentGold.ToString();
+        TowerBuilderManager.Instance.ChangeBuilderButtonColor();
     }
     public void UpdateWave()
     {
