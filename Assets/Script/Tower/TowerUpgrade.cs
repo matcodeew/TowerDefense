@@ -70,7 +70,7 @@ public class TowerUpgrade : MonoBehaviour
         towerToUpgrade = tower;
         CheckIndicator();
         //UiManager.Instance.ShowTowerInfoPanel();
-        towerCount.text = $"{towerToUpgrade.stat.GoldsCost.ToString()}";
+        towerCount.text = $"{towerToUpgrade.buildingStat.GoldsCost.ToString()}";
         ChangeUpgradeButtonColor();
     }
     public void ShowPanel()
@@ -110,13 +110,13 @@ public class TowerUpgrade : MonoBehaviour
         }
     }
 
-    private bool CanUpgrade(int UpgradeCount) => UpgradeCount < MaxUpgradePerType && towerToUpgrade.stat.GoldsCost <= RessourceManager.CurrentGold;
+    private bool CanUpgrade(int UpgradeCount) => UpgradeCount < MaxUpgradePerType && towerToUpgrade.buildingStat.GoldsCost <= RessourceManager.CurrentGold;
     private void UpdateGoldValue()
     {
-        RessourceManager.LoseGold(towerToUpgrade.stat.GoldsCost);
+        RessourceManager.LoseGold(towerToUpgrade.buildingStat.GoldsCost);
         int totalTowerUpgrade = towerToUpgrade.rangeUpgradecount + towerToUpgrade.dmgUpgradecount + towerToUpgrade.fireRateUpgradecount;
-        towerToUpgrade.stat.GoldsCost += towerToUpgrade.towerData.GoldsCost * (int)Mathf.Pow(1.1f, totalTowerUpgrade);
-        towerCount.text = $"{towerToUpgrade.stat.GoldsCost.ToString()}";
+        towerToUpgrade.buildingStat.GoldsCost += towerToUpgrade.towerData.GoldsCost * (int)Mathf.Pow(1.1f, totalTowerUpgrade);
+        towerCount.text = $"{towerToUpgrade.buildingStat.GoldsCost.ToString()}";
         ChangeUpgradeButtonColor();
     }
 
@@ -124,7 +124,7 @@ public class TowerUpgrade : MonoBehaviour
     {
         foreach(GameObject upButton in AllUpgradeButton)
         {
-            if(RessourceManager.CurrentGold <= towerToUpgrade.stat.GoldsCost)
+            if(RessourceManager.CurrentGold <= towerToUpgrade.buildingStat.GoldsCost)
             {
                 upButton.GetComponent<Image>().color = TowerBuilderManager.Instance.LockColor;
             }

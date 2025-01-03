@@ -34,7 +34,14 @@ public class S_Tower : ScriptableObject
             FireRate = FireRate,
             FireRange = FireRange,
             Damage = Damage,
-            GoldsCost = GoldsCost
+        };
+    }
+
+    public Building.BuildingStat GetBuildingStats()
+    {
+        return new Building.BuildingStat
+        {
+            GoldsCost = GoldsCost,
         };
     }
     public enum TowerType

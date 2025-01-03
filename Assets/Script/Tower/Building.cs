@@ -2,7 +2,14 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
+    [System.Serializable]
+    public struct BuildingStat
+    {
+        public int Health;
+        public int GoldsCost;
+    }
     public Tile tileOnGround;
+    public BuildingStat buildingStat;
     public virtual void Upgrade()
     {
         print($"upgrade {gameObject.name}");
@@ -10,6 +17,8 @@ public class Building : MonoBehaviour
 
     public virtual void DestroyBuilding()
     {
+        RessourceManager.AddGold(buildingStat.GoldsCost);
+        
         Destroy(gameObject);
         print($"destroy {gameObject.name}");
         tileOnGround.IsOccupied = false;

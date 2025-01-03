@@ -10,7 +10,6 @@ public abstract class Tower : Building
     {
         public float FireRate;
         public float FireRange;
-        public int GoldsCost;
         public float Damage;
     }
 
@@ -49,7 +48,6 @@ public abstract class Tower : Building
 
     public override void DestroyBuilding()
     {
-        RessourceManager.AddGold(stat.GoldsCost);
         base.DestroyBuilding();
         TowerUpgrade.Instance.towerToUpgrade = null;
     }
@@ -61,6 +59,7 @@ public abstract class Tower : Building
     {
         towerData = data;
         stat = data.GetTowerStats();
+        buildingStat = data.GetBuildingStats();
         dmgUpgradecount = 0;
         fireRateUpgradecount = 0;
         rangeUpgradecount = 0;
