@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
 {
@@ -19,7 +21,7 @@ public class WaveManager : MonoBehaviour
     }
 
     #endregion
-
+    
     [Header("Enemy Data")]
     [SerializeField] public EnemyData typeEnemyToSpawn;
     private S_Enemy _currentEnemytoSpawn;
@@ -31,7 +33,10 @@ public class WaveManager : MonoBehaviour
     private int _wave;
     public int EnemyKill;
     public int CurrentEnemyOnMap;
-
+    [Space(5)]
+    [SerializeField] private float timetoWaitBeforeNextWave;
+    private bool firstWaveStarted;
+    private float timer;
     private void Awake()
     {
         if(Instance is null) { Instance = this; }
@@ -48,30 +53,45 @@ public class WaveManager : MonoBehaviour
             _tempEnemyNumbs.Add(enemy, 0);
         }
     }
-
-    public void StartWave()
+    public bool WaveFinished() => EnemyKill >= _tempEnemyNumbs[_currentEnemytoSpawn];
+    public bool LevelFinished() => RessourceManager.CurrentWave >= RessourceManager.MaxWave;
+    public void LunchGame()
     {
-        StartCoroutine(WaveManagerCoroutine());
+        UiManager.Instance.ProgressBar.fillAmount = 0;
+        UiAnimation.Instance.StopWaveButtonAnim();
+        StartNextWave();
+        UiManager.Instance.waveIndication.GetComponent<Button>().enabled = false;
+        firstWaveStarted = true;
     }
-    private IEnumerator WaveManagerCoroutine()
+
+    private void Update()
     {
-        while (RessourceManager.StartNewWave())
+        if (!firstWaveStarted) return;
+        if (WaveFinished() && !LevelFinished())
         {
-            if (_currentEnemytoSpawn is null) //First Wave
+            timer += Time.deltaTime;
+
+            UiManager.Instance.ProgressBar.fillAmount = timer / timetoWaitBeforeNextWave;
+            if (timer >= timetoWaitBeforeNextWave * 0.50f && timer < timetoWaitBeforeNextWave)
             {
-                StartNextWave();
+                UiAnimation.Instance.StartWaveButtonAnim();
             }
-            else // remains
+
+            if (timer >= timetoWaitBeforeNextWave)
             {
-                yield return new WaitWhile(() => EnemyKill >= CurrentEnemyOnMap);
+                UiManager.Instance.ProgressBar.fillAmount = 0;
+                timer = 0.0f;
                 StartNextWave();
             }
         }
     }
+
     [ContextMenu("StartNewWave")]
     public void StartNextWave()
     {
-        UiAnimation.Instance.StopWaveButtonAnim();
+        if (RessourceManager.StartNewWave())
+        {
+            UiAnimation.Instance.StopWaveButtonAnim();
             _wave = RessourceManager.CurrentWave;
             if (_wave % 10 == 0) //Boss
             {
@@ -88,8 +108,9 @@ public class WaveManager : MonoBehaviour
                 _currentEnemytoSpawn = typeEnemyToSpawn.Normal;
                 _tempEnemyNumbs[_currentEnemytoSpawn] += 10;
             }
+
             print($"enemy to instantiate {_currentEnemytoSpawn.name} on this quantity {_tempEnemyNumbs[_currentEnemytoSpawn]}");
-           EventsManager.StartNewWave(_currentEnemytoSpawn, _tempEnemyNumbs[_currentEnemytoSpawn]);
-           CurrentEnemyOnMap = _tempEnemyNumbs[_currentEnemytoSpawn];
+            EventsManager.StartNewWave(_currentEnemytoSpawn, _tempEnemyNumbs[_currentEnemytoSpawn]);
+        }
     }
 }

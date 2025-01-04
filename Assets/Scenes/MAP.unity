@@ -6943,15 +6943,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5595454295833200341, guid: a85709e9751543d488295341e4816bd8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5595454295833200341, guid: a85709e9751543d488295341e4816bd8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5595454295833200341, guid: a85709e9751543d488295341e4816bd8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5595454295833200341, guid: a85709e9751543d488295341e4816bd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7012,10 +7012,10 @@ PrefabInstance:
     - target: {fileID: 8801151510924093423, guid: a85709e9751543d488295341e4816bd8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 818474861}
+      objectReference: {fileID: 818474867}
     - target: {fileID: 8801151510924093423, guid: a85709e9751543d488295341e4816bd8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartWave
+      value: LunchGame
       objectReference: {fileID: 0}
     - target: {fileID: 8801151510924093423, guid: a85709e9751543d488295341e4816bd8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -13142,17 +13142,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2814783626100308757, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
   m_PrefabInstance: {fileID: 591451438}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &591451441 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3852764681027883896, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
-  m_PrefabInstance: {fileID: 591451438}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &594510255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14801,17 +14790,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2814783626100308757, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
   m_PrefabInstance: {fileID: 654519067}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &654519070 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3852764681027883896, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
-  m_PrefabInstance: {fileID: 654519067}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &657741366
 GameObject:
   m_ObjectHideFlags: 0
@@ -18403,10 +18381,11 @@ GameObject:
   - component: {fileID: 818474864}
   - component: {fileID: 818474863}
   - component: {fileID: 818474862}
-  - component: {fileID: 818474861}
   - component: {fileID: 818474860}
   - component: {fileID: 818474865}
   - component: {fileID: 818474866}
+  - component: {fileID: 818474867}
+  - component: {fileID: 818474868}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -18430,46 +18409,18 @@ MonoBehaviour:
   AllTowerPosedOnMap: []
   groundAccepted:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 96
   DragTower: 0
   towerParent: {fileID: 2055724558}
   previewParent: {fileID: 1245410144}
   CanDestroyTower: 0
   CanUpgradeTower: 0
-  AllButtonTower:
-  - Button: {fileID: 591451441}
-    TowerOnButton: {fileID: 11400000, guid: f91f40e6fa507e0409c7381a00283fa2, type: 2}
-  - Button: {fileID: 878424113}
-    TowerOnButton: {fileID: 11400000, guid: c7e4bdba5c645e1449614571d0f5834d, type: 2}
-  - Button: {fileID: 2078064562}
-    TowerOnButton: {fileID: 11400000, guid: 159107828b4f32c4ea04c8a303ec1de6, type: 2}
-  - Button: {fileID: 654519070}
-    TowerOnButton: {fileID: 11400000, guid: e35302d4966e92546998447b91522628, type: 2}
-  - Button: {fileID: 1525549128}
-    TowerOnButton: {fileID: 11400000, guid: 70163ff3d446bf048949a2c94c4cfff5, type: 2}
+  AllButtonTower: []
   LockColor: {r: 0.98490566, g: 0.27197456, b: 0.22857237, a: 1}
   SelectedColor: {r: 0.2818867, g: 0.93962264, b: 0.48786214, a: 1}
   CancelBuildingButton: {fileID: 0}
   DestroyTowerButton: {fileID: 1140342251}
   UpgradeTowerButton: {fileID: 433925669}
---- !u!114 &818474861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818474859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5743b15447e54d6428ec66b006691baa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  typeEnemyToSpawn:
-    Normal: {fileID: 11400000, guid: b1cdb6f402c60114cb8782816d76d165, type: 2}
-    Elite: {fileID: 11400000, guid: 829d5f939bb0b78428daa0746d40df15, type: 2}
-    Boss: {fileID: 11400000, guid: 87c5b7d45623dfd46b51b9e452e02c4a, type: 2}
-  EnemyKill: 0
-  CurrentEnemyOnMap: 0
 --- !u!114 &818474862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18570,6 +18521,41 @@ MonoBehaviour:
   - {fileID: 991440560}
   - {fileID: 159632542}
   - {fileID: 250102933}
+--- !u!114 &818474867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818474859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5743b15447e54d6428ec66b006691baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeEnemyToSpawn:
+    Normal: {fileID: 11400000, guid: b1cdb6f402c60114cb8782816d76d165, type: 2}
+    Elite: {fileID: 11400000, guid: 829d5f939bb0b78428daa0746d40df15, type: 2}
+    Boss: {fileID: 11400000, guid: 87c5b7d45623dfd46b51b9e452e02c4a, type: 2}
+  EnemyKill: 0
+  CurrentEnemyOnMap: 0
+  timetoWaitBeforeNextWave: 7.5
+--- !u!114 &818474868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818474859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d398ae57e3fe9514b9c3ac58f7fc669e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerBuilderPanel: {fileID: 0}
+  showPanelButton: {fileID: 0}
+  ShowPanelAnim: {fileID: 0}
+  WaveIndication: {fileID: 1588720988}
 --- !u!1001 &823576700
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20226,17 +20212,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2814783626100308757, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
   m_PrefabInstance: {fileID: 878424110}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &878424113 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3852764681027883896, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
-  m_PrefabInstance: {fileID: 878424110}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &879626134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35052,17 +35027,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2814783626100308757, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
   m_PrefabInstance: {fileID: 1525549125}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1525549128 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3852764681027883896, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
-  m_PrefabInstance: {fileID: 1525549125}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1527551156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47161,17 +47125,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7273653652699400523, guid: 822d2d91fbe3e9f4caea68f77f9aca15, type: 3}
   m_PrefabInstance: {fileID: 2076825178}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2078064562 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3852764681027883896, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
-  m_PrefabInstance: {fileID: 681195959}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2078163849
 PrefabInstance:
   m_ObjectHideFlags: 0

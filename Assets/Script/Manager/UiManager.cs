@@ -20,7 +20,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI range;
 
     [Header("Wave Indication")]
-    [SerializeField] private GameObject waveIndication;
+    [SerializeField] public GameObject waveIndication;
     [SerializeField] public Image ProgressBar;
     
     public bool TowerInfoPanelIsActive;
