@@ -67,14 +67,4 @@ public class UiManager : MonoBehaviour
             towerInfoPanel.SetActive(TowerInfoPanelIsActive);
         }
     }
-
-    public void StartWaveAnimation()
-    {
-        
-    }
-
-    public void EndWaveAnimation()
-    {
-        
-    }
 }

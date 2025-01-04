@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,11 +48,30 @@ public class WaveManager : MonoBehaviour
             _tempEnemyNumbs.Add(enemy, 0);
         }
     }
-    [ContextMenu("StartNewWave")]
-    public void StartNewWave()
+
+    public void StartWave()
     {
-        if (RessourceManager.StartNewWave())
+        StartCoroutine(WaveManagerCoroutine());
+    }
+    private IEnumerator WaveManagerCoroutine()
+    {
+        while (RessourceManager.StartNewWave())
         {
+            if (_currentEnemytoSpawn is null) //First Wave
+            {
+                StartNextWave();
+            }
+            else // remains
+            {
+                yield return new WaitWhile(() => EnemyKill >= CurrentEnemyOnMap);
+                StartNextWave();
+            }
+        }
+    }
+    [ContextMenu("StartNewWave")]
+    public void StartNextWave()
+    {
+        UiAnimation.Instance.StopWaveButtonAnim();
             _wave = RessourceManager.CurrentWave;
             if (_wave % 10 == 0) //Boss
             {
@@ -70,6 +90,6 @@ public class WaveManager : MonoBehaviour
             }
             print($"enemy to instantiate {_currentEnemytoSpawn.name} on this quantity {_tempEnemyNumbs[_currentEnemytoSpawn]}");
            EventsManager.StartNewWave(_currentEnemytoSpawn, _tempEnemyNumbs[_currentEnemytoSpawn]);
-        }
+           CurrentEnemyOnMap = _tempEnemyNumbs[_currentEnemytoSpawn];
     }
 }

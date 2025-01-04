@@ -52,7 +52,7 @@ public class EnemyBehaviour : MonoBehaviour
         
         tower.RemoveEnemyForAllTower(gameObject);
         Spawner.ReturnEnemyToPool(gameObject, EnemyData.type);
-        EventsManager.EnemyDie();
+     //   EventsManager.EnemyDie();
     }
     #region Enemy Movement
     public void ResetEnemy()
