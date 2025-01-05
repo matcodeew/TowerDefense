@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
@@ -91,6 +89,8 @@ public class WaveManager : MonoBehaviour
     {
         if (RessourceManager.StartNewWave())
         {
+            CurrentEnemyOnMap = 0;
+            EnemyKill = 0;
             UiAnimation.Instance.StopWaveButtonAnim();
             _wave = RessourceManager.CurrentWave;
             if (_wave % 10 == 0) //Boss
@@ -98,7 +98,7 @@ public class WaveManager : MonoBehaviour
                 _currentEnemytoSpawn = typeEnemyToSpawn.Boss;
                 _tempEnemyNumbs[_currentEnemytoSpawn] += 1;
             }
-            else if (_wave % 3 == 0) //Elite
+            else if (_wave % 4 == 0) //Elite
             {
                 _currentEnemytoSpawn = typeEnemyToSpawn.Elite;
                 _tempEnemyNumbs[_currentEnemytoSpawn] += 1;
