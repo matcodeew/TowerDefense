@@ -73,9 +73,22 @@ public class ObjectPool : MonoBehaviour
 
             if (wave != 1)
             {
-                current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.MaxLifeMultiplicator));
+                int waveModulo = 0;
+                switch (current.EnemyData.type)
+                {
+                    case(EnemyType.Boss):
+                        waveModulo = wave % 10;
+                        break;
+                    case(EnemyType.Elite):
+                        waveModulo = wave % 4;
+                        break;
+                    case(EnemyType.Normal):
+                        waveModulo = wave;
+                        break;
+                }
+                current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (waveModulo * enemyToUpgrade.MaxLifeMultiplicator));
                 current.stat.MoveSpeed += enemyToUpgrade.MoveSpeedMultiplicator;
-                current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.DamageMultiplicator));
+                current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (waveModulo * enemyToUpgrade.DamageMultiplicator));
                 UpdateCurrentLife(current);
             }
             else
