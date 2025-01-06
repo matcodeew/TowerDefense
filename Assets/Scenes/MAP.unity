@@ -18443,6 +18443,7 @@ MonoBehaviour:
   range: {fileID: 408667511}
   waveIndication: {fileID: 1588720986}
   ProgressBar: {fileID: 2066867281}
+  towerRange: {fileID: 5254177007118983633, guid: 8da13e339ef21de44ac3e4ae23829baa, type: 3}
   TowerInfoPanelIsActive: 0
 --- !u!114 &818474863
 MonoBehaviour:

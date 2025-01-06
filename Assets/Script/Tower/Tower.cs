@@ -29,7 +29,9 @@ public abstract class Tower : Building
      public int dmgUpgradecount = 0;
      public int fireRateUpgradecount = 0;
      public int rangeUpgradecount = 0;
-
+     
+     [Header("Tower Range")]
+     private GameObject towerRange;
     private void Awake()
     {
         layerAccept = EnemySpawner.Instance.EnemyMask;
@@ -58,6 +60,7 @@ public abstract class Tower : Building
     protected virtual void InitializeTowerStats(S_Tower data)
     {
         towerData = data;
+        CreateTowerRange(data);
         stat = data.GetTowerStats();
         buildingStat = data.GetBuildingStats();
         dmgUpgradecount = 0;
@@ -75,11 +78,20 @@ public abstract class Tower : Building
         if (towerBehaviour is not null)
         {
             towerBehaviour.InitializeTowerStats(towerToInstantiate);
+            print($"tower data is {towerData}");
         }
-
         return newTower;
     }
 
+    private void CreateTowerRange(S_Tower data)
+    {
+        if(data is null) {Debug.LogError("Tower Data Is Null"); return;}
+        towerRange = Instantiate(UiManager.Instance.towerRange, transform);
+        towerRange.SetActive(false);
+        towerRange.transform.localScale = new Vector3(data.FireRange, 0, data.FireRange);
+    }
+    
+    
     private void UpdateEnemyList()
     {
         Collider[] hittedObject = Physics.OverlapSphere(transform.position, stat.FireRange, layerAccept);
@@ -142,7 +154,7 @@ public abstract class Tower : Building
             UiManager.Instance.TowerInfoPanelIsActive = true;
             UiManager.Instance.ShowTowerInfoPanel();
             UiManager.Instance.UpdateTowerInfoPanel(this);
-           // ShowRange();
+            ShowRange();
         }
     }
     private void OnMouseExit()
@@ -152,13 +164,23 @@ public abstract class Tower : Building
             UiManager.Instance.TowerInfoPanelIsActive = false;
             UiManager.Instance.ShowTowerInfoPanel();
         }
-        //DestroyRange();
+        DestroyRange();
     }
     public void HideInfoPanel()
     {
         UiManager.Instance.TowerInfoPanelIsActive = false;
         UiManager.Instance.ShowTowerInfoPanel();
-        //DestroyRange();
+        DestroyRange();
+    }
+
+    private void ShowRange()
+    {
+        towerRange.SetActive(true);
+    }
+
+    private void DestroyRange()
+    {
+        towerRange.SetActive(false);
     }
     private void OnDestroy()
     {

@@ -23,6 +23,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] public GameObject waveIndication;
     [SerializeField] public Image ProgressBar;
     
+    [Header("Tower Range")]
+    [SerializeField] public GameObject towerRange;
+    
     public bool TowerInfoPanelIsActive;
     private void Awake()
     {
