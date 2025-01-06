@@ -30,13 +30,15 @@ public class TowerBuilderManager : MonoBehaviour
     [Header("Preview Tower")]
     private float yRotate;
     private GameObject previewTower;
+    [SerializeField]  private GameObject previewTowerRange;
+    private GameObject caca;
     private Quaternion previewRotation;
 
     [HideInInspector] public bool CanDestroyTower ;
     [HideInInspector] public bool CanUpgradeTower ;
     
     [Header("UI")]
-    [SerializeField] private List<TowerButton> AllButtonTower = new();
+    [SerializeField] public List<TowerButton> AllButtonTower = new();
     [SerializeField] public Color LockColor;
     [SerializeField] public Color SelectedColor;
     [SerializeField] private GameObject CancelBuildingButton;
@@ -67,6 +69,7 @@ public class TowerBuilderManager : MonoBehaviour
         GameObject newtower = tower.BuildTower(towerToBuild, position, towerParent, buildOnTile);
         newtower.transform.rotation = previewRotation;
         newtower.layer = 0;
+        caca.SetActive(false);
     }
 
     private void Update()
@@ -121,10 +124,14 @@ public class TowerBuilderManager : MonoBehaviour
     private void UpdatePreviewPosition(RaycastHit hit)
     {
         previewTower.transform.position = hit.point;
+        caca.transform.position = hit.point;
     }
     private void MakePreview(S_Tower towerData)
     {
         previewTower = Instantiate(towerData.PreviewPrefab, previewParent);
+        caca = Instantiate(previewTowerRange, previewTower.transform);
+        caca.transform.position = new Vector3(previewTower.transform.position.x, 0.5f, previewTower.transform.position.z);
+        caca.transform.localScale = new Vector3(towerToBuild.FireRange * 2, 0.1f, towerToBuild.FireRange * 2);
     }
 
     private void CancelPreview()

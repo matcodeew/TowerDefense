@@ -46,22 +46,26 @@ public class ObjectPool : MonoBehaviour
         foreach (var enemyType in pools[enemy.type])
         {
             EnemyBehaviour current = enemyType.GetComponent<EnemyBehaviour>();
+            int waveModulo = 0;
 
             switch (enemy.type)
             {
                 case EnemyType.Normal:
                     enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Normal;
                     wave = RessourceManager.CurrentWave;
+                    waveModulo = wave;
                     break;
 
                 case EnemyType.Elite:
                     enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Elite;
                     wave = RessourceManager.CurrentWave / 3;
+                    waveModulo = wave % 4;
                     break;
 
                 case EnemyType.Boss:
                     enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Boss;
                     wave = RessourceManager.CurrentWave / 10;
+                    waveModulo = wave % 10;
                     break;
 
                 default:
@@ -73,19 +77,6 @@ public class ObjectPool : MonoBehaviour
 
             if (wave != 1)
             {
-                int waveModulo = 0;
-                switch (current.EnemyData.type)
-                {
-                    case(EnemyType.Boss):
-                        waveModulo = wave % 10;
-                        break;
-                    case(EnemyType.Elite):
-                        waveModulo = wave % 4;
-                        break;
-                    case(EnemyType.Normal):
-                        waveModulo = wave;
-                        break;
-                }
                 current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (waveModulo * enemyToUpgrade.MaxLifeMultiplicator));
                 current.stat.MoveSpeed += enemyToUpgrade.MoveSpeedMultiplicator;
                 current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (waveModulo * enemyToUpgrade.DamageMultiplicator));

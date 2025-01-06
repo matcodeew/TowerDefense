@@ -31,11 +31,17 @@ public abstract class Tower : Building
      public int rangeUpgradecount = 0;
      
      [Header("Tower Range")]
-     private GameObject towerRange;
+     [SerializeField] private GameObject towerRange;
     private void Awake()
     {
         layerAccept = EnemySpawner.Instance.EnemyMask;
     }
+
+    private void Start()
+    {
+        towerRange = CreateTowerRange(transform);
+    }
+
     private void Update()
     {
         UpdateEnemyList();
@@ -56,11 +62,9 @@ public abstract class Tower : Building
 
     protected abstract void Fire(GameObject enemyToKill);
     
-    
     protected virtual void InitializeTowerStats(S_Tower data)
     {
         towerData = data;
-        CreateTowerRange(data);
         stat = data.GetTowerStats();
         buildingStat = data.GetBuildingStats();
         dmgUpgradecount = 0;
@@ -68,8 +72,6 @@ public abstract class Tower : Building
         rangeUpgradecount = 0;
     }
     
-
-
     public virtual GameObject BuildTower(S_Tower towerToInstantiate, Vector3 position, Transform parent, Tile buildOnTile)
     {
         GameObject newTower = Build(towerToInstantiate.Prefab, position + towerToInstantiate.PosOnMap, towerToInstantiate.GoldsCost, buildOnTile);
@@ -78,17 +80,17 @@ public abstract class Tower : Building
         if (towerBehaviour is not null)
         {
             towerBehaviour.InitializeTowerStats(towerToInstantiate);
-            print($"tower data is {towerData}");
         }
         return newTower;
     }
 
-    private void CreateTowerRange(S_Tower data)
+    public GameObject CreateTowerRange(Transform towerToInstantiate)
     {
-        if(data is null) {Debug.LogError("Tower Data Is Null"); return;}
-        towerRange = Instantiate(UiManager.Instance.towerRange, transform);
-        towerRange.SetActive(false);
-        towerRange.transform.localScale = new Vector3(data.FireRange, 0, data.FireRange);
+        GameObject newRange = Instantiate(UiManager.Instance.towerRange, towerToInstantiate);
+        newRange.SetActive(false);
+        newRange.transform.position = new Vector3(towerToInstantiate.position.x, 0.5f, towerToInstantiate.position.z);
+        newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
+        return newRange;
     }
     
     
@@ -173,17 +175,23 @@ public abstract class Tower : Building
         DestroyRange();
     }
 
-    private void ShowRange()
+    public void ShowRange()
     {
         towerRange.SetActive(true);
     }
 
-    private void DestroyRange()
+    public void DestroyRange()
     {
         towerRange.SetActive(false);
     }
     private void OnDestroy()
     {
         HideInfoPanel();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, stat.FireRange);
     }
 }

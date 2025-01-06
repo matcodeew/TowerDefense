@@ -16,7 +16,7 @@ MonoBehaviour:
   ZoneEffect:
     EffectRadius: 0
     MaxEnemyChain: 0
-  Prefab: {fileID: 5515990581628715943, guid: 2f1a0b8248a12c8489719aab695a97b1, type: 3}
+  Prefab: {fileID: 1624765865500697589, guid: 180dce35ecefdc6479d9782630825a83, type: 3}
   PreviewPrefab: {fileID: 5515990581628715943, guid: d0ef74d6ac19933488e113e69167b196, type: 3}
   PosOnMap: {x: 0, y: 0, z: 0}
   HitVfx: {fileID: 0}
