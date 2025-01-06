@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   Prefab: {fileID: 7439641288297534362, guid: c6b1cae2aa2497d44bbe882176468510, type: 3}
-  goldValue: 2
+  goldValue: 4
   MoveSpeed: 2.5
   MaxLife: 0.5
   Damage: 1
   MoveSpeedMultiplicator: 0.1
-  MaxLifeMultiplicator: 1.5
+  MaxLifeMultiplicator: 0.5
   DamageMultiplicator: 1
