@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 1372259397363106118}
   - component: {fileID: 7207686372908289506}
   - component: {fileID: 4587958528118037115}
-  - component: {fileID: -6459526285255268354}
   - component: {fileID: 1216769109385306512}
-  - component: {fileID: -4990235588759208576}
+  - component: {fileID: 657967467011893243}
   m_Layer: 2
   m_Name: TestFlamme
   m_TagString: Untagged
@@ -89,24 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-6459526285255268354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3723666213160026594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4c4b09bab488194baf7925b1a67c40f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TowerData: {fileID: 11400000, guid: c7e4bdba5c645e1449614571d0f5834d, type: 2}
-  EnemyToKill: []
-  layerAccept:
-    serializedVersion: 2
-    m_Bits: 128
-  isPosed: 0
 --- !u!65 &1216769109385306512
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -128,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-4990235588759208576
+--- !u!114 &657967467011893243
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,9 +118,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3723666213160026594}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5997d292df459504aa3b957183e5b5c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 34eebda7675eb6b4f817d453dfeaf4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tower: {fileID: 0}
+  stat:
+    FireRate: 0
+    FireRange: 0
+    GoldsCost: 0
+    Damage: 0
+  towerData: {fileID: 0}
+  layerAccept:
+    serializedVersion: 2
+    m_Bits: 0
   activeDuration: 4
   cooldownDurantion: 2.5

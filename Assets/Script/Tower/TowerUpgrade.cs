@@ -11,10 +11,9 @@ public class TowerUpgrade : MonoBehaviour
     {
         public List<GameObject> UpgradeIndicator;
     }
-    private int MaxUpgradePerType = 3;
-    [SerializeField] private Tower towerToUpgrade;
-    [SerializeField] private GameObject upgradePanel;
-    [SerializeField] private GameObject BuilderPanel;
+    private int MaxUpgradePerType = 3; 
+    public Tower towerToUpgrade;
+    [SerializeField] public GameObject upgradePanel;
     [SerializeField] private List<UpgradeChoice> AllUpgradeChoice;
     [SerializeField] private TextMeshProUGUI towerCount;
     [SerializeField] private List<GameObject> AllUpgradeButton;
@@ -26,30 +25,21 @@ public class TowerUpgrade : MonoBehaviour
             Instance = this;
         }
     }
-    public void HideTowerInfoPanel()
-    {
-        towerToUpgrade.HideInfoPanel();
-    }
     private void CheckIndicator()
     {
         ResetIndicators();
 
         if (towerToUpgrade != null)
         {
-            // Vérifier les améliorations de dégâts
-            for (int i = 0; i < towerToUpgrade.DmgUpgradecount; i++)
+            for (int i = 0; i < towerToUpgrade.dmgUpgradecount; i++)
             {
                 AllUpgradeChoice[0].UpgradeIndicator[i].GetComponent<Image>().color = Color.green;
             }
-
-            // Vérifier les améliorations de cadence de tir
-            for (int i = 0; i < towerToUpgrade.FireRateUpgradecount; i++)
+            for (int i = 0; i < towerToUpgrade.fireRateUpgradecount; i++)
             {
                 AllUpgradeChoice[1].UpgradeIndicator[i].GetComponent<Image>().color = Color.green;
             }
-
-            // Vérifier les améliorations de portée
-            for (int i = 0; i < towerToUpgrade.RangeUpgradecount; i++)
+            for (int i = 0; i < towerToUpgrade.rangeUpgradecount; i++)
             {
                 AllUpgradeChoice[2].UpgradeIndicator[i].GetComponent<Image>().color = Color.green;
             }
@@ -72,62 +62,61 @@ public class TowerUpgrade : MonoBehaviour
         {
             AllUpgradeChoice[ButtonIndex].UpgradeIndicator[upCount].GetComponent<Image>().color = Color.green;
         }
-        UiManager.Instance.UpdateTowerInfoPanel(towerToUpgrade);
+       // UiManager.Instance.UpdateTowerInfoPanel(towerToUpgrade);
     }
     public void SelectTowerToUpgrade(Tower tower)
     {
         ShowPanel();
         towerToUpgrade = tower;
         CheckIndicator();
-        UiManager.Instance.ShowTowerInfoPanel();
-        towerCount.text = $"{towerToUpgrade.stat.GoldsCost.ToString()}";
+        //UiManager.Instance.ShowTowerInfoPanel();
+        towerCount.text = $"{towerToUpgrade.buildingStat.GoldsCost.ToString()}";
         ChangeUpgradeButtonColor();
     }
     public void ShowPanel()
     {
         upgradePanel.SetActive(true);
-        BuilderPanel.SetActive(false);
         towerToUpgrade = null;
     }
 
     public void UpgradeDamage()
     {
-        if (CanUpgrade(towerToUpgrade.DmgUpgradecount))
+        if (CanUpgrade(towerToUpgrade.dmgUpgradecount))
         {
             UpdateGoldValue();
-            towerToUpgrade.stat.Damage += towerToUpgrade.TowerData.UpgradeDamage;
-            UpdateUIChoiceIndicator(towerToUpgrade.DmgUpgradecount, 0);
-            towerToUpgrade.DmgUpgradecount++;
+            towerToUpgrade.stat.Damage += towerToUpgrade.towerData.UpgradeDamage;
+            UpdateUIChoiceIndicator(towerToUpgrade.dmgUpgradecount, 0);
+            towerToUpgrade.dmgUpgradecount++;
         }
     }
     public void UpgradeFireSpeed()
     {
-        if (CanUpgrade(towerToUpgrade.FireRateUpgradecount))
+        if (CanUpgrade(towerToUpgrade.fireRateUpgradecount))
         {
             UpdateGoldValue();
-            towerToUpgrade.stat.FireRate -= towerToUpgrade.TowerData.UpgradeFireRate;
-            UpdateUIChoiceIndicator(towerToUpgrade.FireRateUpgradecount, 1);
-            towerToUpgrade.FireRateUpgradecount++;
+            towerToUpgrade.stat.FireRate -= towerToUpgrade.towerData.UpgradeFireRate;
+            UpdateUIChoiceIndicator(towerToUpgrade.fireRateUpgradecount, 1);
+            towerToUpgrade.fireRateUpgradecount++;
         }
     }
     public void UpgradeRange()
     {
-        if (CanUpgrade(towerToUpgrade.RangeUpgradecount))
+        if (CanUpgrade(towerToUpgrade.rangeUpgradecount))
         {
             UpdateGoldValue();
-            towerToUpgrade.stat.FireRange += towerToUpgrade.TowerData.UpgradeFireRange;
-            UpdateUIChoiceIndicator(towerToUpgrade.RangeUpgradecount, 2);
-            towerToUpgrade.RangeUpgradecount++;
+            towerToUpgrade.stat.FireRange += towerToUpgrade.towerData.UpgradeFireRange;
+            UpdateUIChoiceIndicator(towerToUpgrade.rangeUpgradecount, 2);
+            towerToUpgrade.rangeUpgradecount++;
         }
     }
 
-    private bool CanUpgrade(int UpgradeCount) => UpgradeCount < MaxUpgradePerType && RessourceManager.Instance.HaveRessource(towerToUpgrade);
+    private bool CanUpgrade(int UpgradeCount) => UpgradeCount < MaxUpgradePerType && towerToUpgrade.buildingStat.GoldsCost <= RessourceManager.CurrentGold;
     private void UpdateGoldValue()
     {
-        EventsManager.TowerBuild(towerToUpgrade);
-        int totalTowerUpgrade = towerToUpgrade.RangeUpgradecount + towerToUpgrade.DmgUpgradecount + towerToUpgrade.FireRateUpgradecount;
-        towerToUpgrade.stat.GoldsCost += towerToUpgrade.TowerData.GoldsCost * (int)Mathf.Pow(1.1f, totalTowerUpgrade);
-        towerCount.text = $"{towerToUpgrade.stat.GoldsCost.ToString()}";
+        RessourceManager.LoseGold(towerToUpgrade.buildingStat.GoldsCost);
+        int totalTowerUpgrade = towerToUpgrade.rangeUpgradecount + towerToUpgrade.dmgUpgradecount + towerToUpgrade.fireRateUpgradecount;
+        towerToUpgrade.buildingStat.GoldsCost += towerToUpgrade.towerData.GoldsCost * (int)Mathf.Pow(1.1f, totalTowerUpgrade);
+        towerCount.text = $"{towerToUpgrade.buildingStat.GoldsCost.ToString()}";
         ChangeUpgradeButtonColor();
     }
 
@@ -135,9 +124,9 @@ public class TowerUpgrade : MonoBehaviour
     {
         foreach(GameObject upButton in AllUpgradeButton)
         {
-            if(RessourceManager.Instance.currentGold < towerToUpgrade.stat.GoldsCost)
+            if(RessourceManager.CurrentGold <= towerToUpgrade.buildingStat.GoldsCost)
             {
-                upButton.GetComponent<Image>().color = TowerBuilder.Instance.LockColor;
+                upButton.GetComponent<Image>().color = TowerBuilderManager.Instance.LockColor;
             }
             else
             {

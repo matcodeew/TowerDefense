@@ -7,10 +7,16 @@ public static class EventsManager
     public static event UnityAction OnEnemyDie;
     public static event UnityAction<int> OnEnemyReachEnd;
 
-    public static event UnityAction<S_Enemy, float> OnWaveStart;
-
+    public static event UnityAction<S_Enemy, int> OnWaveStart;
+    
     public static event UnityAction<Tower> OnTowerBuild;
     public static event UnityAction<Tower> OnTowerDestroy;
+    public static event UnityAction OnLevelFinished;
+
+    public static void LevelFinished()
+    {
+        OnLevelFinished?.Invoke();  
+    }
     public static void EnemyDie()
     {
         OnEnemyDie?.Invoke();
@@ -19,7 +25,7 @@ public static class EventsManager
     {
         OnEnemyReachEnd?.Invoke(EnemyDamage);
     }
-    public static void WaveStarted(S_Enemy enemy, float quantity)
+    public static void StartNewWave(S_Enemy enemy, int quantity)
     {
         OnWaveStart?.Invoke(enemy, quantity);
     }

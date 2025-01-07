@@ -27,6 +27,23 @@ public class S_Tower : ScriptableObject
     public float UpgradeFireRate;
     public float UpgradeFireRange;
 
+    public Tower.TowerStat GetTowerStats()
+    {
+        return new Tower.TowerStat
+        {
+            FireRate = FireRate,
+            FireRange = FireRange,
+            Damage = Damage,
+        };
+    }
+
+    public Building.BuildingStat GetBuildingStats()
+    {
+        return new Building.BuildingStat
+        {
+            GoldsCost = GoldsCost,
+        };
+    }
     public enum TowerType
     {
         Canon,

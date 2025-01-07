@@ -1,153 +1,105 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Tower : MonoBehaviour, IBuildable, IUpgradeable
+public abstract class Tower : Building
 {
     [System.Serializable]
     public class TowerStat
     {
-        public float Damage;
         public float FireRate;
         public float FireRange;
-        public int GoldsCost;
+        public float Damage;
     }
 
-    [SerializeField] public S_Tower TowerData;
-    public TowerStat stat;
-    [SerializeField] public List<GameObject> EnemyToKill = new();
-    [SerializeField] public LayerMask layerAccept;
-    private float _fireTimer;
-    private int YRotate = 0;
-    public bool isPosed = false;
-    public ParticleSystem TowerHitVfx;
-    private int LayerTileGround;
+    [Header("Tower Stats")]
+    [SerializeField] public TowerStat stat = new TowerStat();
+    [HideInInspector] public S_Tower towerData;
+
+    [Header("Tower Data")] 
+    protected List<GameObject> EnemyToKill = new(); 
+    protected LayerMask layerAccept;
+
+    [Header("Internal Variables")]
     private Vector3 direction;
-
-
-    [Header("Upgrade Count")]
-    public int DmgUpgradecount;
-    public int FireRateUpgradecount;
-    public int RangeUpgradecount;
-
-
-    [Header("Show Range")]
-    public GameObject newRange;
-    [SerializeField] private GameObject towerRangePrefab;
-    public bool rangeCreated = false;
-    [SerializeField] private Material RangeMaterial;
-
-    //[Header("Tower Upgrade Panel")]
-    //public RectTransform image; // L'image dans le canvas
-    //public Canvas canvas;
-
-    private void OnEnable()
+    private float _fireTimer;
+    
+    [Header("Tower Upgrades Settings")]
+     public int dmgUpgradecount = 0;
+     public int fireRateUpgradecount = 0;
+     public int rangeUpgradecount = 0;
+     
+     [Header("Tower Range")]
+     [SerializeField] private GameObject towerRange;
+    private void Awake()
     {
-        EventsManager.OnWaveStart += ClearEnemyList;
-        LayerTileGround = LayerMask.NameToLayer("TileGround");
+        layerAccept = EnemySpawner.Instance.EnemyMask;
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        EventsManager.OnWaveStart -= ClearEnemyList;
+        towerRange = CreateTowerRange(transform);
     }
-
-    private void ClearEnemyList(S_Enemy enemy, float quantity)
-    {
-        EnemyToKill.Clear();
-    }
-    public void Build(S_Tower data, Vector3 position)
-    {
-        GameObject vfxObject = Instantiate(data.HitVfx, transform);
-        TowerHitVfx = vfxObject.GetComponent<ParticleSystem>();
-        TowerHitVfx.Stop();
-        transform.position = position;
-
-        InitializeTower(data);
-
-        EventsManager.TowerBuild(this);
-
-        // mettre ici des effets visuel sur la construction de la tour comme vfx ou audio si commun a chaque tower
-    }
-    public void Fire(GameObject enemyTarget)
-    {
-        IShootable shootable = GetComponent<IShootable>();
-        if (shootable != null)
-        {
-            EnemyToKill.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
-
-            if (EnemyToKill.Count > 0)
-            {
-                shootable.Fire(enemyTarget);
-                shootable.FireVfx(TowerHitVfx);
-            }
-            else
-            {
-                Debug.Log($"{name}: No valid enemies to attack!");
-            }
-        }
-    }
-    public void EnemyTouched()
-    {
-        IShootable shootable = GetComponent<IShootable>();
-        if (shootable != null)
-        {
-            shootable.HitVfx(TowerHitVfx);
-        }
-    }
-
-
-    public void Upgrade()
-    {
-        //transform.GetChild(0).gameObject.SetActive(true);
-        //Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
-        //RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), screenPosition, canvas.worldCamera, out Vector2 localPosition);
-        //image.localPosition = localPosition;
-
-
-        TowerUpgrade.Instance.SelectTowerToUpgrade(this);
-    }
-
-    public void InitializeTower(S_Tower data)
-    {
-        TowerData = data;
-
-
-        stat.FireRate = data.FireRate;
-        stat.FireRange = data.FireRange;
-        stat.GoldsCost = data.GoldsCost;
-        stat.Damage = data.Damage;
-    }
-    public void RemoveEnemyForAllTower(GameObject enemy)
-    {
-        foreach (var tower in TowerBuilder.Instance.AllTowerPosedOnMap)
-        {
-            if (tower.EnemyToKill.Contains(enemy))
-            {
-                tower.EnemyToKill.Remove(enemy);
-            }
-        }
-    }
-    #region Detect Enemy
 
     private void Update()
     {
-        if (isPosed)
-        {
-            UpdateEnemyList(); // Gestion des ennemis proches
-            HandleFiring();    // Gestion du tir en fonction du FireRate
-        }
-        else if (Input.GetKeyUp(KeyCode.R))
-        {
-            YRotate += 90;
-            transform.rotation = Quaternion.Euler(0, YRotate, 0);
-        }
+        UpdateEnemyList();
+        HandleFiring();
     }
 
+    public override void Upgrade()
+    {
+        base.Upgrade();
+        TowerUpgrade.Instance.SelectTowerToUpgrade(this);
+    }
+
+    public override void DestroyBuilding()
+    {
+        base.DestroyBuilding();
+        TowerUpgrade.Instance.towerToUpgrade = null;
+    }
+
+    protected abstract void Fire(GameObject enemyToKill);
+    
+    protected virtual void InitializeTowerStats(S_Tower data)
+    {
+        towerData = data;
+        stat = data.GetTowerStats();
+        buildingStat = data.GetBuildingStats();
+        dmgUpgradecount = 0;
+        fireRateUpgradecount = 0;
+        rangeUpgradecount = 0;
+    }
+    
+    public virtual GameObject BuildTower(S_Tower towerToInstantiate, Vector3 position, Transform parent, Tile buildOnTile)
+    {
+        GameObject newTower = Build(towerToInstantiate.Prefab, position + towerToInstantiate.PosOnMap, towerToInstantiate.GoldsCost, buildOnTile);
+        newTower.transform.parent = parent;
+        Tower towerBehaviour = newTower.GetComponent<Tower>();
+        if (towerBehaviour is not null)
+        {
+            towerBehaviour.InitializeTowerStats(towerToInstantiate);
+        }
+        return newTower;
+    }
+
+    public GameObject CreateTowerRange(Transform towerToInstantiate)
+    {
+        GameObject newRange = Instantiate(UiManager.Instance.towerRange, towerToInstantiate);
+        newRange.SetActive(false);
+        newRange.transform.position = new Vector3(towerToInstantiate.position.x, 0.5f, towerToInstantiate.position.z);
+        newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
+        return newRange;
+    }
+    
+    
     private void UpdateEnemyList()
     {
         Collider[] hittedObject = Physics.OverlapSphere(transform.position, stat.FireRange, layerAccept);
         EnemyToKill.Clear();
+
+        if (hittedObject.Length <= 0) { return; }
 
         foreach (var hit in hittedObject)
         {
@@ -156,9 +108,14 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
                 EnemyToKill.Add(hit.gameObject);
             }
         }
-        EnemyToKill.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
-        EnemyToKill = EnemyToKill.OrderBy((enemyToFocus) => enemyToFocus.GetComponent<EnemyBehaviour>().totalDistanceToGoal).ToList();
 
+        EnemyToKill.RemoveAll(enemy => enemy is null || !enemy.activeInHierarchy);
+        EnemyToKill = EnemyToKill.OrderBy((enemyToFocus) => enemyToFocus.GetComponent<EnemyBehaviour>().totalDistanceToGoal).ToList();
+        RotateTower();
+    }
+
+    protected virtual void RotateTower()
+    {
         if (EnemyToKill.Count > 0)
         {
             direction = EnemyToKill[0].transform.position - transform.position;
@@ -169,74 +126,32 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawWireSphere(transform.position, stat.FireRange);
-    //}
-
+    public void RemoveEnemyForAllTower(GameObject enemy)
+    {
+        foreach (Tower tower in TowerBuilderManager.Instance.AllTowerPosedOnMap)
+        {
+            if (tower.EnemyToKill.Contains(enemy))
+            {
+                tower.EnemyToKill.Remove(enemy);
+            }
+        }
+    }
     private void HandleFiring()
     {
         _fireTimer += Time.deltaTime;
-        if (_fireTimer >= stat.FireRate && EnemyToKill.Count > 0)
+        if (_fireTimer >= stat.FireRate)
         {
             _fireTimer = 0.0f;
-            Fire(EnemyToKill[0]);
-        }
-    }
-    #endregion
-
-    private void DestroyTower(Tower tower)
-    {
-        foreach (Tile tile in TowerBuilder.Instance.TilesOccupied)
-        {
-            if (tile.transform.position + tower.TowerData.PosOnMap == tower.transform.position)
+            if (EnemyToKill.Count > 0)
             {
-                tile.IsOccupied = false;
-
-                tile.gameObject.layer = LayerTileGround;
-                break;
+                Fire(EnemyToKill[0]);
             }
         }
-        EventsManager.TowerDestroy(tower);
-        TowerBuilder.Instance.AllTowerPosedOnMap.Remove(tower);
-        Destroy(tower.gameObject);
-
-        //TowerBuilder.Instance.CanDestroy();
-        //UiManager.Instance.IsActive = false;
-        //UiManager.Instance.ActivateTowerInfoPanel(this);
-        //DestroyRange();
     }
-
-    private void OnMouseDown()
-    {
-        if (TowerBuilder.Instance.CanDestroyTower)
-        {
-            DestroyTower(this);
-        }
-        if (TowerBuilder.Instance.CanUpgradeTower)
-        {
-            Upgrade();
-        }
-    }
-    public void ShowRange()
-    {
-        if (rangeCreated)
-        {
-            rangeCreated = false;
-            newRange = Instantiate(towerRangePrefab);
-            newRange.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
-            newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
-        }
-    }
-    public void DestroyRange()
-    {
-        Destroy(newRange);
-        rangeCreated = true;
-    }
+    
     private void OnMouseOver()
     {
-        if (!TowerBuilder.Instance.CanUpgradeTower && !TowerBuilder.Instance.DragTower)
+        if (!TowerBuilderManager.Instance.CanUpgradeTower && !TowerBuilderManager.Instance.DragTower)
         {
             UiManager.Instance.TowerInfoPanelIsActive = true;
             UiManager.Instance.ShowTowerInfoPanel();
@@ -246,7 +161,7 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
     }
     private void OnMouseExit()
     {
-        if (!TowerBuilder.Instance.CanUpgradeTower)
+        if (!TowerBuilderManager.Instance.CanUpgradeTower)
         {
             UiManager.Instance.TowerInfoPanelIsActive = false;
             UiManager.Instance.ShowTowerInfoPanel();
@@ -259,8 +174,24 @@ public class Tower : MonoBehaviour, IBuildable, IUpgradeable
         UiManager.Instance.ShowTowerInfoPanel();
         DestroyRange();
     }
+
+    public void ShowRange()
+    {
+        towerRange.SetActive(true);
+    }
+
+    public void DestroyRange()
+    {
+        towerRange.SetActive(false);
+    }
     private void OnDestroy()
     {
         HideInfoPanel();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, stat.FireRange);
     }
 }

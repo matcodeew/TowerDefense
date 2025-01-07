@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Path
   - TowerTile
+  - TowerButton
   layers:
   - Default
   - TransparentFX

@@ -18,6 +18,7 @@ public class EnemySpawner : MonoBehaviour
 
     [Header("Enemy Settings")]
     [SerializeField] private EnemySpawnData SpawnData;
+    [SerializeField] public LayerMask EnemyMask;
 
     private float _timer;
     private ObjectPool _enemyPool;
@@ -37,7 +38,7 @@ public class EnemySpawner : MonoBehaviour
         _waveManager = WaveManager.Instance;
         _enemyPool = GetComponent<ObjectPool>();
     }
-    public void UpdateParameter(S_Enemy enemy, float quantity)
+    public void UpdateParameter(S_Enemy enemy, int quantity)
     {
         SpawnData.Enemy = enemy;
         SpawnData.MaxToInstantiate = Mathf.FloorToInt(quantity);
@@ -45,8 +46,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (!_waveManager.CanStartFirstWave) { return; }
-
         _timer += Time.deltaTime;
 
         if (_timer >= SpawnData.SpawnRate && _waveManager.CurrentEnemyOnMap < SpawnData.MaxToInstantiate)

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    #region Struct
     [System.Serializable]
     public class Stat
     {
@@ -10,19 +11,18 @@ public class EnemyBehaviour : MonoBehaviour
         public int Damage;
         public float MoveSpeed;
     }
+    #endregion
 
     [Header("Enemy Stats")]
-    /*[HideInInspector]*/
     public S_Enemy EnemyData;
     public float totalDistanceToGoal;
     public Stat stat;
 
     [Header("Enemy Path")]
     [HideInInspector] public Vector3 _currentTarget;
-    [HideInInspector] private float _distanceThreshold = 0.1f;
-    [HideInInspector] public bool IsCreate = false;
-    [HideInInspector] public EnemySpawner Spawner;
-    [HideInInspector] private int WaypointIndex = 0;
+    [HideInInspector] public bool IsCreate;
+    [HideInInspector] public EnemySpawner Spawner; 
+    private int WaypointIndex;
     private void Update()
     {
         if (IsCreate)
@@ -33,31 +33,26 @@ public class EnemyBehaviour : MonoBehaviour
     }
     public void TakeDamage(Tower tower, float damage)
     {
-        EnemyBehaviour enemyBehaviour = GetComponent<EnemyBehaviour>();
-
-        if (tower != null)
+        if (stat.CurrentLife <= stat.MaxLife && stat.CurrentLife > 0)
         {
-            if (enemyBehaviour.stat.CurrentLife <= enemyBehaviour.stat.MaxLife && enemyBehaviour.stat.CurrentLife > 0)
+            stat.CurrentLife = Mathf.Clamp(stat.CurrentLife - damage, 0, stat.MaxLife);
+
+            //print($"{(damage < 0 ? $"receive health {-damage}" : $"receive damage {damage}")}," +
+            //      $" health remaining {stat.CurrentLife} / { stat.MaxLife}");
+            if (stat.CurrentLife <= 0)
             {
-                enemyBehaviour.stat.CurrentLife -= damage;
-                if (enemyBehaviour.stat.CurrentLife < 0)
-                {
-                    Die(tower, gameObject);
-                }
-            }
-            else
-            {
-                Die(tower, gameObject);
+                Die(tower);
             }
         }
     }
-    private void Die(Tower tower, GameObject enemyKill)
+    private void Die(Tower tower)
     {
-        RessourceManager.Instance.currentGold += EnemyData.goldValue;
-        tower.RemoveEnemyForAllTower(enemyKill);
-        Spawner.ReturnEnemyToPool(enemyKill, enemyKill.GetComponent<EnemyBehaviour>().EnemyData.type);
+        RessourceManager.AddGold(EnemyData.goldValue);
         WaveManager.Instance.EnemyKill++;
-        EventsManager.EnemyDie();
+        
+        tower.RemoveEnemyForAllTower(gameObject);
+        Spawner.ReturnEnemyToPool(gameObject, EnemyData.type);
+     //   EventsManager.EnemyDie();
     }
     #region Enemy Movement
     public void ResetEnemy()
@@ -69,7 +64,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, _currentTarget, stat.MoveSpeed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, _currentTarget) < _distanceThreshold)
+        if (Vector3.Distance(transform.position, _currentTarget) < 0.1)
         {
             WaypointIndex++;
 

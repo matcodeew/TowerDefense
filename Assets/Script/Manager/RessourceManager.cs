@@ -1,44 +1,85 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class RessourceManager : MonoBehaviour
+public class RessourceManager: MonoBehaviour
 {
-    public int currentGold = 0;
-    public int BaseLife = 30;
-    public int MaxWave = 30;
-    public int CurrentWave;
-    public static RessourceManager Instance;
-
-    private void Awake()
+    [Header("Ressources")]
+    public static int CurrentGold { get; private set; } = 250;
+    public static int BaseLife { get; private set; } = 30;
+    public static int MaxWave { get; private set; } = 30;
+    public static int CurrentWave { get; private set; } = 0;
+    
+    private void Awake() // Mettre les bonnes valeur en fonction du level ou difficulter 
     {
-        if(Instance == null)
+        CurrentGold = 1000;
+        BaseLife = 30;
+        MaxWave = 30;
+    }
+    /// <summary>
+    /// Inflicts damage to the base. Reduces base life by the specified amount.
+    /// </summary>
+    /// <param name="damageTaken">The amount of damage to apply to the base.</param>
+    public static void BaseTakeDamage(int damageTaken)
+    {
+        if (BaseLife > 0)
         {
-            Instance = this;
+            BaseLife -= damageTaken;
+            BaseLife = Mathf.Max(0, BaseLife); // Ensures life does not go below zero.
+            UiManager.Instance.UpdateLife();
+            Debug.Log($"Base took {damageTaken} damage. Remaining life: {BaseLife}");
         }
     }
-    private void OnEnable()
-    {
-        EventsManager.OnTowerDestroy += DestroyTower;
-        EventsManager.OnEnemyReachEnd += EnemyMakeDamageOnBase;
-        EventsManager.OnTowerBuild += HandleTowerBuilt;
-        EventsManager.OnWaveStart += IncrementeWaveIndex;
 
-    }
-    private void HandleTowerBuilt(Tower tower)
+    /// <summary>
+    /// Adds gold to the current gold count.
+    /// </summary>
+    /// <param name="goldAdded">The amount of gold to add.</param>
+    public static void AddGold(int goldAdded)
     {
-        currentGold -= tower.stat.GoldsCost;
+        CurrentGold += goldAdded;
+        UiManager.Instance.UpdateGold();
+        Debug.Log($"Added {goldAdded} gold. Total gold: {CurrentGold}");
     }
-    private void DestroyTower(Tower tower)
+
+    /// <summary>
+    /// Deducts gold from the current gold count.
+    /// </summary>
+    /// <param name="goldLost">The amount of gold to deduct.</param>
+    public static void LoseGold(int goldLost)
     {
-        currentGold += Mathf.FloorToInt(tower.stat.GoldsCost * 0.75f);
+        CurrentGold -= goldLost;
+        CurrentGold = Mathf.Max(0, CurrentGold); // Ensures gold does not go below zero.
+        UiManager.Instance.UpdateGold();
+        Debug.Log($"Lost {goldLost} gold. Total gold: {CurrentGold}");
     }
-    private void EnemyMakeDamageOnBase(int value)
+
+    /// <summary>
+    /// Starts a new wave. Increases the current wave count and resets any wave-related parameters.
+    /// </summary>
+    public static bool StartNewWave()
     {
-        BaseLife += value;
+        if (CurrentWave < MaxWave)
+        {
+            CurrentWave++;
+            Debug.Log($"Wave {CurrentWave} started!");
+            UiManager.Instance.UpdateWave();
+            return true;
+        }
+        else
+        {
+            EventsManager.LevelFinished();
+            return false;
+        }
     }
-    private void IncrementeWaveIndex(S_Enemy enemy, float quantiry)
+
+    /// <summary>
+    /// Resets all resources to their initial state.
+    /// </summary>
+    public static void ResetResources()
     {
-        CurrentWave++;
+        CurrentGold = 0;
+        BaseLife = 30;
+        CurrentWave = 0;
+        Debug.Log("Resources reset to initial values.");
     }
-    public bool HaveRessource(Tower tower) => currentGold >= tower.stat.GoldsCost;
 }
-     

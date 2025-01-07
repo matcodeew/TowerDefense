@@ -33,32 +33,39 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         EventsManager.OnWaveStart += UpdateStat;
-        InitializePool(EnemyParent.Normal);
-        InitializePool(EnemyParent.Elite);
-        InitializePool(EnemyParent.Boss);
+
+        foreach (var field in typeof(EnemyParentPool).GetFields())
+        {
+            PoolEnemy enemy = (PoolEnemy)field.GetValue(EnemyParent);
+            InitializePool(enemy);
+        }
     }
-    private void UpdateStat(S_Enemy _enemy, float _quantity)
+    private void UpdateStat(S_Enemy enemy, int quantity)
     {
         int wave = 0;
-        foreach (var enemyType in pools[_enemy.type])
+        foreach (var enemyType in pools[enemy.type])
         {
             EnemyBehaviour current = enemyType.GetComponent<EnemyBehaviour>();
+            int waveModulo = 0;
 
-            switch (_enemy.type)
+            switch (enemy.type)
             {
                 case EnemyType.Normal:
-                    enemyToUpgrade = WaveManager.Instance.EnemyToInstantiate.Normal;
-                    wave = WaveManager.Instance._waveIndex;
+                    enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Normal;
+                    wave = RessourceManager.CurrentWave;
+                    waveModulo = wave;
                     break;
 
                 case EnemyType.Elite:
-                    enemyToUpgrade = WaveManager.Instance.EnemyToInstantiate.Elite;
-                    wave = (int)WaveManager.Instance._waveIndex / 3;
+                    enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Elite;
+                    wave = RessourceManager.CurrentWave / 3;
+                    waveModulo = wave % 4;
                     break;
 
                 case EnemyType.Boss:
-                    enemyToUpgrade = WaveManager.Instance.EnemyToInstantiate.Boss;
-                    wave = (int)WaveManager.Instance._waveIndex / 10;
+                    enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Boss;
+                    wave = RessourceManager.CurrentWave / 10;
+                    waveModulo = wave % 10;
                     break;
 
                 default:
@@ -68,11 +75,11 @@ public class ObjectPool : MonoBehaviour
             }
 
 
-            if (wave != 0)
+            if (wave != 1)
             {
-                current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.MaxLifeMultiplicator));
+                current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (waveModulo * enemyToUpgrade.MaxLifeMultiplicator));
                 current.stat.MoveSpeed += enemyToUpgrade.MoveSpeedMultiplicator;
-                current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.DamageMultiplicator));
+                current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (waveModulo * enemyToUpgrade.DamageMultiplicator));
                 UpdateCurrentLife(current);
             }
             else
@@ -122,20 +129,18 @@ public class ObjectPool : MonoBehaviour
         {
             if (!enemy.activeInHierarchy)
             {
-                //StartCoroutine(ActivateEnemyWithDelay(enemy, 0.2f));
                 enemy.SetActive(true);
                 return enemy;
             }
         }
 
         PoolEnemy poolData = GetPoolData(type);
-        if (poolData.Prefab != null)
+        if (poolData.Prefab is not null)
         {
             GameObject newEnemy = Instantiate(poolData.Prefab);
             newEnemy.transform.parent = poolData.Parent.transform;
             pools[type].Add(newEnemy);
 
-            //StartCoroutine(ActivateEnemyWithDelay(newEnemy, 0.2f));
             newEnemy.SetActive(true);
             return newEnemy;
         }
@@ -167,7 +172,8 @@ public class ObjectPool : MonoBehaviour
             EnemyType.Normal => EnemyParent.Normal,
             EnemyType.Elite => EnemyParent.Elite,
             EnemyType.Boss => EnemyParent.Boss,
-            _ => default, //  _ = wilcard = tout ce qui n'est pas deja indiquer = return default
+            _ => default,
+            //  _ = wilcard = tout ce qui n'est pas deja indiquer = return default
         };
     }
 }
