@@ -35,6 +35,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float timetoWaitBeforeNextWave;
     private bool firstWaveStarted;
     private float timer;
+    public bool shouldCreateEnemy = false;
     private void Awake()
     {
         if(Instance is null) { Instance = this; }
@@ -111,6 +112,7 @@ public class WaveManager : MonoBehaviour
 
             print($"enemy to instantiate {_currentEnemytoSpawn.name} on this quantity {_tempEnemyNumbs[_currentEnemytoSpawn]}");
             EventsManager.StartNewWave(_currentEnemytoSpawn, _tempEnemyNumbs[_currentEnemytoSpawn]);
+            shouldCreateEnemy = true;
         }
     }
 }

@@ -46,6 +46,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        if (!WaveManager.Instance.shouldCreateEnemy) return;
         _timer += Time.deltaTime;
 
         if (_timer >= SpawnData.SpawnRate && _waveManager.CurrentEnemyOnMap < SpawnData.MaxToInstantiate)

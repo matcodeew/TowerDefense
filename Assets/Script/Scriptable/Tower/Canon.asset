@@ -19,8 +19,7 @@ MonoBehaviour:
   Prefab: {fileID: 1466046887069395057, guid: 3542ee2af6f8e814d96e40fd225f88fc, type: 3}
   PreviewPrefab: {fileID: 1466046887069395057, guid: 58df0ec21d425f04fb23b0cfbd731a1c, type: 3}
   PosOnMap: {x: 0, y: 0.3, z: 0}
-  HitVfx: {fileID: 0}
-  TowerFireVfx: {fileID: 0}
+  HitVfx: {fileID: 5162910912013668194, guid: cf82839c411151342a7b2337bda9fb34, type: 3}
   Damage: 1.5
   FireRate: 1
   FireRange: 3

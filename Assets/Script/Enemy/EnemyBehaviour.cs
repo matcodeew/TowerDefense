@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using static DebuffLibrary;
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -8,21 +10,29 @@ public class EnemyBehaviour : MonoBehaviour
     {
         public float MaxLife;
         public float CurrentLife;
-        public int Damage;
+        public float Damage;
         public float MoveSpeed;
     }
     #endregion
+
+    private DebuffLibrary debuffLib;
 
     [Header("Enemy Stats")]
     public S_Enemy EnemyData;
     public float totalDistanceToGoal;
     public Stat stat;
+    public bool HasDOT;
+    private bool applyDot;
 
     [Header("Enemy Path")]
     [HideInInspector] public Vector3 _currentTarget;
     [HideInInspector] public bool IsCreate;
     [HideInInspector] public EnemySpawner Spawner; 
     private int WaypointIndex;
+    private void Awake()
+    {
+        debuffLib = DebuffLibrary.Instance;
+    }
     private void Update()
     {
         if (IsCreate)
@@ -31,29 +41,51 @@ public class EnemyBehaviour : MonoBehaviour
             UpdateDistanceToGoal();
         }
     }
-    public void TakeDamage(Tower tower, float damage)
+    public void ApplyDebuff(DebuffType type)
+    {
+        StartCoroutine(ApplyDebuffRoutine(type));
+    }
+    private IEnumerator ApplyDebuffRoutine(DebuffType type)
+    {
+        if (HasDOT && !applyDot)
+        {
+            if (debuffLib.debuffs.TryGetValue(type, out DebuffDuration debuffStats))
+            {
+                switch (type)
+                {
+                    case DebuffType.Fire:
+                        applyDot = true;
+                        for (int i = 0; i < debuffStats.duration; i++)
+                        {
+                            yield return new WaitForSeconds(1f);
+                            TakeDamage(debuffStats.value);
+                        }
+                        HasDOT = false;
+                        applyDot = false;
+                        break;
+                }
+            }
+        }
+    }
+    public void TakeDamage(float damage)
     {
         if (stat.CurrentLife <= stat.MaxLife && stat.CurrentLife > 0)
         {
             stat.CurrentLife = Mathf.Clamp(stat.CurrentLife - damage, 0, stat.MaxLife);
-
-            //print($"{(damage < 0 ? $"receive health {-damage}" : $"receive damage {damage}")}," +
-            //      $" health remaining {stat.CurrentLife} / { stat.MaxLife}");
             if (stat.CurrentLife <= 0)
             {
-                Die(tower);
+                Die();
             }
         }
     }
-    private void Die(Tower tower)
+    private void Die()
     {
         RessourceManager.AddGold(EnemyData.goldValue);
         WaveManager.Instance.EnemyKill++;
-        
-        tower.RemoveEnemyForAllTower(gameObject);
         Spawner.ReturnEnemyToPool(gameObject, EnemyData.type);
      //   EventsManager.EnemyDie();
     }
+
     #region Enemy Movement
     public void ResetEnemy()
     {
@@ -74,13 +106,12 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else
             {
-                EventsManager.ApplyBaseDamage(-stat.Damage);
+                EventsManager.ApplyBaseDamage((int)-stat.Damage);
                 Spawner.ReturnEnemyToPool(gameObject, GetComponent<EnemyBehaviour>().EnemyData.type);
                 WaveManager.Instance.EnemyKill++;
             }
         }
     }
-    #endregion
 
     private void UpdateDistanceToGoal()
     {
@@ -94,4 +125,5 @@ public class EnemyBehaviour : MonoBehaviour
             totalDistanceToGoal += Vector3.Distance(transform.position, Spawner.AllWaypoints[WaypointIndex].transform.position);
         }
     }
+    #endregion
 }

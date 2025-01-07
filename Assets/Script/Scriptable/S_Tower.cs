@@ -13,7 +13,6 @@ public class S_Tower : ScriptableObject
 
     [Header("VFX")]
     public GameObject HitVfx;
-    public GameObject TowerFireVfx;
 
     [Header("Tower Stats")]
     public float Damage;

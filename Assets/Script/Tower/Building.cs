@@ -26,11 +26,12 @@ public class Building : MonoBehaviour
         tileOnGround = null;
     }
 
-    public virtual GameObject Build(GameObject BuildToInstantiate, Vector3 position, int goldUse, Tile buildOnTile)
+    public virtual GameObject Build(GameObject BuildToInstantiate, Transform transform, int goldUse, Tile buildOnTile)
     {
         tileOnGround = buildOnTile;
         GameObject newBuilding = Instantiate(BuildToInstantiate);
-        newBuilding.transform.position = position;
+        newBuilding.transform.position = transform.position;
+        newBuilding.transform.rotation = transform.rotation;
         RessourceManager.LoseGold(goldUse);
         return newBuilding;
     }

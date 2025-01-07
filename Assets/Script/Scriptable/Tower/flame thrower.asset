@@ -16,12 +16,11 @@ MonoBehaviour:
   ZoneEffect:
     EffectRadius: 2.5
     MaxEnemyChain: 0
-  Prefab: {fileID: 3723666213160026594, guid: 4fb197682e9d0ef4e8c7878cc3b5c874, type: 3}
-  PreviewPrefab: {fileID: 3723666213160026594, guid: 49d30982e26669248ab2e7411138b5d1, type: 3}
-  PosOnMap: {x: 0, y: 0, z: 0}
-  HitVfx: {fileID: 0}
-  TowerFireVfx: {fileID: 0}
-  Damage: 0.5
+  Prefab: {fileID: 4361258260596044340, guid: 71e69735576f4a54c8ac765cfb837b3e, type: 3}
+  PreviewPrefab: {fileID: 4361258260596044340, guid: 0b8207e3e22f0b543a24062a68e5dba7, type: 3}
+  PosOnMap: {x: 0, y: 0.41, z: 0}
+  HitVfx: {fileID: 2787556212050310887, guid: 57970c6bb711ec24b8d98424b1806f3b, type: 3}
+  Damage: 0
   FireRate: 0.25
   FireRange: 1.5
   GoldsCost: 150

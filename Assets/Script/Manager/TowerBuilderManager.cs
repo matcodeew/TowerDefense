@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -26,17 +27,17 @@ public class TowerBuilderManager : MonoBehaviour
     private Tower tower;
     [SerializeField] private Transform towerParent;
     [SerializeField] private Transform previewParent;
-    
+
     [Header("Preview Tower")]
     private float yRotate;
     private GameObject previewTower;
-    [SerializeField]  private GameObject previewTowerRange;
-    private GameObject caca;
+    [SerializeField] private GameObject previewTowerRange;
+    private GameObject previewRangeTower;
     private Quaternion previewRotation;
 
-    [HideInInspector] public bool CanDestroyTower ;
-    [HideInInspector] public bool CanUpgradeTower ;
-    
+    [HideInInspector] public bool CanDestroyTower;
+    [HideInInspector] public bool CanUpgradeTower;
+
     [Header("UI")]
     [SerializeField] public List<TowerButton> AllButtonTower = new();
     [SerializeField] public Color LockColor;
@@ -44,7 +45,7 @@ public class TowerBuilderManager : MonoBehaviour
     [SerializeField] private GameObject CancelBuildingButton;
     [SerializeField] private Image DestroyTowerButton;
     [SerializeField] private Image UpgradeTowerButton;
-    
+
     private void Awake()
     {
         if (Instance == null)
@@ -62,14 +63,14 @@ public class TowerBuilderManager : MonoBehaviour
         MakePreview(towerData);
     }
 
-    private void BuildingTower(Vector3 position, Tile buildOnTile)
+    private void BuildingTower(Transform position, Tile buildOnTile)
     {
         CancelPreview();
         AllTowerPosedOnMap.Add(tower);
+        position.rotation = previewRotation;
         GameObject newtower = tower.BuildTower(towerToBuild, position, towerParent, buildOnTile);
-        newtower.transform.rotation = previewRotation;
         newtower.layer = 0;
-        caca.SetActive(false);
+        previewRangeTower.SetActive(false);
     }
 
     private void Update()
@@ -77,12 +78,13 @@ public class TowerBuilderManager : MonoBehaviour
         if (DragTower == false) { return; }
 
         if (Input.GetKeyUp(KeyCode.R) && previewTower is not null)
-        { 
+        {
             yRotate += 90;
             previewTower.transform.rotation = Quaternion.Euler(0, yRotate, 0);
             previewRotation = previewTower.transform.rotation;
+            print(previewRotation);
         }
-        
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
@@ -98,7 +100,7 @@ public class TowerBuilderManager : MonoBehaviour
                 Tile tile = hit.collider.gameObject.GetComponent<Tile>();
                 if (tile is not null && !tile.IsOccupied)
                 {
-                    BuildingTower(hit.collider.transform.position, tile);
+                    BuildingTower(hit.collider.transform, tile);
                     TilesOccupied.Add(tile);
                     tile.IsOccupied = true;
                     tile.gameObject.layer = 0;
@@ -110,8 +112,8 @@ public class TowerBuilderManager : MonoBehaviour
                 }
             }
         }
-        else if(Input.GetMouseButtonDown(0))
-        { 
+        else if (Input.GetMouseButtonDown(0))
+        {
             CancelPreview();
         }
     }
@@ -124,14 +126,14 @@ public class TowerBuilderManager : MonoBehaviour
     private void UpdatePreviewPosition(RaycastHit hit)
     {
         previewTower.transform.position = hit.point;
-        caca.transform.position = hit.point;
+        previewRangeTower.transform.position = hit.point;
     }
     private void MakePreview(S_Tower towerData)
     {
         previewTower = Instantiate(towerData.PreviewPrefab, previewParent);
-        caca = Instantiate(previewTowerRange, previewTower.transform);
-        caca.transform.position = new Vector3(previewTower.transform.position.x, 0.5f, previewTower.transform.position.z);
-        caca.transform.localScale = new Vector3(towerToBuild.FireRange * 2, 0.1f, towerToBuild.FireRange * 2);
+        previewRangeTower = Instantiate(previewTowerRange, previewTower.transform);
+        previewRangeTower.transform.position = new Vector3(previewTower.transform.position.x, 0.5f, previewTower.transform.position.z);
+        previewRangeTower.transform.localScale = new Vector3(towerToBuild.FireRange * 2, 0.1f, towerToBuild.FireRange * 2);
     }
 
     private void CancelPreview()
@@ -147,7 +149,7 @@ public class TowerBuilderManager : MonoBehaviour
         CanUpgradeTower = false;
         UpgradeTowerButton.color = Color.white;
 
-        CanDestroyTower = !CanDestroyTower; 
+        CanDestroyTower = !CanDestroyTower;
         DestroyTowerButton.color = (CanDestroyTower ^ CanUpgradeTower) ? SelectedColor : Color.white;
 
         ChangeBuilderButtonColor();
@@ -170,7 +172,7 @@ public class TowerBuilderManager : MonoBehaviour
         CanDestroyTower = false;
         DestroyTowerButton.color = Color.white;
         TowerUpgrade.Instance.upgradePanel.SetActive(false);
-        
+
         CanUpgradeTower = false;
         UpgradeTowerButton.color = Color.white;
     }
@@ -187,5 +189,5 @@ public class TowerBuilderManager : MonoBehaviour
                 AllButtonTower[i].Button.color = Color.white;
             }
         }
-    } 
+    }
 }

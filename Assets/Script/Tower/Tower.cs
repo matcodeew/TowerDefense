@@ -60,7 +60,17 @@ public abstract class Tower : Building
         TowerUpgrade.Instance.towerToUpgrade = null;
     }
 
-    protected abstract void Fire(GameObject enemyToKill);
+    protected virtual void Fire(GameObject enemyToKill)
+    {
+        StartHittedEnemyVfx(enemyToKill);
+    }
+    protected abstract void StartHittedEnemyVfx(GameObject enemyToKill);
+    protected virtual void StartingVfxInRange()
+    {
+    }
+    protected virtual void StopingVfxInRange()
+    {
+    }
     
     protected virtual void InitializeTowerStats(S_Tower data)
     {
@@ -72,9 +82,10 @@ public abstract class Tower : Building
         rangeUpgradecount = 0;
     }
     
-    public virtual GameObject BuildTower(S_Tower towerToInstantiate, Vector3 position, Transform parent, Tile buildOnTile)
+    public virtual GameObject BuildTower(S_Tower towerToInstantiate, Transform transform, Transform parent, Tile buildOnTile)
     {
-        GameObject newTower = Build(towerToInstantiate.Prefab, position + towerToInstantiate.PosOnMap, towerToInstantiate.GoldsCost, buildOnTile);
+        transform.position += towerToInstantiate.PosOnMap;
+        GameObject newTower = Build(towerToInstantiate.Prefab, transform, towerToInstantiate.GoldsCost, buildOnTile);
         newTower.transform.parent = parent;
         Tower towerBehaviour = newTower.GetComponent<Tower>();
         if (towerBehaviour is not null)
@@ -99,7 +110,8 @@ public abstract class Tower : Building
         Collider[] hittedObject = Physics.OverlapSphere(transform.position, stat.FireRange, layerAccept);
         EnemyToKill.Clear();
 
-        if (hittedObject.Length <= 0) { return; }
+        if (hittedObject.Length <= 0) { StopingVfxInRange(); return; }
+        StartingVfxInRange();
 
         foreach (var hit in hittedObject)
         {
@@ -124,17 +136,6 @@ public abstract class Tower : Building
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         float rotationSpeed = 5f;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-    }
-
-    public void RemoveEnemyForAllTower(GameObject enemy)
-    {
-        foreach (Tower tower in TowerBuilderManager.Instance.AllTowerPosedOnMap)
-        {
-            if (tower.EnemyToKill.Contains(enemy))
-            {
-                tower.EnemyToKill.Remove(enemy);
-            }
-        }
     }
     private void HandleFiring()
     {
