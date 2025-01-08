@@ -94,6 +94,7 @@ public class WaveManager : MonoBehaviour
             EnemyKill = 0;
             UiAnimation.Instance.StopWaveButtonAnim();
             _wave = RessourceManager.CurrentWave;
+
             if (_wave % 10 == 0) //Boss
             {
                 _currentEnemytoSpawn = typeEnemyToSpawn.Boss;

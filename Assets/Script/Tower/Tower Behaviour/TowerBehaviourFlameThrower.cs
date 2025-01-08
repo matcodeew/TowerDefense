@@ -72,7 +72,7 @@ namespace Script.Tower.Tower_Behaviour
                     if (enemy.collider.TryGetComponent<EnemyBehaviour>(out var enemyBehaviour))
                     {
                         enemyBehaviour.HasDOT = true;
-                        enemyBehaviour.ApplyDebuff(DebuffLibrary.DebuffType.Fire);
+                        enemyBehaviour.ApplyDebuff(DebuffLibrary.DebuffType.Fire, stat.Damage);
                         StartHittedEnemyVfx(enemy.collider.gameObject);
                     }
                 }

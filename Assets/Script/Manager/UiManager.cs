@@ -22,6 +22,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI damage;
     [SerializeField] private TextMeshProUGUI fireRate;
     [SerializeField] private TextMeshProUGUI range;
+    [SerializeField] private TextMeshProUGUI goldCount;
 
     [Header("Wave Indication")] [SerializeField]
     public GameObject waveIndication;
@@ -65,7 +66,7 @@ public class UiManager : MonoBehaviour
 
     public void UpdateWave()
     {
-        wave.text = $"Waves {RessourceManager.CurrentWave}/{RessourceManager.MaxWave}";
+        wave.text = $"{RessourceManager.CurrentWave}/{RessourceManager.MaxWave}";
     }
 
     public void UpdateLife()
@@ -81,6 +82,7 @@ public class UiManager : MonoBehaviour
             damage.text = $"{tower.stat.Damage.ToString("0.00")} dmg";
             fireRate.text = $"{tower.stat.FireRate.ToString("0.00")} /sec";
             range.text = $"{tower.stat.FireRange.ToString("0.0")}";
+            goldCount.text = $"{tower.buildingStat.GoldsCost.ToString()}";
         }
     }
     public void DescriptionInfoPanel(S_Tower tower)
@@ -91,6 +93,7 @@ public class UiManager : MonoBehaviour
             damage.text = $"{tower.Damage.ToString("0.00")} dmg";
             fireRate.text = $"{tower.FireRate.ToString("0.00")} /sec";
             range.text = $"{tower.FireRange.ToString("0.0")}";
+            goldCount.text = $"{tower.GoldsCost.ToString()}";
         }
     }
 

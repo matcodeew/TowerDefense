@@ -46,6 +46,9 @@ public class TowerBuilderManager : MonoBehaviour
     [SerializeField] private Image DestroyTowerButton;
     [SerializeField] private Image UpgradeTowerButton;
 
+    [Header("Rotate Tower")]
+    private float _rotateTimer;
+
     private void Awake()
     {
         if (Instance == null)
@@ -55,6 +58,9 @@ public class TowerBuilderManager : MonoBehaviour
     }
     public void StartingDragTower(S_Tower towerData) //button clicked
     {
+        if (!CanBuild(towerData)) return;
+        if(previewTower is not null) CancelPreview();
+
         ResetUpgradeAndDestroy();
         DragTower = true;
         towerToBuild = towerData;
@@ -62,6 +68,8 @@ public class TowerBuilderManager : MonoBehaviour
         tower = towerToBuild.Prefab.GetComponent<Tower>();
         MakePreview(towerData);
     }
+
+    private bool CanBuild(S_Tower data) => RessourceManager.CurrentGold >= data.GoldsCost;
 
     private void BuildingTower(Transform position, Tile buildOnTile)
     {
@@ -71,15 +79,36 @@ public class TowerBuilderManager : MonoBehaviour
         GameObject newtower = tower.BuildTower(towerToBuild, position, towerParent, buildOnTile);
         newtower.layer = 0;
         previewRangeTower.SetActive(false);
+        previewRotation = Quaternion.Euler(0, 0, 0);
+        yRotate = 0;
     }
 
     private void Update()
     {
         if (DragTower == false) { return; }
 
-        if (Input.GetKeyUp(KeyCode.R) && previewTower is not null)
+        if (Input.GetKeyUp(KeyCode.R) && previewTower != null)
         {
             yRotate += 90;
+            previewTower.transform.rotation = Quaternion.Euler(0, yRotate, 0);
+            previewRotation = previewTower.transform.rotation;
+            print(previewRotation);
+        }
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        print(scroll);
+        _rotateTimer += Time.deltaTime;
+        if (scroll != 0 && previewTower != null && _rotateTimer > 0.15)
+        {
+            if (scroll > 0) // Molette vers le haut
+            {
+                yRotate += 90;
+            }
+            else if (scroll < 0) // Molette vers le bas
+            {
+                yRotate -= 90;
+            }
+            _rotateTimer = 0;
             previewTower.transform.rotation = Quaternion.Euler(0, yRotate, 0);
             previewRotation = previewTower.transform.rotation;
             print(previewRotation);
@@ -90,6 +119,11 @@ public class TowerBuilderManager : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
         {
             UpdatePreviewPosition(hit);
+            if(Input.GetMouseButtonDown(1))
+            {
+                CancelPreview();
+                return;
+            }
             if (Input.GetMouseButtonDown(0))
             {
                 if (IsPointerOverUI())
@@ -151,11 +185,10 @@ public class TowerBuilderManager : MonoBehaviour
 
         CanDestroyTower = !CanDestroyTower;
         DestroyTowerButton.color = (CanDestroyTower ^ CanUpgradeTower) ? SelectedColor : Color.white;
-
-        ChangeBuilderButtonColor();
     }
     public void CanUpgrade()
     {
+        if (TowerUpgrade.Instance.towerToUpgrade is not null) TowerUpgrade.Instance.towerToUpgrade.DestroyRange();
         TowerUpgrade.Instance.upgradePanel.SetActive(false);
         CanDestroyTower = false;
         DestroyTowerButton.color = Color.white;
@@ -163,7 +196,6 @@ public class TowerBuilderManager : MonoBehaviour
         CanUpgradeTower = !CanUpgradeTower;
         UpgradeTowerButton.color = (CanUpgradeTower ^ CanDestroyTower) ? SelectedColor : Color.white;
 
-        ChangeBuilderButtonColor();
         UiManager.Instance.TowerInfoPanelIsActive = true;
     }
 
@@ -172,8 +204,9 @@ public class TowerBuilderManager : MonoBehaviour
         CanDestroyTower = false;
         DestroyTowerButton.color = Color.white;
         TowerUpgrade.Instance.upgradePanel.SetActive(false);
+        if(TowerUpgrade.Instance.towerToUpgrade is not null) TowerUpgrade.Instance.towerToUpgrade.DestroyRange();
 
-        CanUpgradeTower = false;
+     CanUpgradeTower = false;
         UpgradeTowerButton.color = Color.white;
     }
     public void ChangeBuilderButtonColor()

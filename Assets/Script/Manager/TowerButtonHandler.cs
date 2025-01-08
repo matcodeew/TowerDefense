@@ -7,7 +7,7 @@ public class TowerButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (associatedTower != null)
+        if (associatedTower != null && !TowerBuilderManager.Instance.CanUpgradeTower)
         {
             UiManager.Instance.TowerInfoPanelIsActive = true;
             UiManager.Instance.DescriptionInfoPanel(associatedTower); 

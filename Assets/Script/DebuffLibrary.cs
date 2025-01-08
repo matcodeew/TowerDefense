@@ -17,7 +17,6 @@ public class DebuffLibrary : MonoBehaviour
     {
         public DebuffType type;
         public float duration;
-        public float value;
     }
     [SerializeField] private List<DebuffDuration> AllDOT = new();
 

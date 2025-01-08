@@ -38,7 +38,6 @@ public class RessourceManager: MonoBehaviour
     {
         CurrentGold += goldAdded;
         UiManager.Instance.UpdateGold();
-        Debug.Log($"Added {goldAdded} gold. Total gold: {CurrentGold}");
     }
 
     /// <summary>
@@ -50,7 +49,6 @@ public class RessourceManager: MonoBehaviour
         CurrentGold -= goldLost;
         CurrentGold = Mathf.Max(0, CurrentGold); // Ensures gold does not go below zero.
         UiManager.Instance.UpdateGold();
-        Debug.Log($"Lost {goldLost} gold. Total gold: {CurrentGold}");
     }
 
     /// <summary>

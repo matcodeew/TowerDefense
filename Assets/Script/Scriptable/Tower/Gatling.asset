@@ -17,14 +17,13 @@ MonoBehaviour:
     EffectRadius: 0
     MaxEnemyChain: 0
   Prefab: {fileID: 1624765865500697589, guid: 180dce35ecefdc6479d9782630825a83, type: 3}
-  PreviewPrefab: {fileID: 5515990581628715943, guid: d0ef74d6ac19933488e113e69167b196, type: 3}
+  PreviewPrefab: {fileID: 1624765865500697589, guid: 0ec48fd2bd87be44cb8842bf5f9f8e66, type: 3}
   PosOnMap: {x: 0, y: 0, z: 0}
   HitVfx: {fileID: 3077343761403282166, guid: f78aaaec3b393e24ca74cd6de8194347, type: 3}
-  TowerFireVfx: {fileID: 8078720523478869859, guid: 4f5fc4bbd01b03a4499a6ed77f175fc7, type: 3}
   Damage: 0.25
   FireRate: 0.15
   FireRange: 2.5
-  GoldsCost: 150
+  GoldsCost: 75
   Size: {x: 1, y: 1}
   UpgradeDamage: 0.083
   UpgradeFireRate: 0.016

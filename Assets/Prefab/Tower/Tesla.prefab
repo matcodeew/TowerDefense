@@ -109,14 +109,13 @@ MonoBehaviour:
     FireRate: 0
     FireRange: 0
     Damage: 0
-  towerData: {fileID: 0}
+  towerData: {fileID: 11400000, guid: 70163ff3d446bf048949a2c94c4cfff5, type: 2}
   dmgUpgradecount: 0
   fireRateUpgradecount: 0
   rangeUpgradecount: 0
   towerRange: {fileID: 0}
   FiredPoint: {fileID: 7202086066116372319}
-  Pivot: {fileID: 926100740828636335}
-  VfxScale: {x: 0.5, y: 0.5, z: 0.5}
+  VfxScale: {x: 0.7, y: 0.7, z: 0.7}
 --- !u!1 &7202086066116372319
 GameObject:
   m_ObjectHideFlags: 0

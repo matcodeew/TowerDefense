@@ -76,7 +76,7 @@ MonoBehaviour:
     FireRate: 0
     FireRange: 0
     Damage: 0
-  towerData: {fileID: 0}
+  towerData: {fileID: 11400000, guid: f91f40e6fa507e0409c7381a00283fa2, type: 2}
   dmgUpgradecount: 0
   fireRateUpgradecount: 0
   rangeUpgradecount: 0

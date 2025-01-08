@@ -20,11 +20,11 @@ MonoBehaviour:
   PreviewPrefab: {fileID: 4361258260596044340, guid: 0b8207e3e22f0b543a24062a68e5dba7, type: 3}
   PosOnMap: {x: 0, y: 0.41, z: 0}
   HitVfx: {fileID: 2787556212050310887, guid: 57970c6bb711ec24b8d98424b1806f3b, type: 3}
-  Damage: 0
+  Damage: 0.15
   FireRate: 0.25
   FireRange: 1.5
   GoldsCost: 150
   Size: {x: 1, y: 1}
-  UpgradeDamage: 0
-  UpgradeFireRate: 0
-  UpgradeFireRange: 0
+  UpgradeDamage: 0.25
+  UpgradeFireRate: 0.45
+  UpgradeFireRange: 0.5

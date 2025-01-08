@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,33 +14,29 @@ public abstract class Tower : Building
 
     [Header("Tower Stats")]
     [SerializeField] public TowerStat stat = new TowerStat();
-    [HideInInspector] public S_Tower towerData;
+    [SerializeField] public S_Tower towerData;
 
-    [Header("Tower Data")] 
-    protected List<GameObject> EnemyToKill = new(); 
+    [Header("Tower Data")]
+    protected List<GameObject> EnemyToKill = new();
     protected LayerMask layerAccept;
 
     [Header("Internal Variables")]
     private Vector3 direction;
     private float _fireTimer;
-    
+
     [Header("Tower Upgrades Settings")]
-     public int dmgUpgradecount = 0;
-     public int fireRateUpgradecount = 0;
-     public int rangeUpgradecount = 0;
-     
-     [Header("Tower Range")]
-     [SerializeField] private GameObject towerRange;
-    private void Awake()
-    {
-        layerAccept = EnemySpawner.Instance.EnemyMask;
-    }
+    public int dmgUpgradecount = 0;
+    public int fireRateUpgradecount = 0;
+    public int rangeUpgradecount = 0;
+
+    [Header("Tower Range")]
+    [SerializeField] private GameObject towerRange;
 
     private void Start()
     {
+        layerAccept = EnemySpawner.Instance.EnemyMask;
         towerRange = CreateTowerRange(transform);
     }
-
     private void Update()
     {
         UpdateEnemyList();
@@ -71,7 +66,7 @@ public abstract class Tower : Building
     protected virtual void StopingVfxInRange()
     {
     }
-    
+
     protected virtual void InitializeTowerStats(S_Tower data)
     {
         towerData = data;
@@ -81,7 +76,7 @@ public abstract class Tower : Building
         fireRateUpgradecount = 0;
         rangeUpgradecount = 0;
     }
-    
+
     public virtual GameObject BuildTower(S_Tower towerToInstantiate, Transform transform, Transform parent, Tile buildOnTile)
     {
         transform.position += towerToInstantiate.PosOnMap;
@@ -103,8 +98,8 @@ public abstract class Tower : Building
         newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
         return newRange;
     }
-    
-    
+
+
     private void UpdateEnemyList()
     {
         Collider[] hittedObject = Physics.OverlapSphere(transform.position, stat.FireRange, layerAccept);
@@ -149,7 +144,7 @@ public abstract class Tower : Building
             }
         }
     }
-    
+
     private void OnMouseOver()
     {
         if (!TowerBuilderManager.Instance.CanUpgradeTower && !TowerBuilderManager.Instance.DragTower)
@@ -166,8 +161,8 @@ public abstract class Tower : Building
         {
             UiManager.Instance.TowerInfoPanelIsActive = false;
             UiManager.Instance.ShowTowerInfoPanel();
+            DestroyRange();
         }
-        DestroyRange();
     }
     public void HideInfoPanel()
     {

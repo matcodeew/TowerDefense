@@ -41,11 +41,11 @@ public class EnemyBehaviour : MonoBehaviour
             UpdateDistanceToGoal();
         }
     }
-    public void ApplyDebuff(DebuffType type)
+    public void ApplyDebuff(DebuffType type, float damage)
     {
-        StartCoroutine(ApplyDebuffRoutine(type));
+        StartCoroutine(ApplyDebuffRoutine(type, damage));
     }
-    private IEnumerator ApplyDebuffRoutine(DebuffType type)
+    private IEnumerator ApplyDebuffRoutine(DebuffType type, float damage)
     {
         if (HasDOT && !applyDot)
         {
@@ -58,7 +58,7 @@ public class EnemyBehaviour : MonoBehaviour
                         for (int i = 0; i < debuffStats.duration; i++)
                         {
                             yield return new WaitForSeconds(1f);
-                            TakeDamage(debuffStats.value);
+                            TakeDamage(damage);
                         }
                         HasDOT = false;
                         applyDot = false;
@@ -83,7 +83,9 @@ public class EnemyBehaviour : MonoBehaviour
         RessourceManager.AddGold(EnemyData.goldValue);
         WaveManager.Instance.EnemyKill++;
         Spawner.ReturnEnemyToPool(gameObject, EnemyData.type);
-     //   EventsManager.EnemyDie();
+        HasDOT = false;
+        applyDot = false;
+        //   EventsManager.EnemyDie();
     }
 
     #region Enemy Movement
@@ -94,6 +96,14 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void MoveEnemy()
     {
+        Vector3 direction = (_currentTarget - transform.position).normalized;
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2);
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, _currentTarget, stat.MoveSpeed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, _currentTarget) < 0.1)
@@ -106,7 +116,7 @@ public class EnemyBehaviour : MonoBehaviour
             }
             else
             {
-                EventsManager.ApplyBaseDamage((int)-stat.Damage);
+                RessourceManager.BaseTakeDamage((int)stat.Damage);
                 Spawner.ReturnEnemyToPool(gameObject, GetComponent<EnemyBehaviour>().EnemyData.type);
                 WaveManager.Instance.EnemyKill++;
             }

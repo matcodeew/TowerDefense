@@ -16,6 +16,7 @@ public class TowerUpgrade : MonoBehaviour
     [SerializeField] public GameObject upgradePanel;
     [SerializeField] private List<UpgradeChoice> AllUpgradeChoice;
     [SerializeField] private TextMeshProUGUI towerCount;
+    [SerializeField] private TextMeshProUGUI towerName;
     [SerializeField] private List<GameObject> AllUpgradeButton;
 
     private void Awake()
@@ -66,11 +67,13 @@ public class TowerUpgrade : MonoBehaviour
     }
     public void SelectTowerToUpgrade(Tower tower)
     {
+        if (towerToUpgrade is not null) towerToUpgrade.DestroyRange();
         ShowPanel();
         towerToUpgrade = tower;
+        towerToUpgrade.ShowRange();
         CheckIndicator();
-        //UiManager.Instance.ShowTowerInfoPanel();
         towerCount.text = $"{towerToUpgrade.buildingStat.GoldsCost.ToString()}";
+        towerName.text = $"{towerToUpgrade.towerData.Type.ToString()}";
         ChangeUpgradeButtonColor();
     }
     public void ShowPanel()
@@ -115,7 +118,7 @@ public class TowerUpgrade : MonoBehaviour
     {
         RessourceManager.LoseGold(towerToUpgrade.buildingStat.GoldsCost);
         int totalTowerUpgrade = towerToUpgrade.rangeUpgradecount + towerToUpgrade.dmgUpgradecount + towerToUpgrade.fireRateUpgradecount;
-        towerToUpgrade.buildingStat.GoldsCost += towerToUpgrade.towerData.GoldsCost * (int)Mathf.Pow(1.1f, totalTowerUpgrade);
+        towerToUpgrade.buildingStat.GoldsCost += (int) ((towerToUpgrade.towerData.GoldsCost / 2) * Mathf.Pow(1.1f, totalTowerUpgrade));
         towerCount.text = $"{towerToUpgrade.buildingStat.GoldsCost.ToString()}";
         ChangeUpgradeButtonColor();
     }
