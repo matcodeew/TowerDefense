@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using static DebuffLibrary;
 
 public class EnemyBehaviour : MonoBehaviour
@@ -18,6 +19,8 @@ public class EnemyBehaviour : MonoBehaviour
     private DebuffLibrary debuffLib;
 
     [Header("Enemy Stats")]
+    [SerializeField] private Canvas canva;
+    [SerializeField] private Image enemyHealth;
     public S_Enemy EnemyData;
     public float totalDistanceToGoal;
     public Stat stat;
@@ -72,6 +75,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (stat.CurrentLife <= stat.MaxLife && stat.CurrentLife > 0)
         {
             stat.CurrentLife = Mathf.Clamp(stat.CurrentLife - damage, 0, stat.MaxLife);
+            enemyHealth.fillAmount = stat.CurrentLife / stat.MaxLife;
             if (stat.CurrentLife <= 0)
             {
                 Die();
@@ -85,6 +89,7 @@ public class EnemyBehaviour : MonoBehaviour
         Spawner.ReturnEnemyToPool(gameObject, EnemyData.type);
         HasDOT = false;
         applyDot = false;
+        enemyHealth.fillAmount = 1;
         //   EventsManager.EnemyDie();
     }
 
@@ -97,12 +102,14 @@ public class EnemyBehaviour : MonoBehaviour
     private void MoveEnemy()
     {
         Vector3 direction = (_currentTarget - transform.position).normalized;
-
         if (direction != Vector3.zero)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2);
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle + 90, Time.deltaTime * 10);
+            transform.eulerAngles = new Vector3(0, currentAngle, 0);
+            canva.transform.LookAt(Camera.main.transform);
         }
+
 
         transform.position = Vector3.MoveTowards(transform.position, _currentTarget, stat.MoveSpeed * Time.deltaTime);
 

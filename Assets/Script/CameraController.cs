@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
 
     private bool CanMoveCameraTopSide()
     {
-        return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.mousePosition.y >= Screen.height;
+        return Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) || Input.mousePosition.y >= Screen.height - 10;
     }
 
     private bool CanMoveCameraDownSide()

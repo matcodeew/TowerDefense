@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,6 +61,7 @@ public class WaveManager : MonoBehaviour
         UiAnimation.Instance.StopWaveButtonAnim();
         StartNextWave();
         UiManager.Instance.waveIndication.GetComponent<Button>().enabled = false;
+        UiManager.Instance.waveIndication.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         firstWaveStarted = true;
     }
 
@@ -108,7 +110,7 @@ public class WaveManager : MonoBehaviour
             else // Normal
             {
                 _currentEnemytoSpawn = typeEnemyToSpawn.Normal;
-                _tempEnemyNumbs[_currentEnemytoSpawn] += 10;
+                _tempEnemyNumbs[_currentEnemytoSpawn] += 5;
             }
 
             print($"enemy to instantiate {_currentEnemytoSpawn.name} on this quantity {_tempEnemyNumbs[_currentEnemytoSpawn]}");

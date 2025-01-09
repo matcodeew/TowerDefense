@@ -32,6 +32,10 @@ public abstract class Tower : Building
     [Header("Tower Range")]
     [SerializeField] public GameObject towerRange;
 
+
+    [Header("Upgradable tower info")]
+    [SerializeField] private GameObject upgradableVfx;
+
     private void Start()
     {
         layerAccept = EnemySpawner.Instance.EnemyMask;
@@ -102,10 +106,14 @@ public abstract class Tower : Building
     {
         towerRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
     }
-
-    private void UpdateEnemyList()
+    protected virtual Collider[] CreateRangeDetection()
     {
         Collider[] hittedObject = Physics.OverlapSphere(transform.position, stat.FireRange, layerAccept);
+        return hittedObject;
+    }
+    private void UpdateEnemyList()
+    {
+        Collider[] hittedObject = CreateRangeDetection();
         EnemyToKill.Clear();
 
         if (hittedObject.Length <= 0) { StopingVfxInRange(); return; }
@@ -193,5 +201,15 @@ public abstract class Tower : Building
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, stat.FireRange);
+    }
+
+
+    public void ShowUpgradableVfx()
+    {
+        upgradableVfx.SetActive(true);
+    }
+    public void HideUpgradableVfx()
+    {
+        upgradableVfx.SetActive(false);
     }
 }

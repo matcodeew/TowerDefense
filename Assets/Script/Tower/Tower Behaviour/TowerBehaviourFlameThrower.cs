@@ -42,6 +42,7 @@ namespace Script.Tower.Tower_Behaviour
                 StartCoroutine(BoxCastRoutine());
             }
         }
+
         private IEnumerator BoxCastRoutine()
         {
             isFiring = true;

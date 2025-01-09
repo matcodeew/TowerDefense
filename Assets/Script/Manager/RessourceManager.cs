@@ -26,6 +26,10 @@ public class RessourceManager : MonoBehaviour
             BaseLife = Mathf.Max(0, BaseLife); // Ensures life does not go below zero.
             UiManager.Instance.UpdateLife();
             Debug.Log($"Base took {damageTaken} damage. Remaining life: {BaseLife}");
+            if (BaseLife <= 0)
+            {
+                EventsManager.Defeat();
+            }
         }
     }
 
@@ -64,7 +68,7 @@ public class RessourceManager : MonoBehaviour
         }
         else
         {
-            EventsManager.LevelFinished();
+            EventsManager.Victory();
             return false;
         }
     }

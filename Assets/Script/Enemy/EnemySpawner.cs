@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> AllWaypoints = new();
 
     [Header("Enemy Settings")]
-    [SerializeField] private EnemySpawnData SpawnData;
+    [SerializeField] public EnemySpawnData SpawnData;
     [SerializeField] public LayerMask EnemyMask;
 
     private float _timer;

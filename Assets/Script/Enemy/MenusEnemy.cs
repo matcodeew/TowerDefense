@@ -27,8 +27,9 @@ public class MenusEnemy : MonoBehaviour
 
         if (direction != Vector3.zero)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2);
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float currentAngle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle + 90, Time.deltaTime * 10);
+            transform.eulerAngles = new Vector3(0, currentAngle, 0);
         }
 
         transform.position = Vector3.MoveTowards(transform.position, _currentTarget, 1.5f * Time.deltaTime);

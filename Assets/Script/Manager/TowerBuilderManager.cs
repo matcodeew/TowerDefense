@@ -48,6 +48,7 @@ public class TowerBuilderManager : MonoBehaviour
     [Header("Rotate Tower")]
     private float _rotateTimer;
 
+
     private void Awake()
     {
         if (Instance == null)
@@ -73,9 +74,10 @@ public class TowerBuilderManager : MonoBehaviour
     private void BuildingTower(Transform position, Tile buildOnTile)
     {
         CancelPreview();
-        AllTowerPosedOnMap.Add(tower);
         position.rotation = previewRotation;
         GameObject newtower = tower.BuildTower(towerToBuild, position, towerParent, buildOnTile);
+        AllTowerPosedOnMap.Add(newtower.GetComponent<Tower>());
+        ShowUpgradableTower();
         newtower.layer = 0;
         previewRangeTower.SetActive(false);
         previewRotation = Quaternion.Euler(0, 0, 0);
@@ -219,6 +221,21 @@ public class TowerBuilderManager : MonoBehaviour
             else
             {
                 AllButtonTower[i].Button.color = Color.white;
+            }
+        }
+    }
+
+    public void ShowUpgradableTower()
+    {
+        foreach (var tower in AllTowerPosedOnMap)
+        {
+            if (RessourceManager.CurrentGold >= tower.buildingStat.GoldsCost)
+            {
+                tower.ShowUpgradableVfx();
+            }
+            else
+            {
+                tower.HideUpgradableVfx();
             }
         }
     }

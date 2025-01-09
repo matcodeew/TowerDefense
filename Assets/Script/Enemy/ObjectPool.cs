@@ -89,7 +89,11 @@ public class ObjectPool : MonoBehaviour
                 current.stat.Damage = enemyToUpgrade.Damage;
                 UpdateCurrentLife(current);
             }
+
         }
+        float baseSpawnRate = EnemySpawner.Instance.SpawnData.SpawnRate;
+        float waveProgress = Mathf.Clamp01((float)wave / RessourceManager.MaxWave); // Progression de 0 à 1 entre wave et waveMax
+        EnemySpawner.Instance.SpawnData.SpawnRate = Mathf.Max(0.1f, baseSpawnRate * (1f - waveProgress));
     }
 
     public void UpdateCurrentLife(EnemyBehaviour current)
