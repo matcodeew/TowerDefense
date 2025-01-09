@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class WaveManager : MonoBehaviour
 {
     public static WaveManager Instance;
-    
+
     #region Struct
     [Serializable]
     public struct EnemyData
@@ -19,7 +19,7 @@ public class WaveManager : MonoBehaviour
     }
 
     #endregion
-    
+
     [Header("Enemy Data")]
     [SerializeField] public EnemyData typeEnemyToSpawn;
     private S_Enemy _currentEnemytoSpawn;
@@ -38,7 +38,7 @@ public class WaveManager : MonoBehaviour
     public bool shouldCreateEnemy = false;
     private void Awake()
     {
-        if(Instance is null) { Instance = this; }
+        if (Instance is null) { Instance = this; }
     }
     private void Start()
     {

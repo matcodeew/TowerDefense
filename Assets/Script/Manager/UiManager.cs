@@ -1,38 +1,36 @@
-using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
     public static UiManager Instance;
 
-    [Header("Info Text To Update")] [SerializeField]
+    [Header("Info Text To Update")]
+    [SerializeField]
     private TextMeshProUGUI gold;
 
     [SerializeField] private TextMeshProUGUI wave;
     [SerializeField] private TextMeshProUGUI life;
 
-    [Header("InfoPanel")] [SerializeField] private GameObject towerInfoPanel;
+    [Header("InfoPanel")][SerializeField] private GameObject towerInfoPanel;
     [SerializeField] private TextMeshProUGUI towerName;
     [SerializeField] private TextMeshProUGUI damage;
     [SerializeField] private TextMeshProUGUI fireRate;
     [SerializeField] private TextMeshProUGUI range;
     [SerializeField] private TextMeshProUGUI goldCount;
 
-    [Header("Wave Indication")] [SerializeField]
+    [Header("Wave Indication")]
+    [SerializeField]
     public GameObject waveIndication;
 
     [SerializeField] public Image ProgressBar;
 
-    [Header("Tower Range")] [SerializeField]
+    [Header("Tower Range")]
+    [SerializeField]
     public GameObject towerRange;
 
-    [Header("UI description")] 
+    [Header("UI description")]
     [SerializeField] private GameObject descriptionPanel;
     [SerializeField] private TextMeshProUGUI descriptionText;
 

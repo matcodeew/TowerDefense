@@ -1,5 +1,4 @@
 using UnityEngine;
-using static EnemyBehaviour;
 
 public class MenusEnemy : MonoBehaviour
 {

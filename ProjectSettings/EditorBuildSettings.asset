@@ -8,9 +8,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
-    path: Assets/Scenes/ElderMap.unity
-    guid: e626a059a642e074ea78b405e6dd6c49
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: ac88081a5748a7d4a801e2d0e280c14f
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: bbb3c3a8b44b42e409a85da2f3a73a4b

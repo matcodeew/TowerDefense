@@ -1,5 +1,3 @@
-using Unity.VisualScripting;
-using UnityEngine;
 using UnityEngine.Events;
 
 public static class EventsManager
@@ -8,14 +6,14 @@ public static class EventsManager
     public static event UnityAction<int> OnEnemyReachEnd;
 
     public static event UnityAction<S_Enemy, int> OnWaveStart;
-    
+
     public static event UnityAction<Tower> OnTowerBuild;
     public static event UnityAction<Tower> OnTowerDestroy;
     public static event UnityAction OnLevelFinished;
 
     public static void LevelFinished()
     {
-        OnLevelFinished?.Invoke();  
+        OnLevelFinished?.Invoke();
     }
     public static void EnemyDie()
     {

@@ -108,6 +108,7 @@ public class TowerUpgrade : MonoBehaviour
         {
             UpdateGoldValue();
             towerToUpgrade.stat.FireRange += towerToUpgrade.towerData.UpgradeFireRange;
+            towerToUpgrade.UpdateTowerRange(towerToUpgrade.towerRange);
             UpdateUIChoiceIndicator(towerToUpgrade.rangeUpgradecount, 2);
             towerToUpgrade.rangeUpgradecount++;
         }

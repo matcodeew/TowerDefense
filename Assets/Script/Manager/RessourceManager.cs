@@ -1,17 +1,16 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class RessourceManager: MonoBehaviour
+public class RessourceManager : MonoBehaviour
 {
     [Header("Ressources")]
     public static int CurrentGold { get; private set; } = 250;
     public static int BaseLife { get; private set; } = 30;
     public static int MaxWave { get; private set; } = 30;
     public static int CurrentWave { get; private set; } = 0;
-    
+
     private void Awake() // Mettre les bonnes valeur en fonction du level ou difficulter 
     {
-        CurrentGold = 1000;
+        CurrentGold = 500;
         BaseLife = 30;
         MaxWave = 30;
     }

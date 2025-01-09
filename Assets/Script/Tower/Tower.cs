@@ -30,7 +30,7 @@ public abstract class Tower : Building
     public int rangeUpgradecount = 0;
 
     [Header("Tower Range")]
-    [SerializeField] private GameObject towerRange;
+    [SerializeField] public GameObject towerRange;
 
     private void Start()
     {
@@ -95,10 +95,13 @@ public abstract class Tower : Building
         GameObject newRange = Instantiate(UiManager.Instance.towerRange, towerToInstantiate);
         newRange.SetActive(false);
         newRange.transform.position = new Vector3(towerToInstantiate.position.x, 0.5f, towerToInstantiate.position.z);
-        newRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
+        UpdateTowerRange(newRange);
         return newRange;
     }
-
+    public void UpdateTowerRange(GameObject towerRange)
+    {
+        towerRange.transform.localScale = new Vector3(stat.FireRange * 2, 0.1f, stat.FireRange * 2);
+    }
 
     private void UpdateEnemyList()
     {
@@ -174,6 +177,7 @@ public abstract class Tower : Building
     public void ShowRange()
     {
         towerRange.SetActive(true);
+        UpdateTowerRange(towerRange);
     }
 
     public void DestroyRange()

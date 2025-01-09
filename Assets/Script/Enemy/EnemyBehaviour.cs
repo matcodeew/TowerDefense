@@ -27,7 +27,7 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Enemy Path")]
     [HideInInspector] public Vector3 _currentTarget;
     [HideInInspector] public bool IsCreate;
-    [HideInInspector] public EnemySpawner Spawner; 
+    [HideInInspector] public EnemySpawner Spawner;
     private int WaypointIndex;
     private void Awake()
     {

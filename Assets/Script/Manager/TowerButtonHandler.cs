@@ -10,14 +10,14 @@ public class TowerButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (associatedTower != null && !TowerBuilderManager.Instance.CanUpgradeTower)
         {
             UiManager.Instance.TowerInfoPanelIsActive = true;
-            UiManager.Instance.DescriptionInfoPanel(associatedTower); 
+            UiManager.Instance.DescriptionInfoPanel(associatedTower);
             UiManager.Instance.ShowTowerInfoPanel();
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        UiManager.Instance.TowerInfoPanelIsActive = false; 
+        UiManager.Instance.TowerInfoPanelIsActive = false;
         UiManager.Instance.ShowTowerInfoPanel();
     }
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -59,7 +58,7 @@ public class TowerBuilderManager : MonoBehaviour
     public void StartingDragTower(S_Tower towerData) //button clicked
     {
         if (!CanBuild(towerData)) return;
-        if(previewTower is not null) CancelPreview();
+        if (previewTower is not null) CancelPreview();
 
         ResetUpgradeAndDestroy();
         DragTower = true;
@@ -119,7 +118,7 @@ public class TowerBuilderManager : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
         {
             UpdatePreviewPosition(hit);
-            if(Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
                 CancelPreview();
                 return;
@@ -204,9 +203,9 @@ public class TowerBuilderManager : MonoBehaviour
         CanDestroyTower = false;
         DestroyTowerButton.color = Color.white;
         TowerUpgrade.Instance.upgradePanel.SetActive(false);
-        if(TowerUpgrade.Instance.towerToUpgrade is not null) TowerUpgrade.Instance.towerToUpgrade.DestroyRange();
+        if (TowerUpgrade.Instance.towerToUpgrade is not null) TowerUpgrade.Instance.towerToUpgrade.DestroyRange();
 
-     CanUpgradeTower = false;
+        CanUpgradeTower = false;
         UpgradeTowerButton.color = Color.white;
     }
     public void ChangeBuilderButtonColor()
