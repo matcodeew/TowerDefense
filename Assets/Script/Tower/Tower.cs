@@ -41,7 +41,7 @@ public abstract class Tower : Building
         layerAccept = EnemySpawner.Instance.EnemyMask;
         towerRange = CreateTowerRange(transform);
     }
-    private void Update()
+    protected virtual void Update()
     {
         UpdateEnemyList();
         HandleFiring();
@@ -57,6 +57,9 @@ public abstract class Tower : Building
     {
         base.DestroyBuilding();
         TowerUpgrade.Instance.towerToUpgrade = null;
+
+        if (TowerBuilderManager.Instance.AllTowerPosedOnMap.Contains(this)) { TowerBuilderManager.Instance.AllTowerPosedOnMap.Remove(this); }
+
     }
 
     protected virtual void Fire(GameObject enemyToKill)

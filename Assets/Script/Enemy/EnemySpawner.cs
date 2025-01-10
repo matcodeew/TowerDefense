@@ -46,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (!WaveManager.Instance.shouldCreateEnemy) return;
+        if (!_waveManager.shouldCreateEnemy) return;
         _timer += Time.deltaTime;
 
         if (_timer >= SpawnData.SpawnRate && _waveManager.CurrentEnemyOnMap < SpawnData.MaxToInstantiate)
@@ -82,6 +82,7 @@ public class EnemySpawner : MonoBehaviour
         _enemyPool.UpdateCurrentLife(enemyBehaviour);
 
         _waveManager.CurrentEnemyOnMap++;
+        if(_waveManager.CurrentEnemyOnMap == SpawnData.MaxToInstantiate) {_waveManager.shouldCreateEnemy = false;}
     }
     public void ReturnEnemyToPool(GameObject enemy, EnemyType type)
     {

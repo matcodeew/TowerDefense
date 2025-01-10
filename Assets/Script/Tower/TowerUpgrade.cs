@@ -122,6 +122,8 @@ public class TowerUpgrade : MonoBehaviour
         towerToUpgrade.buildingStat.GoldsCost += (int) ((towerToUpgrade.towerData.GoldsCost / 2) * Mathf.Pow(1.1f, totalTowerUpgrade));
         towerCount.text = $"{towerToUpgrade.buildingStat.GoldsCost.ToString()}";
         ChangeUpgradeButtonColor();
+
+        Tuto.Instance.playerShouldExecuteAction = false;
     }
 
     private void ChangeUpgradeButtonColor()

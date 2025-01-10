@@ -10,7 +10,7 @@ public class RessourceManager : MonoBehaviour
 
     private void Awake() // Mettre les bonnes valeur en fonction du level ou difficulter 
     {
-        CurrentGold = 500;
+        CurrentGold = 750;
         BaseLife = 30;
         MaxWave = 30;
     }

@@ -24,6 +24,7 @@ public class Building : MonoBehaviour
         tileOnGround.IsOccupied = false;
         tileOnGround.SetTileLayer();
         tileOnGround = null;
+        Tuto.Instance.playerShouldExecuteAction = false;
     }
 
     public virtual GameObject Build(GameObject BuildToInstantiate, Transform transform, int goldUse, Tile buildOnTile)
@@ -33,6 +34,9 @@ public class Building : MonoBehaviour
         newBuilding.transform.position = transform.position;
         newBuilding.transform.rotation = transform.rotation;
         RessourceManager.LoseGold(goldUse);
+
+        Tuto.Instance.playerShouldExecuteAction = false;
+
         return newBuilding;
     }
     public void OnMouseDown()

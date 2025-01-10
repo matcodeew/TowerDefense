@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Script.Tower.Tower_Behaviour
@@ -5,23 +7,45 @@ namespace Script.Tower.Tower_Behaviour
     public class TowerBehaviourGatling : global::Tower
     {
         [Header("Needed info")]
-        [SerializeField] private GameObject firedPoint;
+        [SerializeField] private ParticleSystem firedPointVfx;
+        [SerializeField] private Transform rotatePoint;
         [SerializeField] private Vector3 scale = new Vector3(0.3f, 0.3f, 0.3f);
 
         [Header("Internal state")]
         private ParticleSystem FiredVfx;
         private GameObject hittedEnemyVfx;
+        private bool rotateCanon;
 
+        [Header("Rotation Settings")]
+        [SerializeField] private float rotationSpeed = 360f; // Vitesse de rotation en degrés par seconde
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (rotateCanon)
+            {
+                rotatePoint.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+            }
+        }
         protected override void InitializeTowerStats(S_Tower data)
         {
             base.InitializeTowerStats(data);
             hittedEnemyVfx = data.HitVfx;
-            FiredVfx = firedPoint.GetComponent<ParticleSystem>();
+            FiredVfx = firedPointVfx;
         }
         protected override void Fire(GameObject enemyToKill)
         {
             base.Fire(enemyToKill);
             enemyToKill.GetComponent<EnemyBehaviour>().TakeDamage(stat.Damage);
+        }
+        protected override void StartingVfxInRange()
+        {
+            rotateCanon = true;
+        }
+        protected override void StopingVfxInRange()
+        {
+            rotateCanon = false;
         }
         protected override void StartHittedEnemyVfx(GameObject enemyToKill)
         {

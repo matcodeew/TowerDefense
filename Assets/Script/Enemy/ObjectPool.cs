@@ -46,26 +46,22 @@ public class ObjectPool : MonoBehaviour
         foreach (var enemyType in pools[enemy.type])
         {
             EnemyBehaviour current = enemyType.GetComponent<EnemyBehaviour>();
-            int waveModulo = 0;
 
             switch (enemy.type)
             {
                 case EnemyType.Normal:
                     enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Normal;
                     wave = RessourceManager.CurrentWave;
-                    waveModulo = wave;
                     break;
 
                 case EnemyType.Elite:
                     enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Elite;
-                    wave = RessourceManager.CurrentWave / 3;
-                    waveModulo = wave % 4;
+                    wave = RessourceManager.CurrentWave / 4;
                     break;
 
                 case EnemyType.Boss:
                     enemyToUpgrade = WaveManager.Instance.typeEnemyToSpawn.Boss;
                     wave = RessourceManager.CurrentWave / 10;
-                    waveModulo = wave % 10;
                     break;
 
                 default:
@@ -77,9 +73,9 @@ public class ObjectPool : MonoBehaviour
 
             if (wave != 1)
             {
-                current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (waveModulo * enemyToUpgrade.MaxLifeMultiplicator));
+                current.stat.MaxLife = enemyToUpgrade.MaxLife * (enemyToUpgrade.MaxLifeMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.MaxLifeMultiplicator));
                 current.stat.MoveSpeed += enemyToUpgrade.MoveSpeedMultiplicator;
-                current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (waveModulo * enemyToUpgrade.DamageMultiplicator));
+                current.stat.Damage = enemyToUpgrade.Damage * (enemyToUpgrade.DamageMultiplicator == 1 ? 1 : (wave * enemyToUpgrade.DamageMultiplicator));
                 UpdateCurrentLife(current);
             }
             else
@@ -92,8 +88,7 @@ public class ObjectPool : MonoBehaviour
 
         }
         float baseSpawnRate = EnemySpawner.Instance.SpawnData.SpawnRate;
-        float waveProgress = Mathf.Clamp01((float)wave / RessourceManager.MaxWave); // Progression de 0 à 1 entre wave et waveMax
-        EnemySpawner.Instance.SpawnData.SpawnRate = Mathf.Max(0.1f, baseSpawnRate * (1f - waveProgress));
+        EnemySpawner.Instance.SpawnData.SpawnRate = Mathf.Max(0.1f, baseSpawnRate - 0.005f);
     }
 
     public void UpdateCurrentLife(EnemyBehaviour current)
