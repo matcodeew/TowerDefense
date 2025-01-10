@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be96dafda065c544cbc67373c0df549a, type: 3}
+  m_Name: Gatling
+  m_EditorClassIdentifier: 
+  Type: 3
+  ZoneEffect:
+    EffectRadius: 0
+    MaxEnemyChain: 0
+  Prefab: {fileID: 1624765865500697589, guid: 180dce35ecefdc6479d9782630825a83, type: 3}
+  PreviewPrefab: {fileID: 1624765865500697589, guid: 0ec48fd2bd87be44cb8842bf5f9f8e66, type: 3}
+  PosOnMap: {x: 0, y: 0, z: 0}
+  HitVfx: {fileID: 3077343761403282166, guid: f78aaaec3b393e24ca74cd6de8194347, type: 3}
+  Damage: 0.25
+  FireRate: 0.15
+  FireRange: 2.5
+  GoldsCost: 75
+  Size: {x: 1, y: 1}
+  UpgradeDamage: 0.05
+  UpgradeFireRate: 0.016
+  UpgradeFireRange: 0.166

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be96dafda065c544cbc67373c0df549a, type: 3}
+  m_Name: Canon
+  m_EditorClassIdentifier: 
+  Type: 0
+  ZoneEffect:
+    EffectRadius: 1.5
+    MaxEnemyChain: 0
+  Prefab: {fileID: 1466046887069395057, guid: 3542ee2af6f8e814d96e40fd225f88fc, type: 3}
+  PreviewPrefab: {fileID: 1466046887069395057, guid: 58df0ec21d425f04fb23b0cfbd731a1c, type: 3}
+  PosOnMap: {x: 0, y: 0.3, z: 0}
+  HitVfx: {fileID: 5162910912013668194, guid: cf82839c411151342a7b2337bda9fb34, type: 3}
+  Damage: 1.15
+  FireRate: 1.35
+  FireRange: 3
+  GoldsCost: 100
+  Size: {x: 1, y: 1}
+  UpgradeDamage: 0.5
+  UpgradeFireRate: 0.15
+  UpgradeFireRange: 0.5

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be96dafda065c544cbc67373c0df549a, type: 3}
+  m_Name: flame thrower
+  m_EditorClassIdentifier: 
+  Type: 5
+  ZoneEffect:
+    EffectRadius: 2.5
+    MaxEnemyChain: 0
+  Prefab: {fileID: 4361258260596044340, guid: 71e69735576f4a54c8ac765cfb837b3e, type: 3}
+  PreviewPrefab: {fileID: 4361258260596044340, guid: 0b8207e3e22f0b543a24062a68e5dba7, type: 3}
+  PosOnMap: {x: 0, y: 0.41, z: 0}
+  HitVfx: {fileID: 2787556212050310887, guid: 57970c6bb711ec24b8d98424b1806f3b, type: 3}
+  Damage: 0.45
+  FireRate: 0.25
+  FireRange: 1.5
+  GoldsCost: 125
+  Size: {x: 1, y: 1}
+  UpgradeDamage: 0.25
+  UpgradeFireRate: 0.45
+  UpgradeFireRange: 0.5
