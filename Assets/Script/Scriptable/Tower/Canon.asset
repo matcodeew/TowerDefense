@@ -23,8 +23,8 @@ MonoBehaviour:
   Damage: 1.15
   FireRate: 1.35
   FireRange: 3
-  GoldsCost: 100
+  GoldsCost: 85
   Size: {x: 1, y: 1}
-  UpgradeDamage: 0.5
-  UpgradeFireRate: 0.15
+  UpgradeDamage: 0.75
+  UpgradeFireRate: 0.2
   UpgradeFireRange: 0.5

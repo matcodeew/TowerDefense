@@ -14414,7 +14414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Transition
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Navigation.m_Mode
@@ -16237,7 +16237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Transition
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Navigation.m_Mode
@@ -17173,7 +17173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Transition
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Navigation.m_Mode
@@ -23111,7 +23111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Transition
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Navigation.m_Mode
@@ -40007,7 +40007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Transition
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4145248694471299701, guid: a510f9e98824cfc45b458e1860ff55d1, type: 3}
       propertyPath: m_Navigation.m_Mode
@@ -42986,7 +42986,7 @@ MonoBehaviour:
   - To start the game, simply click on the button at the top of the screen. Once
     launched, the waves of enemies follow each other once the previous wave has finished.
   - RIEN METTRE ON VOIT PAS LE PANEL
-  _delay: 0.001
+  _delay: 0.025
   _fullText: 
   _currentText: 
 --- !u!1001 &1654478604

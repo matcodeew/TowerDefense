@@ -135,7 +135,7 @@ public class Tuto : MonoBehaviour
     [ContextMenu("ShowAndUpdateTutoText")]
     public void ShowAndUpdateTutoText()
     {
-       // if (_currentText.Length != _fullText.Length) { return; }
+       if (_currentText.Length != _fullText.Length) { return; }
 
         currentSteps++;
         if (currentSteps >= textToShow.Count) { tutoIsFinished = true; return; }
